@@ -1,0 +1,20 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/dashboard/my-bookings/page": "app/dashboard/my-bookings/page.js",
+  "/booking/[bookingId]/pay/page": "app/booking/[bookingId]/pay/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/dashboard/profile/page": "app/dashboard/profile/page.js",
+  "/dashboard/messages/page": "app/dashboard/messages/page.js",
+  "/dashboard/services/new/page": "app/dashboard/services/new/page.js",
+  "/dashboard/provider/payments/page": "app/dashboard/provider/payments/page.js",
+  "/page": "app/page.js",
+  "/provider/[userId]/page": "app/provider/[userId]/page.js",
+  "/dashboard/provider-bookings/page": "app/dashboard/provider-bookings/page.js",
+  "/register/page": "app/register/page.js",
+  "/dashboard/services/page": "app/dashboard/services/page.js",
+  "/test/page": "app/test/page.js",
+  "/services/page": "app/services/page.js",
+  "/services/[serviceId]/page": "app/services/[serviceId]/page.js",
+  "/dashboard/services/edit/[serviceId]/page": "app/dashboard/services/edit/[serviceId]/page.js",
+  "/login/page": "app/login/page.js"
+}
