@@ -22,52 +22,43 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const { data: user, isLoading, isError } = useQuery({
     queryKey: ['auth', 'me'],
     queryFn: async () => {
-      console.log('[AuthContext DEBUG] Starting getMe query');
-
       // Проверяем токен ПЕРЕД запросом (используем СТАНДАРТИЗИРОВАННЫЙ ключ)
       if (typeof window !== 'undefined') {
         const token = localStorage.getItem('auth_token');
-        console.log('[AuthContext DEBUG] Token from localStorage:', token ? 'found' : 'NOT FOUND');
 
         if (!token) {
-          console.log('[AuthContext DEBUG] No token found, throwing error');
           throw new Error('No token found');
         }
-
-        console.log('[AuthContext DEBUG] Token exists, calling authAPI.getMe()');
       }
 
       const result = await authAPI.getMe();
       return result;
     },
-    retry: 1,
+    retry: false, // Don't retry on error
     refetchOnWindowFocus: false,
+    enabled: typeof window !== 'undefined' && !!localStorage.getItem('auth_token'), // Only run if token exists
   });
 
-  console.log('[AuthContext DEBUG] Query state - user:', user, 'isLoading:', isLoading, 'isError:', isError);
-
   const isAuthenticated = !!user && !isError;
-  console.log('[AuthContext DEBUG] isAuthenticated calculated as:', isAuthenticated);
 
   const logout = () => {
-    console.log('[AuthContext DEBUG] logout() called');
-
     if (typeof window !== 'undefined') {
       localStorage.removeItem('auth_token');
       localStorage.removeItem('refresh_token');
-      console.log('[AuthContext DEBUG] Tokens removed from localStorage');
     }
 
     // Инвалидируем 'me' запрос, что приведет к 'isAuthenticated = false'
     queryClient.invalidateQueries({ queryKey: ['auth', 'me'] });
-    console.log('[AuthContext DEBUG] Query cache invalidated');
   };
+
+  // Don't show loading if there's no token (query is disabled)
+  const isLoadingAuth = typeof window !== 'undefined' && !!localStorage.getItem('auth_token') ? isLoading : false;
 
   return (
     <AuthContext.Provider
       value={{
         user: user || null,
-        isLoading,
+        isLoading: isLoadingAuth,
         isAuthenticated,
         logout,
       }}

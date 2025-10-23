@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { BookingWithDetails, BookingStatus, PaymentStatus, UserRole } from 'petservice-marketplace-shared-types';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -17,6 +18,7 @@ interface BookingCardProps {
 }
 
 export function BookingCard({ booking, userRole, onStatusUpdate, isUpdating }: BookingCardProps) {
+  const t = useTranslations('bookingCard');
   const [confirmDialog, setConfirmDialog] = useState<{
     open: boolean;
     title: string;
@@ -48,13 +50,13 @@ export function BookingCard({ booking, userRole, onStatusUpdate, isUpdating }: B
   const getStatusLabel = (status: BookingStatus): string => {
     switch (status) {
       case BookingStatus.PENDING:
-        return 'Pending Review';
+        return t('status.pending');
       case BookingStatus.CONFIRMED:
-        return 'Confirmed';
+        return t('status.confirmed');
       case BookingStatus.COMPLETED:
-        return 'Completed';
+        return t('status.completed');
       case BookingStatus.CANCELLED:
-        return 'Cancelled';
+        return t('status.cancelled');
       default:
         return status;
     }
@@ -85,8 +87,8 @@ export function BookingCard({ booking, userRole, onStatusUpdate, isUpdating }: B
   const handleCancel = () => {
     setConfirmDialog({
       open: true,
-      title: "Cancel Booking",
-      description: "Are you sure you want to cancel this booking? This action cannot be undone.",
+      title: t('cancelDialog.title'),
+      description: t('cancelDialog.description'),
       action: () => onStatusUpdate?.(booking.id, BookingStatus.CANCELLED),
       variant: "destructive",
     });
@@ -95,8 +97,8 @@ export function BookingCard({ booking, userRole, onStatusUpdate, isUpdating }: B
   const handleConfirm = () => {
     setConfirmDialog({
       open: true,
-      title: "Confirm Booking",
-      description: "Are you sure you want to confirm this booking?",
+      title: t('confirmDialog.title'),
+      description: t('confirmDialog.description'),
       action: () => onStatusUpdate?.(booking.id, BookingStatus.CONFIRMED),
       variant: "default",
     });
@@ -105,8 +107,8 @@ export function BookingCard({ booking, userRole, onStatusUpdate, isUpdating }: B
   const handleReject = () => {
     setConfirmDialog({
       open: true,
-      title: "Reject Booking",
-      description: "Are you sure you want to reject this booking?",
+      title: t('rejectDialog.title'),
+      description: t('rejectDialog.description'),
       action: () => onStatusUpdate?.(booking.id, BookingStatus.CANCELLED),
       variant: "destructive",
     });
@@ -115,8 +117,8 @@ export function BookingCard({ booking, userRole, onStatusUpdate, isUpdating }: B
   const handleComplete = () => {
     setConfirmDialog({
       open: true,
-      title: "Complete Booking",
-      description: "Mark this booking as completed?",
+      title: t('completeDialog.title'),
+      description: t('completeDialog.description'),
       action: () => onStatusUpdate?.(booking.id, BookingStatus.COMPLETED),
       variant: "default",
     });
@@ -154,24 +156,24 @@ export function BookingCard({ booking, userRole, onStatusUpdate, isUpdating }: B
         {/* Booking Details */}
         <div className="space-y-2 mb-4">
           <div className="flex items-center text-sm text-muted-foreground">
-            <span className="font-medium w-16">Time:</span>
+            <span className="font-medium w-16">{t('timeLabel')}:</span>
             <span>{formatBookingTime(booking.bookingTime)}</span>
           </div>
 
           <div className="flex items-center text-sm text-muted-foreground">
-            <span className="font-medium w-16">Service:</span>
+            <span className="font-medium w-16">{t('serviceLabel')}:</span>
             <span>{booking.service.serviceType.toLowerCase().replace('_', ' ')}</span>
           </div>
 
           {userRole === UserRole.OWNER ? (
             <div className="flex items-center text-sm text-muted-foreground">
-              <span className="font-medium w-16">Provider:</span>
-              <span>Provider</span>
+              <span className="font-medium w-16">{t('providerLabel')}:</span>
+              <span>{t('provider')}</span>
             </div>
           ) : (
             <div className="flex items-center text-sm text-muted-foreground">
-              <span className="font-medium w-16">Client:</span>
-              <span>Client</span>
+              <span className="font-medium w-16">{t('clientLabel')}:</span>
+              <span>{t('client')}</span>
             </div>
           )}
         </div>
@@ -187,11 +189,7 @@ export function BookingCard({ booking, userRole, onStatusUpdate, isUpdating }: B
       <CardFooter>
         <div className="flex justify-between items-center w-full">
           <div className="text-xs text-muted-foreground">
-            Booked on {new Intl.DateTimeFormat('en-US', {
-              month: 'short',
-              day: 'numeric',
-              year: 'numeric',
-            }).format(new Date(booking.createdAt))}
+            {t('bookedOn', { date: new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(booking.createdAt)) })}
           </div>
 
           <div className="flex space-x-2">
@@ -200,10 +198,10 @@ export function BookingCard({ booking, userRole, onStatusUpdate, isUpdating }: B
                 onClick={handlePay}
                 variant="default"
                 size="sm"
-                className="bg-green-600 hover:bg-green-700"
+                className="bg-blue-600 hover:bg-blue-700"
               >
                 <CreditCard className="mr-2 h-4 w-4" />
-                Pay Now
+                {t('payNow')}
               </Button>
             )}
 
@@ -215,7 +213,7 @@ export function BookingCard({ booking, userRole, onStatusUpdate, isUpdating }: B
                 size="sm"
               >
                 <X className="mr-2 h-4 w-4" />
-                {isUpdating ? '...' : 'Cancel'}
+                {isUpdating ? '...' : t('cancel')}
               </Button>
             )}
 
@@ -227,7 +225,7 @@ export function BookingCard({ booking, userRole, onStatusUpdate, isUpdating }: B
                 size="sm"
               >
                 <XCircle className="mr-2 h-4 w-4" />
-                {isUpdating ? '...' : 'Reject'}
+                {isUpdating ? '...' : t('reject')}
               </Button>
             )}
 
@@ -239,7 +237,7 @@ export function BookingCard({ booking, userRole, onStatusUpdate, isUpdating }: B
                 size="sm"
               >
                 <Check className="mr-2 h-4 w-4" />
-                {isUpdating ? '...' : 'Confirm'}
+                {isUpdating ? '...' : t('confirm')}
               </Button>
             )}
 
@@ -251,7 +249,7 @@ export function BookingCard({ booking, userRole, onStatusUpdate, isUpdating }: B
                 size="sm"
               >
                 <CheckCircle className="mr-2 h-4 w-4" />
-                {isUpdating ? '...' : 'Complete'}
+                {isUpdating ? '...' : t('complete')}
               </Button>
             )}
           </div>

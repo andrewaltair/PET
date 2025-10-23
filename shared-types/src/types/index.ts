@@ -3,4 +3,5 @@ export * from './api';
 export * from './review';
 export * from './conversation';
 export * from './message';
+export { TopRatedProvider } from './user';
 

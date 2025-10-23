@@ -16,6 +16,7 @@
     "start": "npm run start --workspace=server",
     "db:init": "npm run db:init --workspace=server",
     "db:migrate": "npm run db:migrate --workspace=server",
+    "db:seed": "pnpm --filter server exec prisma db seed",
     "lint": "npm run lint --workspace=client && npm run lint --workspace=server",
     "test": "npm run test --workspace=client && npm run test --workspace=server"
   },

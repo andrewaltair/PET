@@ -13,6 +13,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDescription,
 } from '../ui/form';
 import { loginSchema, type LoginFormData } from '../../lib/validators/auth';
 import { LoginRequest } from '../../api/auth';
@@ -92,6 +93,9 @@ export function LoginForm({ onSuccess, defaultValues, className }: LoginFormProp
                     {...field}
                   />
                 </FormControl>
+                <FormDescription>
+                  Use the password associated with your account
+                </FormDescription>
                 <FormMessage id="password-error" />
               </FormItem>
             )}

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { ProfileService } from '../services/profileService';
-import { UpdateProfileRequest, ApiResponse, Profile, ProviderProfileWithServices } from 'petservice-marketplace-shared-types';
+import { UpdateProfileRequest, ApiResponse, Profile, ProviderProfileWithServices, TopRatedProvider } from 'petservice-marketplace-shared-types';
 import { validateRequest } from '../middleware/validation';
 import { updateProfileSchema } from 'petservice-marketplace-shared-types';
 
@@ -179,6 +179,35 @@ export class ProfileController {
       };
 
       res.status(statusCode).json(response);
+    }
+  }
+
+  /**
+   * GET /api/v1/profiles/featured-providers
+   * Get top 5 rated service providers for homepage (Public)
+   */
+  static async getFeaturedProviders(req: Request, res: Response): Promise<void> {
+    try {
+      const providers = await ProfileService.findFeatured();
+
+      const response: ApiResponse<TopRatedProvider[]> = {
+        success: true,
+        data: providers,
+        message: 'Featured providers retrieved successfully',
+      };
+
+      res.json(response);
+    } catch (error) {
+      console.error('Get featured providers error:', error);
+
+      const errorMessage = error instanceof Error ? error.message : 'Failed to get featured providers';
+
+      const response: ApiResponse = {
+        success: false,
+        error: errorMessage,
+      };
+
+      res.status(500).json(response);
     }
   }
 }

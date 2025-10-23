@@ -116,3 +116,24 @@ export interface UpdateBookingStatusRequest {
 export interface BookingResponse {
     booking: BookingWithDetails;
 }
+export interface ProviderStats {
+    averageRating: number;
+    totalReviews: number;
+    serviceCount: number;
+    overallServiceRating: number;
+}
+export interface TopRatedProvider {
+    id: string;
+    email: string;
+    role: UserRole;
+    profile: {
+        id: string;
+        firstName?: string;
+        lastName?: string;
+        avatarUrl?: string;
+        bio?: string;
+        location?: string;
+        overallAverageRating: number;
+    } | null;
+    stats: ProviderStats;
+}

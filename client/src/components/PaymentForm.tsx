@@ -62,7 +62,7 @@ export function PaymentForm({ onSuccess, amount }: PaymentFormProps) {
   if (succeeded) {
     return (
       <div className="text-center py-8">
-        <CheckCircle className="mx-auto h-12 w-12 text-green-500 mb-4" />
+        <CheckCircle className="mx-auto h-12 w-12 text-blue-500 mb-4" />
         <h3 className="text-lg font-semibold text-gray-900 mb-2">Payment Successful!</h3>
         <p className="text-gray-600">
           Your booking has been confirmed and payment processed successfully.

@@ -7,10 +7,10 @@ const prisma = new PrismaClient({
 export const testConnection = async () => {
   try {
     await prisma.$connect();
-    console.log('✅ Prisma (PostgreSQL) connection successful.');
+    console.log('✅ Prisma (MySQL) connection successful.');
     return true;
   } catch (error) {
-    console.error('❌ Prisma (PostgreSQL) connection failed:', error);
+    console.error('❌ Prisma (MySQL) connection failed:', error);
     return false;
   }
 };

@@ -13,10 +13,13 @@ export interface RegisterRequest extends LoginRequest {
 
 export interface AuthResponse {
   token: string;
+  refreshToken: string;
   user: {
     id: string;
     email: string;
-    name: string;
+    role: string;
+    createdAt: string;
+    updatedAt: string;
   };
 }
 

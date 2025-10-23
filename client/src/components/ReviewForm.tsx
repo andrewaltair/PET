@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 import {
   Dialog,
   DialogContent,
@@ -34,22 +35,23 @@ export function ReviewForm({
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
   const { toast } = useToast();
+  const t = useTranslations('reviewForm');
 
   const createReviewMutation = useMutation({
     mutationFn: (data: { rating: number; comment: string }) =>
       reviewsAPI.createReview(bookingId, { ...data, bookingId }),
     onSuccess: () => {
       toast({
-        title: 'Review submitted',
-        description: 'Thank you for your feedback!',
+        title: t('success.title'),
+        description: t('success.description'),
       });
       onSuccess();
       handleClose();
     },
     onError: (error: any) => {
       toast({
-        title: 'Failed to submit review',
-        description: error?.response?.data?.error || 'Something went wrong',
+        title: t('error.title'),
+        description: error?.response?.data?.error || t('error.default'),
         variant: 'destructive',
       });
     },
@@ -66,8 +68,8 @@ export function ReviewForm({
 
     if (rating === 0) {
       toast({
-        title: 'Rating required',
-        description: 'Please select a star rating',
+        title: t('validation.ratingRequired.title'),
+        description: t('validation.ratingRequired.description'),
         variant: 'destructive',
       });
       return;
@@ -80,16 +82,16 @@ export function ReviewForm({
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Leave a Review</DialogTitle>
+          <DialogTitle>{t('title')}</DialogTitle>
           <DialogDescription>
-            Share your experience with "{serviceTitle}"
+            {t('description', { serviceTitle })}
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
             <label className="text-sm font-medium">
-              Rating <span className="text-red-500">*</span>
+              {t('ratingLabel')} <span className="text-red-500">*</span>
             </label>
             <StarRating
               value={rating}
@@ -100,18 +102,18 @@ export function ReviewForm({
 
           <div className="space-y-2">
             <label htmlFor="comment" className="text-sm font-medium">
-              Comment (optional)
+              {t('commentLabel')}
             </label>
             <Textarea
               id="comment"
-              placeholder="Tell others about your experience..."
+              placeholder={t('commentPlaceholder')}
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               rows={4}
               className="resize-none"
             />
             <p className="text-xs text-gray-500">
-              {comment.length}/500 characters
+              {t('charactersCount', { count: comment.length })}
             </p>
           </div>
 
@@ -122,13 +124,13 @@ export function ReviewForm({
               onClick={handleClose}
               disabled={createReviewMutation.isPending}
             >
-              Cancel
+              {t('cancelButton')}
             </Button>
             <Button
               type="submit"
               disabled={createReviewMutation.isPending || rating === 0}
             >
-              {createReviewMutation.isPending ? 'Submitting...' : 'Submit Review'}
+              {createReviewMutation.isPending ? t('submittingButton') : t('submitButton')}
             </Button>
           </DialogFooter>
         </form>

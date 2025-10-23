@@ -1,0 +1,430 @@
+# PetService Language Strings - Georgian
+# Format: key_name - 'translation' (Context: where this text is used)
+# NOTE: Currently contains English text - needs Georgian translation
+
+# ============================================
+# HEADER & NAVIGATION
+# ============================================
+
+header_services_near_me - 'Services Near Me' (Used in: Main navigation menu for browsing services)
+header_pet_sitter_jobs - 'Pet Sitter Jobs' (Used in: Navigation link for providers to join)
+header_help_center - 'Help Center' (Used in: Navigation link to help/support page)
+header_dashboard - 'Dashboard' (Used in: Dashboard button when logged in)
+header_sign_up - 'Sign Up' (Used in: Registration button in header)
+header_login - 'Login' (Used in: Login button in header)
+header_toggle_menu - 'Toggle menu' (Used in: Mobile menu button aria-label)
+
+# ============================================
+# HOMEPAGE HERO SECTION
+# ============================================
+
+hero_skip_to_content - 'Skip to main content' (Used in: Accessibility link for screen readers)
+hero_join_thousands - 'Join' (Used in: Social proof badge - 'Join 50,000+ pet parents')
+hero_pet_parents - 'pet parents' (Used in: Social proof badge showing user count)
+hero_title_line1 - 'Find Trusted Pet Care,' (Used in: Main hero title first line)
+hero_title_line2 - 'Instantly' (Used in: Main hero title second line with gradient)
+hero_subtitle - 'Connect with verified pet sitters, groomers, and dog walkers in your neighborhood' (Used in: Hero section subtitle)
+hero_happy_pets - 'Happy Pets' (Used in: Stats counter label showing number of happy pets)
+hero_verified_providers - 'Verified Providers' (Used in: Stats counter label showing number of providers)
+hero_average_rating - 'Average Rating' (Used in: Stats counter label showing rating)
+hero_support - 'Support' (Used in: Stats counter label showing 24/7 support)
+
+# ============================================
+# SERVICE CATEGORIES
+# ============================================
+
+service_dog_boarding - 'Dog Boarding' (Used in: Service category button)
+service_pet_sitting - 'Pet Sitting' (Used in: Service category button)
+service_pet_grooming - 'Pet Grooming' (Used in: Service category button)
+service_dog_walking - 'Dog Walking' (Used in: Service category button)
+service_pet_taxi - 'Pet Taxi' (Used in: Service category button)
+service_training - 'Training' (Used in: Service category button)
+
+# ============================================
+# HOW IT WORKS SECTION
+# ============================================
+
+howitworks_badge - 'Simple Process' (Used in: Badge text above title)
+howitworks_title - 'How It Works' (Used in: Section title)
+howitworks_subtitle - 'Finding trusted pet care has never been easier. Follow these simple steps.' (Used in: Section subtitle)
+howitworks_step1_title - 'Tell Us What You Need' (Used in: Step 1 title)
+howitworks_step1_desc - 'Describe your pet and what kind of care you are looking for. It only takes 2 minutes.' (Used in: Step 1 description)
+howitworks_step2_title - 'Get Matched Instantly' (Used in: Step 2 title)
+howitworks_step2_desc - 'We will connect you with up to 5 verified providers in your area within minutes.' (Used in: Step 2 description)
+howitworks_step3_title - 'Choose & Book' (Used in: Step 3 title)
+howitworks_step3_desc - 'Compare profiles, reviews, and prices. Book your favorite provider directly.' (Used in: Step 3 description)
+howitworks_step4_title - 'Relax & Stay Updated' (Used in: Step 4 title)
+howitworks_step4_desc - 'Receive real-time updates with photos and messages throughout your pet stay.' (Used in: Step 4 description)
+howitworks_cta_button - 'Get Started Free' (Used in: Call-to-action button)
+howitworks_no_card_required - 'No credit card required • Cancel anytime' (Used in: Subtext under CTA button)
+
+# ============================================
+# WHY CHOOSE US SECTION
+# ============================================
+
+whychooseus_badge - 'Why PetService?' (Used in: Badge text above title)
+whychooseus_title - 'Everything Your Pet Needs' (Used in: Section title)
+whychooseus_subtitle - 'The complete peace of mind solution for pet care, all in one place' (Used in: Section subtitle)
+whychooseus_benefit1_title - 'Home Away From Home' (Used in: Benefit 1 title)
+whychooseus_benefit1_desc - 'Your pet stays in a loving home environment, not a kennel' (Used in: Benefit 1 description)
+whychooseus_benefit2_title - 'Verified & Insured' (Used in: Benefit 2 title)
+whychooseus_benefit2_desc - 'All providers are background checked and fully insured' (Used in: Benefit 2 description)
+whychooseus_benefit3_title - '24/7 Updates' (Used in: Benefit 3 title)
+whychooseus_benefit3_desc - 'Receive photos and messages throughout your pet stay' (Used in: Benefit 3 description)
+whychooseus_benefit4_title - 'Booking Protection' (Used in: Benefit 4 title)
+whychooseus_benefit4_desc - 'Your reservation is 100% guaranteed with our protection policy' (Used in: Benefit 4 description)
+whychooseus_benefit5_title - 'Easy Communication' (Used in: Benefit 5 title)
+whychooseus_benefit5_desc - 'Chat directly with providers before and during the stay' (Used in: Benefit 5 description)
+whychooseus_benefit6_title - 'Top Rated' (Used in: Benefit 6 title)
+whychooseus_benefit6_desc - 'Join thousands of happy pet parents who trust us' (Used in: Benefit 6 description)
+whychooseus_stats_happy_pets - 'Happy Pets' (Used in: Trust stats counter label)
+whychooseus_stats_verified_providers - 'Verified Providers' (Used in: Trust stats counter label)
+whychooseus_stats_reviews - 'Reviews' (Used in: Trust stats counter label)
+whychooseus_stats_average_rating - 'Average Rating' (Used in: Trust stats counter label)
+
+# ============================================
+# BENEFITS SECTION
+# ============================================
+
+benefits_title - 'Rest easy knowing we got your back' (Used in: Benefits section title)
+benefits_item1_title - '100% Reservation guarantee' (Used in: Benefit item 1 title)
+benefits_item1_desc - 'Your payment is safe, secure and protected when you book with PetService. Cancel anytime with our flexible cancellation policy and get a full refund if your plans change.' (Used in: Benefit item 1 description)
+benefits_item2_title - 'Free Premium Protection' (Used in: Benefit item 2 title)
+benefits_item2_desc - 'Your pet safety is our priority. All bookings are covered by premium protection, ensuring peace of mind throughout your pet care journey.' (Used in: Benefit item 2 description)
+benefits_item3_title - 'Loving and Trusted Pet Providers' (Used in: Benefit item 3 title)
+benefits_item3_desc - 'Only 30% of applicants make the cut. We carefully vet all providers to ensure they meet our high standards. Learn more about how committed they are.' (Used in: Benefit item 3 description)
+
+# ============================================
+# BECOME PROVIDER SECTION
+# ============================================
+
+becomeprovider_title - 'Open for business.' (Used in: Become provider section title)
+becomeprovider_subtitle - 'Whatever pet service you provide, we will find the pet sitter, groomer or dog walker jobs you need.' (Used in: Become provider section subtitle)
+becomeprovider_button1 - 'Become a pet sitter' (Used in: Provider signup button 1)
+becomeprovider_button2 - 'Become a dog walker' (Used in: Provider signup button 2)
+
+# ============================================
+# LOCATIONS SECTION
+# ============================================
+
+locations_title - 'Use PetService in 50 Countries.' (Used in: Locations section title)
+locations_subtitle - 'There is nothing worse than getting your hopes up, then not being able to find your pet sitter, groomer and walker. That will not happen on PetService. From big cities to small towns, we have got pet sitters and dog walkers covering every country in the world.' (Used in: Locations section subtitle)
+locations_link_text - 'Pet Sitters' (Used in: Location link text suffix - 'Country Pet Sitters')
+
+# ============================================
+# BLOG POSTS SECTION
+# ============================================
+
+blog_title - 'Great reads from our blog' (Used in: Blog section title)
+blog_subtitle - 'It is all about tips, tricks and news about pets.' (Used in: Blog section subtitle)
+blog_read_more - 'Read more' (Used in: Blog post read more link)
+
+# ============================================
+# APP DOWNLOAD SECTION
+# ============================================
+
+appdownload_title - 'When you need to hire someone – a pet sitter, a groomer, a dog walker, anyone – PetService finds them for you for free.' (Used in: App download section title)
+appdownload_subtitle - 'See price estimates and read reviews with pet sitters, pet groomers, dog walkers, and see how far your dog has walked all in the Pet app.' (Used in: App download section subtitle)
+appdownload_appstore_text1 - 'Download on the' (Used in: App Store button text 1)
+appdownload_appstore_text2 - 'App Store' (Used in: App Store button text 2)
+appdownload_googleplay_text1 - 'Get it on' (Used in: Google Play button text 1)
+appdownload_googleplay_text2 - 'Google Play' (Used in: Google Play button text 2)
+appdownload_appgallery_text1 - 'Explore it on' (Used in: AppGallery button text 1)
+appdownload_appgallery_text2 - 'AppGallery' (Used in: AppGallery button text 2)
+appdownload_app_name - 'Pet App' (Used in: App visual name display)
+
+# ============================================
+# FAQ SECTION
+# ============================================
+
+faq_badge - 'Frequently Asked Questions' (Used in: FAQ badge text)
+faq_title - 'Got Questions?' (Used in: FAQ section title)
+faq_subtitle - 'We have got answers. Find everything you need to know about PetService.' (Used in: FAQ section subtitle)
+faq_q1 - 'How do I book a pet service?' (Used in: FAQ question 1)
+faq_a1 - 'Simply search for services near you, browse verified providers, read reviews, and book your preferred sitter or service. You can chat with providers before booking to ensure they are the right fit.' (Used in: FAQ answer 1)
+faq_q2 - 'Are all providers verified?' (Used in: FAQ question 2)
+faq_a2 - 'Yes! All providers undergo background checks and are fully insured. We verify their identity, experience, and qualifications before they can offer services on our platform.' (Used in: FAQ answer 2)
+faq_q3 - 'What if something goes wrong?' (Used in: FAQ question 3)
+faq_a3 - 'We have 24/7 support and a comprehensive insurance policy covering all bookings. If any issues arise, contact our support team immediately and we will resolve it quickly.' (Used in: FAQ answer 3)
+faq_q4 - 'Can I cancel my booking?' (Used in: FAQ question 4)
+faq_a4 - 'Yes, you can cancel bookings according to our flexible cancellation policy. Free cancellation is available up to 24 hours before the service start time.' (Used in: FAQ answer 4)
+faq_q5 - 'How do I become a provider?' (Used in: FAQ question 5)
+faq_a5 - 'Sign up as a provider, complete your profile, verify your identity, and start accepting bookings! We offer resources and support to help you succeed.' (Used in: FAQ answer 5)
+faq_q6 - 'Are there any hidden fees?' (Used in: FAQ question 6)
+faq_a6 - 'No! What you see is what you pay. There are no booking fees, hidden charges, or surprise costs. The price displayed is the final price.' (Used in: FAQ answer 6)
+faq_still_questions - 'Still have questions?' (Used in: FAQ CTA text)
+faq_visit_help - 'Visit our Help Center' (Used in: FAQ help center link)
+
+# ============================================
+# TRUST BADGES SECTION
+# ============================================
+
+trustbadges_title - 'We have Got You Covered' (Used in: Trust badges section title)
+trustbadges_subtitle - 'Your peace of mind is our priority' (Used in: Trust badges section subtitle)
+trustbadges_verified - 'All providers verified' (Used in: Trust badge description)
+
+# ============================================
+# FOOTER
+# ============================================
+
+footer_column1_title - 'PETSERVICE' (Used in: Footer column 1 title)
+footer_column2_title - 'PET LOVER' (Used in: Footer column 2 title)
+footer_column3_title - 'PET SERVICES' (Used in: Footer column 3 title)
+footer_column4_title - 'CONTACT US' (Used in: Footer column 4 title)
+footer_link_careers - 'Careers' (Used in: Footer link)
+footer_link_blog - 'Blog' (Used in: Footer link)
+footer_link_about - 'About Us' (Used in: Footer link)
+footer_link_happenings - 'Happenings' (Used in: Footer link)
+footer_link_help - 'Help Center' (Used in: Footer link)
+footer_link_terms - 'Terms of use' (Used in: Footer link)
+footer_link_privacy - 'Privacy Policy' (Used in: Footer link)
+footer_link_be_sitter - 'Be a Pet Sitter' (Used in: Footer link)
+footer_link_be_walker - 'Be a Dog Walker' (Used in: Footer link)
+footer_link_app - 'Pet Care App' (Used in: Footer link)
+footer_link_protection - 'Premium Protection Coverage' (Used in: Footer link)
+footer_link_rescue - 'Rescue and Shelter Programme' (Used in: Footer link)
+footer_link_board - 'Pet Boarding' (Used in: Footer link)
+footer_link_sitting - 'Pet Sitting' (Used in: Footer link)
+footer_link_walking - 'Dog Walking' (Used in: Footer link)
+footer_link_daycare - 'Pet Daycare' (Used in: Footer link)
+footer_link_taxi - 'Pet Taxi' (Used in: Footer link)
+footer_link_grooming - 'Pet Grooming' (Used in: Footer link)
+footer_link_talk - 'Talk to us' (Used in: Footer link)
+footer_language_label - 'Language:' (Used in: Footer language selector label)
+footer_copyright - '© 2024 PetService' (Used in: Footer copyright text)
+footer_back_to_top - 'Back to top' (Used in: Footer back to top button)
+
+# ============================================
+# SEARCH BAR
+# ============================================
+
+search_placeholder - 'Search' (Used in: Search bar placeholder text)
+
+# ============================================
+# DASHBOARD
+# ============================================
+
+dashboard_title - 'Dashboard' (Used in: Dashboard page title)
+dashboard_welcome_back - 'Welcome back,' (Used in: Dashboard welcome message prefix)
+dashboard_owner_subtitle - 'Find trusted service providers for your pets.' (Used in: Dashboard subtitle for pet owners)
+dashboard_provider_subtitle - 'Manage your services and connect with pet owners.' (Used in: Dashboard subtitle for providers)
+dashboard_loading_user - 'Loading user data...' (Used in: Loading state when fetching user data)
+dashboard_nav_profile - 'Profile' (Used in: Dashboard navigation link)
+dashboard_nav_services - 'Services' (Used in: Dashboard navigation link)
+dashboard_nav_bookings - 'Bookings' (Used in: Dashboard navigation link)
+dashboard_nav_messages - 'Messages' (Used in: Dashboard navigation link)
+dashboard_nav_my_bookings - 'My Bookings' (Used in: Dashboard navigation link)
+dashboard_nav_browse_services - 'Browse Services' (Used in: Dashboard navigation link)
+dashboard_logout_confirm - 'Are you sure you want to logout?' (Used in: Logout confirmation dialog)
+dashboard_logout_button - 'Logout' (Used in: Logout button text)
+dashboard_breadcrumb_home - 'Home' (Used in: Breadcrumb link)
+dashboard_card_find_services - 'Find Services' (Used in: Owner dashboard card title)
+dashboard_card_find_desc - 'Browse available pet services in your area.' (Used in: Owner dashboard card description)
+dashboard_card_my_bookings - 'My Bookings' (Used in: Owner dashboard card title)
+dashboard_card_bookings_desc - 'View and manage your service bookings.' (Used in: Owner dashboard card description)
+dashboard_card_reviews - 'Reviews' (Used in: Owner dashboard card title)
+dashboard_card_reviews_desc - 'Read reviews and share your experiences.' (Used in: Owner dashboard card description)
+dashboard_card_profile_settings - 'Profile Settings' (Used in: Provider dashboard card title)
+dashboard_card_profile_desc - 'Update your profile information and bio.' (Used in: Provider dashboard card description)
+dashboard_card_add_service - 'Add Service' (Used in: Provider dashboard card title)
+dashboard_card_add_desc - 'Create and publish new pet services.' (Used in: Provider dashboard card description)
+dashboard_card_manage_services - 'Manage Services' (Used in: Provider dashboard card title)
+dashboard_card_manage_desc - 'Edit and manage your existing services.' (Used in: Provider dashboard card description)
+dashboard_card_incoming_bookings - 'Incoming Bookings' (Used in: Provider dashboard card title)
+dashboard_card_incoming_desc - 'Review and manage booking requests for your services.' (Used in: Provider dashboard card description)
+dashboard_stats_active_bookings - 'Active Bookings' (Used in: Owner stats card title)
+dashboard_stats_total_services - 'Total Services' (Used in: Provider stats card title)
+dashboard_stats_completed_services - 'Completed Services' (Used in: Owner stats card title)
+dashboard_stats_total_bookings - 'Total Bookings' (Used in: Provider stats card title)
+dashboard_stats_reviews - 'Reviews' (Used in: Stats card title)
+dashboard_stats_favorites - 'Favorites' (Used in: Stats card title)
+dashboard_quick_actions_title - 'Quick Actions' (Used in: Quick actions card title)
+dashboard_quick_search - 'Quick Search' (Used in: Quick action title)
+dashboard_quick_search_desc - 'Find services instantly' (Used in: Quick action description)
+dashboard_quick_messages - 'Messages' (Used in: Quick action title)
+dashboard_quick_messages_desc - 'Chat with providers' (Used in: Quick action description)
+dashboard_quick_settings - 'Settings' (Used in: Quick action title)
+dashboard_quick_settings_desc - 'Manage preferences' (Used in: Quick action description)
+dashboard_quick_help - 'Help Center' (Used in: Quick action title)
+dashboard_quick_help_desc - 'Get support' (Used in: Quick action description)
+dashboard_quick_create_service - 'Create Service' (Used in: Provider quick action title)
+dashboard_quick_create_desc - 'Add new service' (Used in: Provider quick action description)
+dashboard_quick_chat_owners - 'Chat with owners' (Used in: Provider quick action description)
+dashboard_quick_manage_profile - 'Manage profile' (Used in: Provider quick action description)
+dashboard_recent_activity - 'Recent Activity' (Used in: Recent activity card title)
+dashboard_no_activity - 'No recent activity' (Used in: Empty state message)
+dashboard_view_all - 'View All' (Used in: View all link text)
+dashboard_loading - 'Loading...' (Used in: General loading state)
+
+# ============================================
+# AUTHENTICATION - LOGIN
+# ============================================
+
+auth_welcome_back - 'Welcome back' (Used in: Login page title)
+auth_sign_in_account - 'Sign in to your account' (Used in: Login page subtitle)
+auth_email_address - 'Email address' (Used in: Email input label)
+auth_password - 'Password' (Used in: Password input label)
+auth_enter_email - 'Enter your email' (Used in: Email input placeholder)
+auth_enter_password - 'Enter your password' (Used in: Password input placeholder)
+auth_signing_in - 'Signing in...' (Used in: Login button loading state)
+auth_sign_in - 'Sign in' (Used in: Login button text)
+auth_dont_have_account - 'Do not have an account?' (Used in: Sign up link prefix)
+auth_sign_up - 'Sign up' (Used in: Sign up link text)
+auth_back_button - 'Back' (Used in: Back button on login page)
+auth_secure_login - 'Secure Login' (Used in: Trust indicator text)
+auth_encrypted - 'Encrypted' (Used in: Trust indicator text)
+
+# ============================================
+# AUTHENTICATION - REGISTER
+# ============================================
+
+register_title - 'Join PetService' (Used in: Register page title)
+register_subtitle - 'Create your account' (Used in: Register page subtitle)
+register_email_label - 'Email address' (Used in: Email field label)
+register_enter_email - 'Enter your email' (Used in: Email field placeholder)
+register_role_label - 'I am a' (Used in: Role selector label)
+register_role_placeholder - 'Select your role' (Used in: Role selector placeholder)
+register_role_owner - 'Pet Owner' (Used in: Role option)
+register_role_provider - 'Service Provider' (Used in: Role option)
+register_password_label - 'Password' (Used in: Password field label)
+register_password_placeholder - 'Create a password' (Used in: Password field placeholder)
+register_password_strength - 'Password strength:' (Used in: Password strength indicator label)
+register_password_very_weak - 'Very weak' (Used in: Password strength text)
+register_password_weak - 'Weak' (Used in: Password strength text)
+register_password_fair - 'Fair' (Used in: Password strength text)
+register_password_good - 'Good' (Used in: Password strength text)
+register_password_strong - 'Strong' (Used in: Password strength text)
+register_confirm_password_label - 'Confirm Password' (Used in: Confirm password field label)
+register_confirm_password_placeholder - 'Confirm your password' (Used in: Confirm password field placeholder)
+register_passwords_match - 'Passwords match' (Used in: Password match indicator success)
+register_passwords_not_match - 'Passwords do not match' (Used in: Password match indicator error)
+register_button_creating - 'Creating account...' (Used in: Register button loading state)
+register_button_create - 'Create account' (Used in: Register button text)
+register_already_have_account - 'Already have an account?' (Used in: Sign in link prefix)
+register_sign_in_link - 'Sign in' (Used in: Sign in link text)
+register_secure_registration - 'Secure Registration' (Used in: Trust indicator text)
+
+# ============================================
+# CHAT / MESSAGES
+# ============================================
+
+chat_start_conversation_title - 'Start a conversation' (Used in: Empty chat state title)
+chat_start_conversation_desc - 'Select a conversation from the sidebar or wait for pet owners/providers to reach out to you.' (Used in: Empty chat state description)
+chat_tip_text - 'Tip: Conversations appear here when someone books your services' (Used in: Chat tip text)
+chat_failed_load - 'Failed to load conversation' (Used in: Error message)
+chat_message_status_sending - 'sending' (Used in: Message status text)
+chat_message_status_sent - 'sent' (Used in: Message status text)
+chat_message_status_delivered - 'delivered' (Used in: Message status text)
+chat_message_status_read - 'read' (Used in: Message status text)
+chat_message_status_failed - 'failed' (Used in: Message status text)
+chat_live_support - 'Live Support' (Used in: Live chat window title)
+chat_quick_replies - 'Quick replies:' (Used in: Live chat quick replies label)
+
+# ============================================
+# SERVICE PAGES
+# ============================================
+
+services_loading - 'Loading...' (Used in: Services page loading state)
+services_load_more - 'Load More Services' (Used in: Load more button text)
+services_join_providers - 'Join hundreds of pet care providers earning extra income while helping pets!' (Used in: Provider encouragement text)
+services_become_provider_cta - 'Join our platform to offer your services and connect with pet owners.' (Used in: Become provider CTA text)
+
+# ============================================
+# BOOKING
+# ============================================
+
+booking_by_provider - 'by Provider' (Used in: Booking form text)
+booking_price_label - 'Price' (Used in: Booking form price label)
+booking_unavailable - 'Unavailable' (Used in: Booking slot unavailable text)
+
+# ============================================
+# TESTIMONIALS & REVIEWS
+# ============================================
+
+reviews_join_thousands - 'Join thousands of pet owners who have found their perfect match' (Used in: Reviews section subtitle)
+reviews_verified - 'Verified' (Used in: Verified badge text)
+
+# ============================================
+# COMMON UI ELEMENTS
+# ============================================
+
+common_reviews - 'reviews' (Used in: Reviews count suffix)
+common_view_profile - 'View Profile' (Used in: View profile button)
+common_services - 'services' (Used in: Services count suffix)
+common_service - 'service' (Used in: Single service text)
+common_loading - 'Loading...' (Used in: General loading text)
+common_loading_providers - 'Loading providers...' (Used in: Providers loading text)
+common_confirm - 'Confirm' (Used in: Confirmation dialog button)
+common_cancel - 'Cancel' (Used in: Cancel button)
+common_view_all - 'View All' (Used in: View all link)
+common_browse_services - 'Browse Services' (Used in: Browse services button)
+common_create_service - 'Create Service' (Used in: Create service button)
+common_edit_profile - 'Edit Profile' (Used in: Edit profile button)
+common_settings - 'Settings' (Used in: Settings text)
+common_welcome - 'Welcome,' (Used in: Welcome message prefix)
+
+# ============================================
+# STATUS LABELS
+# ============================================
+
+status_confirmed - 'CONFIRMED' (Used in: Booking status badge)
+status_pending - 'PENDING' (Used in: Booking status badge)
+status_completed - 'COMPLETED' (Used in: Booking status badge)
+status_draft - 'Draft' (Used in: Service draft status)
+
+# ============================================
+# LOCATIONS / COUNTRIES
+# ============================================
+
+location_australia - 'Australia' (Used in: Location name)
+location_canada - 'Canada' (Used in: Location name)
+location_france - 'France' (Used in: Location name)
+location_germany - 'Germany' (Used in: Location name)
+location_italy - 'Italy' (Used in: Location name)
+location_spain - 'Spain' (Used in: Location name)
+location_uk - 'United Kingdom' (Used in: Location name)
+location_usa - 'United States' (Used in: Location name)
+location_brazil - 'Brazil' (Used in: Location name)
+location_mexico - 'Mexico' (Used in: Location name)
+location_argentina - 'Argentina' (Used in: Location name)
+location_japan - 'Japan' (Used in: Location name)
+location_south_korea - 'South Korea' (Used in: Location name)
+location_singapore - 'Singapore' (Used in: Location name)
+location_hong_kong - 'Hong Kong' (Used in: Location name)
+location_india - 'India' (Used in: Location name)
+
+# ============================================
+# SOCIAL MEDIA
+# ============================================
+
+social_facebook - 'Facebook' (Used in: Social media link aria-label)
+social_instagram - 'Instagram' (Used in: Social media link aria-label)
+social_twitter - 'Twitter' (Used in: Social media link aria-label)
+social_youtube - 'YouTube' (Used in: Social media link aria-label)
+
+# ============================================
+# ACCESSIBILITY
+# ============================================
+
+a11y_previous_slide - 'Previous slide' (Used in: Carousel previous button aria-label)
+a11y_next_slide - 'Next slide' (Used in: Carousel next button aria-label)
+a11y_open_menu - 'Open menu' (Used in: Menu button aria-label)
+
+# ============================================
+# ERROR MESSAGES
+# ============================================
+
+error_failed_load_conversation - 'Failed to load conversation' (Used in: Error message)
+error_loading_data - 'Loading...' (Used in: Loading state text)
+
+# ============================================
+# NOTES FOR TRANSLATORS
+# ============================================
+# - All strings are currently in English for initial setup
+# - User will translate to Georgian manually
+# - Context descriptions help understand where each string is used
+# - Some strings contain placeholders like numbers, dates, names that should remain unchanged
+# - Maintain same punctuation and capitalization as original
+# - Translation should be natural and appropriate for Georgian speakers
+# - Georgian script: ქართული
+

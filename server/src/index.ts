@@ -59,7 +59,7 @@ app.options('*', cors(corsOptions));
 // Apply CORS middleware
 app.use(cors(corsOptions));
 
-// Rate limiting (temporarily disabled for testing)
+// Rate limiting for general API endpoints
 const limiter = rateLimit({
   windowMs: appConfig.rateLimitWindowMs,
   max: appConfig.rateLimitMax,
@@ -71,12 +71,25 @@ const limiter = rateLimit({
   legacyHeaders: false,
 });
 
-// Rate limiting (temporarily disabled for testing)
-// app.use('/api/', limiter);
+// Stricter rate limiting for auth endpoints
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 20, // Lower limit for auth
+  message: {
+    success: false,
+    error: 'Too many authentication attempts, please try again later.',
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
-// Body parsing middleware
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+// Apply rate limiting
+app.use('/api/v1/auth', authLimiter);
+app.use('/api/', limiter);
+
+// Body parsing middleware with appropriate limits
+app.use(express.json({ limit: '2mb' }));
+app.use(express.urlencoded({ extended: true, limit: '2mb' }));
 
 // Compression middleware
 app.use(compression());

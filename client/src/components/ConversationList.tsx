@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 import { ConversationWithLastMessage } from 'petservice-marketplace-shared-types';
 import { conversationsAPI } from '../services/api';
 import { Card, CardContent } from './ui/card';
@@ -21,6 +22,7 @@ export function ConversationList({
   onConversationSelect,
   className
 }: ConversationListProps) {
+  const t = useTranslations('conversations');
   const {
     data: conversationsResponse,
     isLoading,
@@ -73,7 +75,7 @@ export function ConversationList({
     return (
       <div className={cn('p-4', className)}>
         <div className="text-center text-red-500">
-          Failed to load conversations
+          {t('errorLoading')}
         </div>
       </div>
     );
@@ -86,10 +88,10 @@ export function ConversationList({
       <div className={cn('p-4 text-center', className)}>
         <MessageCircle className="mx-auto h-12 w-12 text-gray-400 mb-4" />
         <h3 className="text-sm font-medium text-gray-900 mb-2">
-          No conversations yet
+          {t('empty.title')}
         </h3>
         <p className="text-sm text-gray-500">
-          Start a conversation by messaging a provider
+          {t('empty.description')}
         </p>
       </div>
     );
@@ -119,7 +121,7 @@ export function ConversationList({
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-medium text-gray-900 truncate">
-                    {otherParticipant.email || 'User'}
+                    {otherParticipant.email || t('user')}
                   </p>
                   {conversation.lastMessage && (
                     <p className="text-xs text-gray-500">
@@ -129,7 +131,7 @@ export function ConversationList({
                 </div>
                 <div className="flex items-center justify-between mt-1">
                   <p className="text-sm text-gray-600 truncate">
-                    {conversation.lastMessage?.content || 'No messages yet'}
+                    {conversation.lastMessage?.content || t('noMessagesYet')}
                   </p>
                   <Badge variant="secondary" className="ml-2 text-xs">
                     {otherParticipant.role.toLowerCase()}

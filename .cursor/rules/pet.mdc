@@ -1206,3 +1206,4 @@ Your full-stack implementations should prioritize:
 5. **Developer Experience** - Clear code organization and modern tooling
 
 Always include error handling, loading states, accessibility features, and comprehensive documentation for maintainable applications.
+Also always perform changes.md and write down there every change of yours! Even small one, type it down for next instances to understand the change line! Also read it time by time to understand what had we done in the past.

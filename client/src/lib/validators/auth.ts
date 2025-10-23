@@ -12,6 +12,11 @@ export const registerFormSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters long'),
   email: z.string().email('Please enter a valid email address'),
   password: z.string().min(8, 'Password must be at least 8 characters long'),
+  confirmPassword: z.string().min(8, 'Password must be at least 8 characters long'),
+  role: z.nativeEnum(UserRole),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
 });
 
 export type LoginFormData = z.infer<typeof loginSchema>;

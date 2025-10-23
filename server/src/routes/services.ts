@@ -686,6 +686,70 @@ router.get('/', optionalAuth, ServiceController.getServices);
 
 /**
  * @swagger
+ * /services/top-rated-providers:
+ *   get:
+ *     tags:
+ *       - Services
+ *     summary: Get top-rated providers
+ *     description: Retrieve a list of top-rated service providers for homepage display
+ *     parameters:
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           maximum: 50
+ *           default: 10
+ *         description: Maximum number of providers to return
+ *     responses:
+ *       200:
+ *         description: Top-rated providers retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               allOf:
+ *                 - $ref: '#/components/schemas/ApiResponse'
+ *                 - type: object
+ *                   properties:
+ *                     data:
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: string
+ *                             example: "123e4567-e89b-12d3-a456-426614174000"
+ *                           profile:
+ *                             type: object
+ *                             properties:
+ *                               firstName:
+ *                                 type: string
+ *                               lastName:
+ *                                 type: string
+ *                               avatarUrl:
+ *                                 type: string
+ *                               bio:
+ *                                 type: string
+ *                               location:
+ *                                 type: string
+ *                           stats:
+ *                             type: object
+ *                             properties:
+ *                               averageRating:
+ *                                 type: number
+ *                               totalReviews:
+ *                                 type: integer
+ *                               serviceCount:
+ *                                 type: integer
+ *       400:
+ *         description: Invalid limit parameter
+ *       500:
+ *         description: Internal server error
+ */
+router.get('/top-rated-providers', ServiceController.getTopRatedProviders);
+
+/**
+ * @swagger
  * /services/{serviceId}:
  *   get:
  *     tags:
@@ -780,69 +844,5 @@ router.get('/', optionalAuth, ServiceController.getServices);
  *               $ref: '#/components/schemas/ApiResponse'
  */
 router.get('/:serviceId', optionalAuth, ServiceController.getService);
-
-/**
- * @swagger
- * /services/top-rated-providers:
- *   get:
- *     tags:
- *       - Services
- *     summary: Get top-rated providers
- *     description: Retrieve a list of top-rated service providers for homepage display
- *     parameters:
- *       - in: query
- *         name: limit
- *         schema:
- *           type: integer
- *           minimum: 1
- *           maximum: 50
- *           default: 10
- *         description: Maximum number of providers to return
- *     responses:
- *       200:
- *         description: Top-rated providers retrieved successfully
- *         content:
- *           application/json:
- *             schema:
- *               allOf:
- *                 - $ref: '#/components/schemas/ApiResponse'
- *                 - type: object
- *                   properties:
- *                     data:
- *                       type: array
- *                       items:
- *                         type: object
- *                         properties:
- *                           id:
- *                             type: string
- *                             example: "123e4567-e89b-12d3-a456-426614174000"
- *                           profile:
- *                             type: object
- *                             properties:
- *                               firstName:
- *                                 type: string
- *                               lastName:
- *                                 type: string
- *                               avatarUrl:
- *                                 type: string
- *                               bio:
- *                                 type: string
- *                               location:
- *                                 type: string
- *                           stats:
- *                             type: object
- *                             properties:
- *                               averageRating:
- *                                 type: number
- *                               totalReviews:
- *                                 type: integer
- *                               serviceCount:
- *                                 type: integer
- *       400:
- *         description: Invalid limit parameter
- *       500:
- *         description: Internal server error
- */
-router.get('/top-rated-providers', ServiceController.getTopRatedProviders);
 
 export { router as serviceRouter };

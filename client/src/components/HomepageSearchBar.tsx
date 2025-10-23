@@ -64,7 +64,7 @@ export function HomepageSearchBar() {
                 value={serviceType}
                 onValueChange={(value) => setServiceType(value as ServiceType | 'all')}
               >
-                <SelectTrigger className="h-14 bg-gray-50 border-0 focus:ring-2 focus:ring-blue-500">
+                <SelectTrigger className="h-14 bg-gray-50 border-0 focus:ring-2 focus:ring-blue-500 text-black">
                   <div className="flex items-center gap-2">
                     <Search className="w-4 h-4 text-gray-400" />
                     <SelectValue placeholder="Service type" />
@@ -90,7 +90,7 @@ export function HomepageSearchBar() {
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
                 onKeyPress={handleKeyPress}
-                className="h-14 bg-gray-50 border-0 focus:ring-2 focus:ring-blue-500 pl-12"
+                className="h-14 bg-gray-50 border-0 focus:ring-2 focus:ring-blue-500 pl-12 text-black placeholder:text-gray-600"
               />
               <MapPin className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
             </div>
@@ -101,7 +101,7 @@ export function HomepageSearchBar() {
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
-                    className="h-14 w-full bg-gray-50 border-0 justify-start text-left font-normal focus:ring-2 focus:ring-blue-500"
+                    className="h-14 w-full bg-gray-50 border-0 justify-start text-left font-normal focus:ring-2 focus:ring-blue-500 text-black"
                   >
                     <Calendar className="mr-2 h-4 w-4 text-gray-400" />
                     {date ? format(date, 'MMM dd, yyyy') : 'Select date'}

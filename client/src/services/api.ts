@@ -27,9 +27,6 @@ import {
 // ЧИТАЕМ ПРАВИЛЬНУЮ ПЕРЕМЕННУЮ NEXT.JS
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api/v1';
 
-// ОТЛАДКА ДЛЯ VIBE CODER: ЭТО ПОЯВИТСЯ В F12 (КОНСОЛЬ БРАУЗЕРА)
-console.log(`[CLIENT DEBUG] API_BASE_URL: ${API_BASE_URL}`);
-
 const api = axios.create({
   baseURL: API_BASE_URL,
   timeout: 10000,

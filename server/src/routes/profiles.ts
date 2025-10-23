@@ -499,4 +499,59 @@ router.post(
  */
 router.get('/provider/:userId', ProfileController.getProviderProfile);
 
+/**
+ * @swagger
+ * /profiles/featured-providers:
+ *   get:
+ *     tags:
+ *       - Profiles
+ *     summary: Get featured providers
+ *     description: Retrieve the top 5 rated service providers for homepage display
+ *     responses:
+ *       200:
+ *         description: Featured providers retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                       email:
+ *                         type: string
+ *                       role:
+ *                         type: string
+ *                       profile:
+ *                         type: object
+ *                       stats:
+ *                         type: object
+ *                         properties:
+ *                           averageRating:
+ *                             type: number
+ *                           totalReviews:
+ *                             type: integer
+ *                           serviceCount:
+ *                             type: integer
+ *                           overallServiceRating:
+ *                             type: number
+ *                 message:
+ *                   type: string
+ *                   example: "Featured providers retrieved successfully"
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ApiResponse'
+ */
+router.get('/featured-providers', ProfileController.getFeaturedProviders);
+
 export { router as profileRouter };

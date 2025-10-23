@@ -1,0 +1,98 @@
+{
+  "timestamp": "2025-10-22T16:08:41.952Z",
+  "issues": [
+    {
+      "severity": "HIGH",
+      "category": "Database",
+      "issue": "Missing indexes on foreign key fields: User.password, Service.providerId, Booking.ownerId, Booking.serviceId, Review.serviceId, Review.ownerId, Review.providerId, Message.conversationId, Message.senderId",
+      "impact": "Join queries will be slow without proper indexes",
+      "recommendation": "Add indexes to all foreign key fields"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "Database",
+      "issue": "Availability field is stored as JSON without proper indexing",
+      "impact": "Querying availability requires full table scans",
+      "recommendation": "Consider using a separate Availability table with proper indexes"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "Database",
+      "issue": "MySQL database provider is configured (config suggests PostgreSQL)",
+      "impact": "Potential incompatibility issues",
+      "recommendation": "Verify database provider matches actual database"
+    },
+    {
+      "severity": "CRITICAL",
+      "category": "API",
+      "issue": "Missing pagination in some queries",
+      "impact": "Large datasets will cause memory issues and slow responses",
+      "recommendation": "Always implement pagination for list endpoints"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "Monitoring",
+      "issue": "Using console.error for error logging",
+      "impact": "No centralized error tracking or performance monitoring",
+      "recommendation": "Implement proper logging framework (Winston, Pino)"
+    },
+    {
+      "severity": "HIGH",
+      "category": "Security",
+      "issue": "Rate limiting is commented out",
+      "impact": "API vulnerable to DDoS attacks and performance degradation",
+      "recommendation": "Enable rate limiting for production"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "Performance",
+      "issue": "Request body size limit is very high (10mb)",
+      "impact": "Large requests can consume excessive memory",
+      "recommendation": "Reduce body size limit to appropriate value for API"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "Database",
+      "issue": "Multiple parallel queries detected",
+      "impact": "Increased database load and potential connection pool exhaustion",
+      "recommendation": "Optimize with single query using joins or aggregations"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "Database",
+      "issue": "Sorting by createdAt without index",
+      "impact": "Slow queries on large datasets",
+      "recommendation": "Add index on createdAt field"
+    },
+    {
+      "severity": "CRITICAL",
+      "category": "Performance",
+      "issue": "No caching layer implemented",
+      "impact": "Every request hits the database",
+      "recommendation": "Implement Redis caching for frequently accessed data"
+    },
+    {
+      "severity": "HIGH",
+      "category": "Performance",
+      "issue": "No CDN or static asset caching",
+      "impact": "Slow delivery of static assets and images",
+      "recommendation": "Use CDN for static assets and implement proper cache headers"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "Frontend",
+      "issue": "Next.js image optimization may not be configured",
+      "impact": "Large unoptimized images slow page load",
+      "recommendation": "Enable Next.js image optimization"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "Monitoring",
+      "issue": "No client-side performance monitoring",
+      "impact": "Unable to track real user performance metrics",
+      "recommendation": "Implement Web Vitals tracking"
+    }
+  ],
+  "recommendations": [],
+  "metrics": {}
+}

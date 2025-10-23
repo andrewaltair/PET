@@ -59,10 +59,27 @@ CREATE TABLE IF NOT EXISTS services (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     provider_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     service_type service_type NOT NULL,
-    title VARCHAR(100) NOT NULL,
-    description TEXT NOT NULL,
+    -- Legacy fields (for backward compatibility)
+    title VARCHAR(200),
+    description TEXT,
+    -- Multilingual fields
+    title_geo VARCHAR(100),
+    title_eng VARCHAR(100),
+    title_rus VARCHAR(100),
+    description_geo TEXT,
+    description_eng TEXT,
+    description_rus TEXT,
+    -- At least one language must be provided
+    CONSTRAINT chk_language_check CHECK (
+        (title_geo IS NOT NULL AND description_geo IS NOT NULL) OR
+        (title_eng IS NOT NULL AND description_eng IS NOT NULL) OR
+        (title_rus IS NOT NULL AND description_rus IS NOT NULL)
+    ),
     price DECIMAL(10,2) NOT NULL CHECK (price > 0),
     availability JSONB NOT NULL DEFAULT '{}'::jsonb, -- e.g., {"monday": ["09:00-18:00"], "tuesday": ["10:00-17:00"]}
+    -- Images: main image + up to 10 sub images
+    main_image_url TEXT,
+    sub_images JSONB DEFAULT '[]'::jsonb, -- Array of image URLs (max 10)
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
@@ -80,8 +97,17 @@ CREATE INDEX IF NOT EXISTS idx_services_service_type ON services(service_type);
 CREATE INDEX IF NOT EXISTS idx_services_price ON services(price);
 CREATE INDEX IF NOT EXISTS idx_services_created_at ON services(created_at DESC);
 
--- Full-text search index for services
-CREATE INDEX IF NOT EXISTS idx_services_search ON services USING gin(to_tsvector('english', title || ' ' || description));
+-- Full-text search index for services (search across all languages)
+CREATE INDEX IF NOT EXISTS idx_services_search ON services USING gin(
+    to_tsvector('english', 
+        COALESCE(title_geo, '') || ' ' || 
+        COALESCE(title_eng, '') || ' ' || 
+        COALESCE(title_rus, '') || ' ' ||
+        COALESCE(description_geo, '') || ' ' || 
+        COALESCE(description_eng, '') || ' ' || 
+        COALESCE(description_rus, '')
+    )
+);
 
 -- Bookings table
 CREATE TABLE IF NOT EXISTS bookings (
@@ -164,10 +190,10 @@ INSERT INTO users (id, email, password_hash, role) VALUES
 ON CONFLICT (email) DO NOTHING;
 
 -- Create profiles for test users
-INSERT INTO profiles (user_id, first_name, last_name, bio, location) VALUES
-('550e8400-e29b-41d4-a716-446655440000', 'Admin', 'User', 'System Administrator', 'System'),
-('550e8400-e29b-41d4-a716-446655440001', 'Regular', 'User', NULL, NULL),
-('550e8400-e29b-41d4-a716-446655440002', 'Pet', 'Provider', 'Professional pet care provider with 3 years of experience. Specializing in dog walking and pet sitting.', 'New York, NY')
+INSERT INTO profiles (user_id, first_name, last_name, avatar_url, bio, location) VALUES
+('550e8400-e29b-41d4-a716-446655440000', 'Admin', 'User', '/avatars/1a270860bac2c66b434968a3047822e3.webp', 'System Administrator', 'System'),
+('550e8400-e29b-41d4-a716-446655440001', 'Regular', 'User', '/avatars/2b04cc0b930f82afe6c38d3209dcbdfd.webp', NULL, NULL),
+('550e8400-e29b-41d4-a716-446655440002', 'Pet', 'Provider', '/avatars/1c9a4dd0bbd964e3eecbd40caf3b7e37.webp', 'Professional pet care provider with 3 years of experience. Specializing in dog walking and pet sitting.', 'New York, NY')
 ON CONFLICT (user_id) DO NOTHING;
 
 -- Create sample services for the provider

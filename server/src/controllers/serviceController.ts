@@ -167,18 +167,18 @@ export class ServiceController {
    */
   static async getServices(req: Request, res: Response): Promise<void> {
     try {
-      const page = parseInt(req.query.page as string) || 1;
-      const limit = parseInt(req.query.limit as string) || 10;
+      const page = Math.max(parseInt(req.query.page as string) || 1, 1);
+      const limit = Math.min(Math.max(parseInt(req.query.limit as string) || 20, 1), 50); // Better defaults
       const search = req.query.search as string | undefined;
       const serviceType = req.query.serviceType as string | undefined;
       const location = req.query.location as string | undefined;
       const date = req.query.date as string | undefined;
 
       // Validate pagination parameters
-      if (page < 1 || limit < 1 || limit > 100) {
+      if (page < 1 || limit < 1 || limit > 50) {
         const response: ApiResponse = {
           success: false,
-          error: 'Invalid pagination parameters. Page must be >= 1, limit must be 1-100.',
+          error: 'Invalid pagination parameters. Page must be >= 1, limit must be 1-50.',
         };
         res.status(400).json(response);
         return;

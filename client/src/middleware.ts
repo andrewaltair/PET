@@ -1,31 +1,29 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import createMiddleware from 'next-intl/middleware';
 
-export function middleware(request: NextRequest) {
-  console.log('[Middleware DEBUG] Processing request:', request.nextUrl.pathname);
+// Export routing configuration for use in i18n.ts
+export const routing = {
+  // A list of all locales that are supported
+  locales: ['ka', 'en', 'ru'],
 
-  // Only run on client-side routes that need authentication
-  if (request.nextUrl.pathname.startsWith('/dashboard')) {
-    console.log('[Middleware DEBUG] Dashboard route detected');
+  // Used when no locale matches
+  defaultLocale: 'ka',
 
-    // For now, let the component handle authentication
-    // In production, you might want to check tokens server-side
+  // Disable automatic locale detection to prevent hanging
+  localeDetection: false,
+  
+  // Use pathname-based routing only
+  localePrefix: 'always',
+} as const;
 
-    // DEBUG: Log cookies and headers for auth debugging
-    const authCookie = request.cookies.get('auth_token');
-    const refreshCookie = request.cookies.get('refresh_token');
-    console.log('[Middleware DEBUG] Auth cookie present:', !!authCookie);
-    console.log('[Middleware DEBUG] Refresh cookie present:', !!refreshCookie);
+const middleware = createMiddleware(routing);
 
-    // Note: Middleware cannot access localStorage directly
-    // Authentication is handled by ProtectedRoute component
-
-    return NextResponse.next();
-  }
-
-  return NextResponse.next();
-}
+export default middleware;
 
 export const config = {
-  matcher: ['/dashboard/:path*'],
+  // Match all pathnames except for static files and API routes
+  matcher: [
+    '/',
+    '/(ka|en|ru)/:path*',
+    '/((?!api|_next|_vercel|.*\\..*).*)',
+  ],
 };

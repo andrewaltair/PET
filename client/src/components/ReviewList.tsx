@@ -3,6 +3,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { StarRating } from '@/components/ui/star-rating';
+import { useTranslations } from 'next-intl';
 import { ReviewResponse } from 'petservice-marketplace-shared-types';
 import { format } from 'date-fns';
 
@@ -17,6 +18,7 @@ export function ReviewList({
   isLoading = false,
   emptyMessage = 'No reviews yet'
 }: ReviewListProps) {
+  const t = useTranslations('reviews');
   if (isLoading) {
     return (
       <div className="space-y-4">
@@ -51,7 +53,7 @@ export function ReviewList({
           {emptyMessage}
         </h3>
         <p className="text-gray-500">
-          Be the first to leave a review!
+          {t('beFirstToReview')}
         </p>
       </div>
     );
@@ -89,7 +91,7 @@ export function ReviewList({
               </p>
             )}
             <div className="mt-3 text-xs text-gray-500">
-              Service: {review.service.title}
+              {t('serviceLabel')}: {review.service.title}
             </div>
           </CardContent>
         </Card>

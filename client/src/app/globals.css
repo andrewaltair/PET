@@ -12,7 +12,7 @@
     --popover-foreground: 222.2 84% 4.9%;
     --primary: 199 89% 48%;
     --primary-foreground: 210 40% 98%;
-    --secondary: 160 84% 39%;
+    --secondary: 217 91% 60%;
     --secondary-foreground: 222.2 84% 4.9%;
     --muted: 210 40% 96%;
     --muted-foreground: 215.4 16.3% 46.9%;
@@ -40,7 +40,7 @@
     --popover-foreground: 210 40% 98%;
     --primary: 199 89% 48%;
     --primary-foreground: 222.2 84% 4.9%;
-    --secondary: 160 84% 39%;
+    --secondary: 217 91% 60%;
     --secondary-foreground: 210 40% 98%;
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
@@ -66,19 +66,41 @@
 
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Hide scrollbars for all elements */
   * {
     @apply border-border;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
   }
+  
+  *::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+  
+  html, body {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+  
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+  
   body {
     @apply bg-background text-foreground font-sans text-base text-slate-900;
   }
 
   h1 {
-    @apply text-2xl font-bold text-slate-900 mb-4;
+    @apply text-xl font-bold text-slate-900 mb-4;
   }
 
   h2 {
-    @apply text-xl font-semibold text-slate-900 mb-3;
+    @apply text-lg font-semibold text-slate-900 mb-3;
   }
 
   h3 {

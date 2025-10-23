@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
+import { useTranslations } from 'next-intl';
 import { useAuth } from '../contexts/AuthContext';
 import { useCreateBooking } from '../hooks/useOwnerBookings';
 import { CreateBookingRequest, UserRole, ServiceWithProvider } from 'petservice-marketplace-shared-types';
@@ -23,6 +25,7 @@ interface BookingFormProps {
 export function BookingForm({ service, isOpen, onSuccess, onCancel }: BookingFormProps) {
   const { user } = useAuth();
   const createBookingMutation = useCreateBooking();
+  const t = useTranslations('bookingForm');
 
   const [formData, setFormData] = useState<CreateBookingRequest>({
     bookingTime: new Date(),
@@ -40,17 +43,17 @@ export function BookingForm({ service, isOpen, onSuccess, onCancel }: BookingFor
       <Dialog open={isOpen} onOpenChange={onCancel}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Sign In Required</DialogTitle>
+            <DialogTitle>{t('signInRequired.title')}</DialogTitle>
             <DialogDescription>
-              You need to be signed in as a pet owner to book services.
+              {t('signInRequired.description')}
             </DialogDescription>
           </DialogHeader>
           <div className="flex gap-3 justify-center">
             <Button asChild>
-              <a href="/login">Sign In</a>
+              <a href="/login">{t('signInRequired.signInButton')}</a>
             </Button>
             <Button variant="outline" asChild>
-              <a href="/register?role=OWNER">Sign Up</a>
+              <a href="/register?role=OWNER">{t('signInRequired.signUpButton')}</a>
             </Button>
           </div>
         </DialogContent>
@@ -63,13 +66,13 @@ export function BookingForm({ service, isOpen, onSuccess, onCancel }: BookingFor
       <Dialog open={isOpen} onOpenChange={onCancel}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Access Denied</DialogTitle>
+            <DialogTitle>{t('accessDenied.title')}</DialogTitle>
             <DialogDescription>
-              Only pet owners can book services. Service providers cannot book their own services.
+              {t('accessDenied.description')}
             </DialogDescription>
           </DialogHeader>
           <Button variant="outline" asChild>
-            <a href="/dashboard">Go to Dashboard</a>
+            <a href="/dashboard">{t('accessDenied.dashboardButton')}</a>
           </Button>
         </DialogContent>
       </Dialog>
@@ -87,9 +90,9 @@ export function BookingForm({ service, isOpen, onSuccess, onCancel }: BookingFor
     const newErrors: Record<string, string> = {};
 
     if (!selectedDate) {
-      newErrors.bookingTime = 'Please select a date';
+      newErrors.bookingTime = t('errors.selectDate');
     } else if (!selectedTimeSlot) {
-      newErrors.bookingTime = 'Please select a time slot';
+      newErrors.bookingTime = t('errors.selectTimeSlot');
     } else {
       const bookingTime = new Date(selectedDate);
       const [hours, minutes] = selectedTimeSlot.split(':').map(Number);
@@ -97,12 +100,12 @@ export function BookingForm({ service, isOpen, onSuccess, onCancel }: BookingFor
       const now = new Date();
 
       if (bookingTime <= now) {
-        newErrors.bookingTime = 'Booking time must be in the future';
+        newErrors.bookingTime = t('errors.futureTime');
       }
     }
 
     if (formData.notes && formData.notes.length > 500) {
-      newErrors.notes = 'Notes must be less than 500 characters';
+      newErrors.notes = t('errors.notesLength');
     }
 
     setErrors(newErrors);
@@ -113,6 +116,7 @@ export function BookingForm({ service, isOpen, onSuccess, onCancel }: BookingFor
     e.preventDefault();
 
     if (!validateForm()) {
+      toast.error(t('errors.checkForm'));
       return;
     }
 
@@ -129,9 +133,10 @@ export function BookingForm({ service, isOpen, onSuccess, onCancel }: BookingFor
         },
       });
 
+      toast.success(t('successMessage'));
       onSuccess?.();
     } catch (error) {
-      // Error is handled in the mutation
+      toast.error(t('errors.createBookingFailed'));
     }
   };
 
@@ -204,11 +209,17 @@ export function BookingForm({ service, isOpen, onSuccess, onCancel }: BookingFor
     <Dialog open={isOpen} onOpenChange={onCancel}>
       <DialogContent className="sm:max-w-2xl max-h-[90vh] flex flex-col">
         <DialogHeader>
-          <DialogTitle>Book Service</DialogTitle>
+          <DialogTitle>{t('title')}</DialogTitle>
           <DialogDescription>
-            Request a booking for {service.title}
+            {t('description', { serviceTitle: service.title })}
           </DialogDescription>
         </DialogHeader>
+
+        {/* Screen reader announcements */}
+        <div role="alert" aria-live="polite" aria-atomic="true" className="sr-only">
+          {errors.bookingTime && <span>{errors.bookingTime}</span>}
+          {errors.notes && <span>{errors.notes}</span>}
+        </div>
 
         <div className="flex-1 overflow-y-auto px-6 pb-4">
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -216,19 +227,19 @@ export function BookingForm({ service, isOpen, onSuccess, onCancel }: BookingFor
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-base">{service.title}</CardTitle>
-              <p className="text-sm text-muted-foreground">by Provider</p>
+              <p className="text-sm text-muted-foreground">{t('providerPrefix')}</p>
             </CardHeader>
             <CardContent className="pt-0">
               <div className="flex justify-between items-center">
-                <span className="text-sm text-muted-foreground">Price</span>
-                <span className="text-lg font-bold text-green-600">${Number(service.price).toFixed(2)}</span>
+                <span className="text-sm text-muted-foreground">{t('priceLabel')}</span>
+                <span className="text-lg font-bold text-blue-600">${Number(service.price).toFixed(2)}</span>
               </div>
             </CardContent>
           </Card>
 
           {/* Date Selection */}
           <div className="space-y-2">
-            <Label>Select Date *</Label>
+            <Label>{t('dateLabel')} *</Label>
             <Calendar
               mode="single"
               selected={selectedDate}
@@ -244,14 +255,18 @@ export function BookingForm({ service, isOpen, onSuccess, onCancel }: BookingFor
           {/* Time Slot Selection */}
           {selectedDate && (
             <div className="space-y-2">
-              <Label>Select Time Slot *</Label>
-              <div className="grid grid-cols-2 gap-2">
+              <Label>{t('timeSlotLabel')} *</Label>
+              <div className="grid grid-cols-2 gap-2" role="group" aria-label={t('timeSlotsAriaLabel')}>
                 {generateTimeSlotsForDate(selectedDate).map((slot) => (
                   <Button
                     key={slot.time}
                     type="button"
                     variant={selectedTimeSlot === slot.time ? "default" : "outline"}
                     size="sm"
+                    aria-label={`${slot.time} - ${slot.available ? t('available') : t('unavailable')}`}
+                    aria-pressed={selectedTimeSlot === slot.time}
+                    role="button"
+                    tabIndex={slot.available ? 0 : -1}
                     onClick={() => {
                       setSelectedTimeSlot(slot.time);
                       const bookingTime = new Date(selectedDate);
@@ -262,7 +277,7 @@ export function BookingForm({ service, isOpen, onSuccess, onCancel }: BookingFor
                     disabled={!slot.available}
                   >
                     {slot.time}
-                    {!slot.available && " (Unavailable)"}
+                    {!slot.available && <span className="sr-only">{t('unavailable')}</span>}
                   </Button>
                 ))}
               </div>
@@ -271,19 +286,19 @@ export function BookingForm({ service, isOpen, onSuccess, onCancel }: BookingFor
 
           {/* Notes */}
           <div className="space-y-2">
-            <Label htmlFor="notes">Additional Notes</Label>
+            <Label htmlFor="notes">{t('notesLabel')}</Label>
             <Textarea
               id="notes"
               value={formData.notes}
               onChange={(e) => handleInputChange('notes', e.target.value)}
-              placeholder="Any special requests or information for the provider..."
+              placeholder={t('notesPlaceholder')}
               rows={3}
             />
             {errors.notes && (
               <p className="text-destructive text-sm">{errors.notes}</p>
             )}
             <p className="text-muted-foreground text-sm">
-              {formData.notes?.length || 0}/500 characters
+              {t('charactersCount', { count: formData.notes?.length || 0 })}
             </p>
           </div>
 
@@ -296,7 +311,7 @@ export function BookingForm({ service, isOpen, onSuccess, onCancel }: BookingFor
               disabled={createBookingMutation.isPending}
               className="flex-1"
             >
-              Cancel
+              {t('cancelButton')}
             </Button>
             <Button
               type="submit"
@@ -306,10 +321,10 @@ export function BookingForm({ service, isOpen, onSuccess, onCancel }: BookingFor
               {createBookingMutation.isPending ? (
                 <>
                   <LoadingSpinner size="sm" className="mr-2" />
-                  Booking...
+                  {t('bookingButton')}...
                 </>
               ) : (
-                'Request Booking'
+                t('requestBookingButton')
               )}
             </Button>
           </div>

@@ -1,4 +1,5 @@
 import * as React from "react"
+import { useTranslations } from 'next-intl';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -33,6 +34,8 @@ export function ConfirmationDialog({
   onCancel,
   variant = "default",
 }: ConfirmationDialogProps) {
+  const t = useTranslations('confirmationDialog');
+
   const handleConfirm = () => {
     onConfirm()
     onOpenChange(false)
@@ -52,13 +55,13 @@ export function ConfirmationDialog({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel onClick={handleCancel}>
-            {cancelText}
+            {cancelText || t('cancel')}
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={handleConfirm}
             className={variant === "destructive" ? "bg-destructive text-destructive-foreground hover:bg-destructive/90" : ""}
           >
-            {confirmText}
+            {confirmText || t('confirm')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

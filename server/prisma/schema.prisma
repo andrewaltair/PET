@@ -40,7 +40,7 @@ enum PaymentStatus {
 
 // Models
 model User {
-  id          String   @id @default(cuid()) @db.VarChar(36)
+  id          String   @id @default(cuid())
   email       String   @unique
   password    String   @map("password_hash")
   role        UserRole
@@ -56,6 +56,8 @@ model User {
   conversations  Conversation[] @relation("ConversationParticipants")
   sentMessages   Message[] @relation("MessageSender")
 
+  @@index([role])
+  @@index([createdAt])
   @@map("users")
 }
 
@@ -68,6 +70,7 @@ model Profile {
   bio                      String? // Only for PROVIDER
   location                 String? @map("location") // Only for PROVIDER
   overallAverageRating     Float   @default(0) @map("overall_average_rating")
+  rankingScore             Float   @default(0) @map("ranking_score")
   stripeAccountId          String? @unique @map("stripe_account_id")
   stripeOnboardingComplete Boolean @default(false) @map("stripe_onboarding_complete")
   createdAt                DateTime @default(now()) @map("created_at")
@@ -76,6 +79,7 @@ model Profile {
   // Relations
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@index([rankingScore])
   @@map("profiles")
 }
 
@@ -83,11 +87,23 @@ model Service {
   id            String  @id @default(cuid()) @db.VarChar(36)
   providerId    String  @map("provider_id") @db.VarChar(36)
   serviceType   ServiceType @map("service_type")
-  title         String
-  description   String
+  // Legacy fields (for backward compatibility)
+  title         String? @db.VarChar(200)
+  description   String? @db.Text
+  // Multilingual fields
+  titleGeo      String? @map("title_geo")
+  titleEng      String? @map("title_eng")
+  titleRus      String? @map("title_rus")
+  descriptionGeo String? @map("description_geo") @db.Text
+  descriptionEng String? @map("description_eng") @db.Text
+  descriptionRus String? @map("description_rus") @db.Text
+  // Images
+  mainImageUrl  String? @map("main_image_url")
+  subImages     Json    @default("[]") @map("sub_images")
   price         Decimal @db.Decimal(10, 2)
   availability  Json    @default("{}")
   averageRating Float   @default(0) @map("average_rating")
+  rankingScore  Float   @default(0) @map("ranking_score")
   createdAt     DateTime @default(now()) @map("created_at")
   updatedAt     DateTime @updatedAt @map("updated_at")
 
@@ -96,7 +112,12 @@ model Service {
   bookings  Booking[]
   reviews   Review[]
 
-  // Constraints
+  // Indexes for performance
+  @@index([providerId])
+  @@index([serviceType])
+  @@index([createdAt])
+  @@index([averageRating])
+  @@index([rankingScore])
   @@map("services")
 }
 
@@ -117,6 +138,13 @@ model Booking {
   service  Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
   review   Review?
 
+  // Indexes for performance
+  @@index([ownerId])
+  @@index([serviceId])
+  @@index([status])
+  @@index([bookingTime])
+  @@index([createdAt])
+  @@index([paymentStatus])
   @@map("bookings")
 }
 
@@ -136,6 +164,12 @@ model Review {
   owner    User    @relation("reviewOwner", fields: [ownerId], references: [id], onDelete: Cascade)
   provider User    @relation("reviewProvider", fields: [providerId], references: [id], onDelete: Cascade)
 
+  // Indexes for performance
+  @@index([serviceId])
+  @@index([ownerId])
+  @@index([providerId])
+  @@index([rating])
+  @@index([createdAt])
   @@map("reviews")
 }
 
@@ -161,5 +195,9 @@ model Message {
   conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
   sender         User         @relation("MessageSender", fields: [senderId], references: [id], onDelete: Cascade)
 
+  // Indexes for performance
+  @@index([conversationId])
+  @@index([senderId])
+  @@index([createdAt])
   @@map("messages")
 }

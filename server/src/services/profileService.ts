@@ -1,5 +1,5 @@
 import prisma from '../config/database';
-import { Profile, CreateProfileRequest, UpdateProfileRequest, UserRole, ProviderProfileWithServices, ServiceWithProvider } from 'petservice-marketplace-shared-types';
+import { Profile, CreateProfileRequest, UpdateProfileRequest, UserRole, ProviderProfileWithServices, ServiceWithProvider, TopRatedProvider } from 'petservice-marketplace-shared-types';
 
 export class ProfileService {
   /**
@@ -217,6 +217,97 @@ export class ProfileService {
     } catch (error) {
       console.error('Error fetching provider profile:', error);
       throw error;
+    }
+  }
+
+  /**
+   * Find top 5 featured providers by average rating
+   */
+  static async findFeatured(): Promise<TopRatedProvider[]> {
+    try {
+      // Get top 5 providers by average rating with review counts
+      const ratings = await prisma.review.groupBy({
+        by: ['providerId'],
+        _avg: { rating: true },
+        _count: { _all: true },
+        orderBy: { _avg: { rating: 'desc' } },
+        take: 5,
+      });
+
+      const providerIds = ratings.map(r => r.providerId);
+
+      // Get all providers who have at least one service (if no reviews yet)
+      let finalProviderIds = providerIds;
+      if (finalProviderIds.length === 0) {
+        // No reviews yet, so get providers with most services
+        const serviceCounts = await prisma.service.groupBy({
+          by: ['providerId'],
+          _count: { _all: true },
+          take: 5,
+        });
+        // Sort by count descending
+        serviceCounts.sort((a, b) => b._count._all - a._count._all);
+        finalProviderIds = serviceCounts.map(s => s.providerId);
+      }
+
+      // Get service counts for each provider
+      const serviceCounts = await prisma.service.groupBy({
+        by: ['providerId'],
+        _count: { _all: true },
+        where: { providerId: { in: finalProviderIds } },
+      });
+
+      // Get profiles with user data
+      const profiles = await prisma.profile.findMany({
+        where: { userId: { in: finalProviderIds } },
+        include: {
+          user: {
+            select: {
+              id: true,
+              email: true,
+              role: true,
+              createdAt: true,
+              updatedAt: true
+            }
+          }
+        },
+      });
+
+      // Combine data and return sorted by rating (or service count if no reviews)
+      return profiles.map(profile => {
+        const ratingData = ratings.find(r => r.providerId === profile.userId);
+        const serviceCountData = serviceCounts.find(s => s.providerId === profile.userId);
+
+        return {
+          id: profile.userId,
+          email: profile.user.email,
+          role: profile.user.role as UserRole,
+          profile: {
+            id: profile.id,
+            firstName: profile.firstName || undefined,
+            lastName: profile.lastName || undefined,
+            avatarUrl: profile.avatarUrl || undefined,
+            bio: profile.bio || undefined,
+            location: profile.location || undefined,
+            overallAverageRating: ratingData?._avg.rating || 0,
+          },
+          stats: {
+            averageRating: ratingData?._avg.rating || 0,
+            totalReviews: ratingData?._count._all || 0,
+            serviceCount: serviceCountData?._count._all || 0,
+            overallServiceRating: ratingData?._avg.rating || 0,
+          },
+        };
+      }).sort((a, b) => {
+        // Sort by rating if available, otherwise by service count
+        if (a.stats.averageRating > 0 || b.stats.averageRating > 0) {
+          return b.stats.averageRating - a.stats.averageRating;
+        }
+        return b.stats.serviceCount - a.stats.serviceCount;
+      });
+    } catch (error) {
+      console.error('Error fetching featured providers:', error);
+      throw new Error('Failed to fetch featured providers');
     }
   }
 
