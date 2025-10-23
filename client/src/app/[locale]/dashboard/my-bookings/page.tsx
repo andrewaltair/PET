@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useAuth } from '@/contexts/AuthContext';
 import { useOwnerBookings, useCancelBooking } from '@/hooks/useOwnerBookings';
 import { useCanReviewBooking, useCreateReview } from '@/hooks/useReviews';
@@ -17,6 +18,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 function OwnerBookingsContent() {
   const { user } = useAuth();
   const router = useRouter();
+  const t = useTranslations('myBookings');
   const { data: bookingsData, isLoading, error } = useOwnerBookings();
   const cancelMutation = useCancelBooking();
   const createReviewMutation = useCreateReview();
@@ -49,13 +51,13 @@ function OwnerBookingsContent() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="text-6xl mb-4">🚫</div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Access Denied</h1>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">{t('accessDenied')}</h1>
           <p className="text-gray-600 mb-6">
-            Only pet owners can view their bookings.
+            {t('onlyOwners')}
           </p>
           <Link href="/dashboard">
             <Button variant="outline">
-              Back to Dashboard
+              {t('backToDashboardButton')}
             </Button>
           </Link>
         </div>
@@ -115,14 +117,14 @@ function OwnerBookingsContent() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="text-red-600 text-lg font-semibold mb-2">
-            Failed to load bookings
+            {t('failedToLoad')}
           </div>
           <p className="text-gray-600 mb-4">
             {error instanceof Error ? error.message : 'Unknown error occurred'}
           </p>
           <Link href="/dashboard">
             <Button variant="outline">
-              Back to Dashboard
+              {t('backToDashboardButton')}
             </Button>
           </Link>
         </div>
@@ -195,7 +197,7 @@ function OwnerBookingsContent() {
         size="sm"
         className="text-blue-600 border-blue-600 hover:bg-blue-50"
       >
-        Leave Review
+        {t('leaveReview')}
       </Button>
     );
   };
@@ -208,15 +210,15 @@ function OwnerBookingsContent() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink href="/">Home</BreadcrumbLink>
+                <BreadcrumbLink href="/">{t('breadcrumbHome')}</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+                <BreadcrumbLink href="/dashboard">{t('breadcrumbDashboard')}</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage>My Bookings</BreadcrumbPage>
+                <BreadcrumbPage>{t('breadcrumb')}</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -228,59 +230,59 @@ function OwnerBookingsContent() {
             onClick={() => router.push('/dashboard')}
             className="text-blue-600 hover:text-blue-800 mb-4 inline-block"
           >
-            ← Back to Dashboard
+            {t('backToDashboard')}
           </button>
-          <h1 className="text-3xl font-bold text-gray-900">My Bookings</h1>
+          <h1 className="text-3xl font-bold text-gray-900">{t('title')}</h1>
           <p className="text-gray-600 mt-2">
-            Manage your pet service bookings
+            {t('subtitle')}
           </p>
         </div>
 
         {/* Bookings Sections */}
         <BookingSection
-          title="Pending Approval"
+          title={t('pendingApproval')}
           bookings={pendingBookings}
-          emptyMessage="No bookings waiting for approval"
+          emptyMessage={t('noPending')}
         />
 
         <BookingSection
-          title="Confirmed Bookings"
+          title={t('confirmedBookings')}
           bookings={confirmedBookings}
-          emptyMessage="No confirmed bookings"
+          emptyMessage={t('noConfirmed')}
         />
 
         <BookingSection
-          title="Completed Services"
+          title={t('completedServices')}
           bookings={completedBookings}
-          emptyMessage="No completed services yet"
+          emptyMessage={t('noCompleted')}
         />
 
         <BookingSection
-          title="Cancelled Bookings"
+          title={t('cancelledBookings')}
           bookings={cancelledBookings}
-          emptyMessage="No cancelled bookings"
+          emptyMessage={t('noCancelled')}
         />
 
         {/* Stats */}
         {bookings.length > 0 && (
           <div className="mt-12 bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Booking Summary</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('bookingSummary')}</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="text-center">
                 <div className="text-2xl font-bold text-yellow-600">{pendingBookings.length}</div>
-                <div className="text-sm text-gray-600">Pending</div>
+                <div className="text-sm text-gray-600">{t('pending')}</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-blue-600">{confirmedBookings.length}</div>
-                <div className="text-sm text-gray-600">Confirmed</div>
+                <div className="text-sm text-gray-600">{t('confirmed')}</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-blue-600">{completedBookings.length}</div>
-                <div className="text-sm text-gray-600">Completed</div>
+                <div className="text-sm text-gray-600">{t('completed')}</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-red-600">{cancelledBookings.length}</div>
-                <div className="text-sm text-gray-600">Cancelled</div>
+                <div className="text-sm text-gray-600">{t('cancelled')}</div>
               </div>
             </div>
           </div>
@@ -290,14 +292,14 @@ function OwnerBookingsContent() {
         {bookings.length === 0 && (
           <div className="mt-12 text-center bg-blue-50 rounded-lg p-8">
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-              No bookings yet
+              {t('noBookingsYet')}
             </h2>
             <p className="text-gray-600 mb-6">
-              Start by browsing available pet services and booking with trusted providers.
+              {t('noBookingsDesc')}
             </p>
             <Link href="/services">
               <Button>
-                Browse Services
+                {t('browseServices')}
               </Button>
             </Link>
           </div>

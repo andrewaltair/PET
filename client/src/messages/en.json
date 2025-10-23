@@ -187,55 +187,158 @@
   "dashboard": {
     "title": "Dashboard",
     "welcomeBack": "Welcome back,",
-    "ownerSubtitle": "Find trusted service providers for your pets.",
-    "providerSubtitle": "Manage your services and connect with pet owners.",
-    "loadingUser": "Loading user data...",
-    "navProfile": "Profile",
-    "navServices": "Services",
-    "navBookings": "Bookings",
-    "navMessages": "Messages",
-    "navMyBookings": "My Bookings",
-    "navBrowseServices": "Browse Services",
+    "welcome": "Welcome,",
+    "logout": "Logout",
     "logoutConfirm": "Are you sure you want to logout?",
-    "logoutButton": "Logout",
-    "breadcrumbHome": "Home",
-    "cardFindServices": "Find Services",
-    "cardFindDesc": "Browse available pet services in your area.",
-    "cardMyBookings": "My Bookings",
-    "cardBookingsDesc": "View and manage your service bookings.",
-    "cardReviews": "Reviews",
-    "cardReviewsDesc": "Read reviews and share your experiences.",
-    "cardProfileSettings": "Profile Settings",
-    "cardProfileDesc": "Update your profile information and bio.",
-    "cardAddService": "Add Service",
-    "cardAddDesc": "Create and publish new pet services.",
-    "cardManageServices": "Manage Services",
-    "cardManageDesc": "Edit and manage your existing services.",
-    "cardIncomingBookings": "Incoming Bookings",
-    "cardIncomingDesc": "Review and manage booking requests for your services.",
-    "statsActiveBookings": "Active Bookings",
-    "statsTotalServices": "Total Services",
-    "statsCompletedServices": "Completed Services",
-    "statsTotalBookings": "Total Bookings",
-    "statsReviews": "Reviews",
-    "statsFavorites": "Favorites",
-    "quickActionsTitle": "Quick Actions",
-    "quickSearch": "Quick Search",
-    "quickSearchDesc": "Find services instantly",
-    "quickMessages": "Messages",
-    "quickMessagesDesc": "Chat with providers",
-    "quickSettings": "Settings",
-    "quickSettingsDesc": "Manage preferences",
-    "quickHelp": "Help Center",
-    "quickHelpDesc": "Get support",
-    "quickCreateService": "Create Service",
-    "quickCreateDesc": "Add new service",
-    "quickChatOwners": "Chat with owners",
-    "quickManageProfile": "Manage profile",
-    "recentActivity": "Recent Activity",
-    "noActivity": "No recent activity",
-    "viewAll": "View All",
-    "loading": "Loading..."
+    "loadingUser": "Loading user data...",
+    "ownerSlogan": "Find trusted service providers for your pets.",
+    "providerSlogan": "Manage your services and connect with pet owners.",
+    "nav": {
+      "profile": "Profile",
+      "services": "Services",
+      "bookings": "Bookings",
+      "messages": "Messages",
+      "myBookings": "My Bookings",
+      "browseServices": "Browse Services",
+      "openMenu": "Open menu",
+      "profileSettings": "Profile Settings",
+      "myServices": "My Services",
+      "incomingBookings": "Incoming Bookings"
+    },
+    "breadcrumbs": {
+      "home": "Home",
+      "dashboard": "Dashboard"
+    },
+    "ownerCards": {
+      "findServices": {
+        "title": "Find Services",
+        "description": "Browse available pet services in your area.",
+        "button": "Browse Services"
+      },
+      "myBookings": {
+        "title": "My Bookings",
+        "description": "View and manage your service bookings.",
+        "button": "View Bookings"
+      },
+      "reviews": {
+        "title": "Reviews",
+        "description": "Read reviews and share your experiences.",
+        "button": "View Reviews"
+      }
+    },
+    "providerCards": {
+      "profile": {
+        "title": "Profile Settings",
+        "description": "Update your profile information and bio.",
+        "button": "Edit Profile"
+      },
+      "addService": {
+        "title": "Add Service",
+        "description": "Create and publish new pet services.",
+        "button": "Create Service"
+      },
+      "manageServices": {
+        "title": "Manage Services",
+        "description": "Edit and manage your existing services.",
+        "button": "Manage"
+      },
+      "incomingBookings": {
+        "title": "Incoming Bookings",
+        "description": "Review and manage booking requests for your services.",
+        "button": "View Bookings"
+      }
+    },
+    "stats": {
+      "activeBookings": "Active Bookings",
+      "totalServices": "Total Services",
+      "completedServices": "Completed Services",
+      "totalBookings": "Total Bookings",
+      "reviews": "Reviews",
+      "favorites": "Favorites"
+    },
+    "quickActions": {
+      "title": "Quick Actions",
+      "owner": {
+        "quickSearch": {
+          "title": "Quick Search",
+          "description": "Find services instantly"
+        },
+        "messages": {
+          "title": "Messages",
+          "description": "Chat with providers"
+        },
+        "settings": {
+          "title": "Settings",
+          "description": "Manage preferences"
+        },
+        "help": {
+          "title": "Help Center",
+          "description": "Get support"
+        }
+      },
+      "provider": {
+        "createService": {
+          "title": "Create Service",
+          "description": "Add new service"
+        },
+        "messages": {
+          "title": "Messages",
+          "description": "Chat with owners"
+        },
+        "settings": {
+          "title": "Settings",
+          "description": "Manage profile"
+        },
+        "help": {
+          "title": "Help Center",
+          "description": "Get support"
+        }
+      }
+    },
+    "recentActivity": {
+      "title": "Recent Activity",
+      "noActivity": "No recent activity",
+      "viewAll": "View All",
+      "browseServices": "Browse Services",
+      "createService": "Create Service"
+    },
+    "achievements": {
+      "title": "Achievements",
+      "owner": {
+        "firstService": {
+          "title": "First Service",
+          "description": "Completed your first booking"
+        },
+        "regularUser": {
+          "title": "Regular User",
+          "description": "Active member with 3+ bookings"
+        },
+        "reviewer": {
+          "title": "Reviewer",
+          "description": "Thank you for your feedback"
+        }
+      },
+      "provider": {
+        "serviceProvider": {
+          "title": "Service Provider",
+          "description": "Published your first service"
+        },
+        "popularProvider": {
+          "title": "Popular Provider",
+          "description": "Received 5+ bookings"
+        },
+        "topRated": {
+          "title": "Top Rated",
+          "description": "Earned 3+ reviews"
+        }
+      },
+      "locked": {
+        "superstar": {
+          "title": "Superstar",
+          "description": "Keep using PetService to unlock"
+        }
+      }
+    }
   },
   "auth": {
     "welcomeBack": "Welcome back",
@@ -258,6 +361,7 @@
     "title": "Join PetService",
     "subtitle": "Create your account",
     "emailLabel": "Email address",
+    "emailPlaceholder": "Enter your email",
     "enterEmail": "Enter your email",
     "roleLabel": "I am a",
     "rolePlaceholder": "Select your role",
@@ -266,6 +370,11 @@
     "passwordLabel": "Password",
     "passwordPlaceholder": "Create a password",
     "passwordStrength": "Password strength:",
+    "strengthVeryWeak": "Very weak",
+    "strengthWeak": "Weak",
+    "strengthFair": "Fair",
+    "strengthGood": "Good",
+    "strengthStrong": "Strong",
     "passwordVeryWeak": "Very weak",
     "passwordWeak": "Weak",
     "passwordFair": "Fair",
@@ -274,12 +383,17 @@
     "confirmPasswordLabel": "Confirm Password",
     "confirmPasswordPlaceholder": "Confirm your password",
     "passwordsMatch": "Passwords match",
+    "passwordsDoNotMatch": "Passwords do not match",
     "passwordsNotMatch": "Passwords do not match",
+    "creatingAccount": "Creating account...",
+    "createAccount": "Create account",
     "buttonCreating": "Creating account...",
     "buttonCreate": "Create account",
     "alreadyHaveAccount": "Already have an account?",
+    "signIn": "Sign in",
     "signInLink": "Sign in",
-    "secureRegistration": "Secure Registration"
+    "secureRegistration": "Secure Registration",
+    "encrypted": "Encrypted"
   },
   "chat": {
     "startConversationTitle": "Start a conversation",
@@ -294,11 +408,125 @@
     "liveSupport": "Live Support",
     "quickReplies": "Quick replies:"
   },
+  "conversations": {
+    "errorLoading": "Failed to load conversations",
+    "empty": {
+      "title": "No conversations yet",
+      "description": "Your conversations will appear here when you start chatting with pet owners or providers."
+    },
+    "user": "User",
+    "noMessagesYet": "No messages yet"
+  },
+  "messages": {
+    "title": "Messages",
+    "subtitle": "Chat with service providers",
+    "pageTitle": "Messages",
+    "breadcrumbHome": "Home",
+    "breadcrumbDashboard": "Dashboard",
+    "breadcrumbMessages": "Messages",
+    "emptyState": {
+      "title": "Start a conversation",
+      "description": "Select a conversation from the sidebar or wait for pet owners/providers to reach out to you.",
+      "tip": "Tip: Conversations appear here when someone books your services"
+    },
+    "chat": {
+      "noConversation": {
+        "title": "Start a conversation",
+        "description": "Select a conversation from the sidebar or wait for pet owners/providers to reach out to you.",
+        "tip": "Tip: Conversations appear here when someone books your services"
+      },
+      "failedToLoad": "Failed to load conversation",
+      "chatWith": "Chat",
+      "online": "Online",
+      "offline": "Offline",
+      "emptyTitle": "Start the conversation",
+      "emptyDescription": "Send a message to get started. You can discuss service details, availability, or any questions you have.",
+      "emptyTip": "Tip: Be friendly and professional to build trust with your clients",
+      "placeholder": "Type your message...",
+      "sending": "Sending message...",
+      "send": "Send message",
+      "disconnected": "Disconnected from chat server",
+      "sendingMessage": "Sending message...",
+      "hint": "Press Enter to send, Shift+Enter for new line"
+    },
+    "aiChat": {
+      "title": "AI Assistant",
+      "subtitle": "Always here to help",
+      "welcomeMessage": "Hello! I'm your AI assistant for the pet service marketplace. I can help you with:\n\n• Finding and booking pet services\n• Understanding how the platform works\n• Answering questions about pet care\n• Troubleshooting issues\n\nWhat would you like to know?",
+      "placeholder": "Ask me anything...",
+      "send": "Send",
+      "typing": "AI is typing...",
+      "processing": "Processing your request...",
+      "hint": "Ask me anything about pet services",
+      "clearChat": "Clear Chat",
+      "chatCleared": "Chat history cleared",
+      "errorSending": "Failed to send message",
+      "errorMessage": "I'm sorry, I'm having trouble responding right now. Please try again in a moment."
+    }
+  },
   "servicesPage": {
     "loading": "Loading...",
     "loadMore": "Load More Services",
     "joinProviders": "Join hundreds of pet care providers earning extra income while helping pets!",
-    "becomeProviderCta": "Join our platform to offer your services and connect with pet owners."
+    "becomeProviderCta": "Join our platform to offer your services and connect with pet owners.",
+    "title": "Pet Services",
+    "subtitle": "Find trusted pet care providers for walking, sitting, grooming, and more",
+    "breadcrumb": "Services",
+    "manageMyServices": "Manage My Services",
+    "goToDashboard": "Go to Dashboard",
+    "filters": "Filters",
+    "activeFilters": "active",
+    "searchPlaceholder": "Search services...",
+    "allServiceTypes": "All service types",
+    "clearAll": "Clear all",
+    "activeFiltersLabel": "Active filters:",
+    "noServicesMatch": "No services match your filters",
+    "noServicesAvailable": "No services available yet",
+    "noServicesMatchDesc": "We couldn't find any services matching your current search criteria. Try adjusting your filters or search terms to discover more options.",
+    "noServicesAvailableDesc": "We're working hard to connect pet owners with trusted service providers in your area. Check back soon for new services!",
+    "tryPopularSearches": "💡 Try these popular searches:",
+    "clearAllFilters": "Clear all filters",
+    "clearSearch": "Clear search",
+    "refreshPage": "🔄 Refresh page",
+    "becomeProvider": "🏪 Become a provider",
+    "wantToOffer": "Want to offer pet services in this area?",
+    "becomeProviderFree": "Become a Provider - It's Free",
+    "areYouProvider": "Are you a pet care provider?",
+    "signUpAsProvider": "Sign Up as Provider",
+    "signIn": "Sign In",
+    "viewDetails": "View Details",
+    "seenAllServices": "You've seen all available services!",
+    "failedToLoad": "Failed to load services",
+    "tryAgain": "Try Again"
+  },
+  "myBookings": {
+    "title": "My Bookings",
+    "subtitle": "Manage your pet service bookings",
+    "breadcrumb": "My Bookings",
+    "breadcrumbHome": "Home",
+    "breadcrumbDashboard": "Dashboard",
+    "backToDashboard": "← Back to Dashboard",
+    "pendingApproval": "Pending Approval",
+    "confirmedBookings": "Confirmed Bookings",
+    "completedServices": "Completed Services",
+    "cancelledBookings": "Cancelled Bookings",
+    "noPending": "No bookings waiting for approval",
+    "noConfirmed": "No confirmed bookings",
+    "noCompleted": "No completed services yet",
+    "noCancelled": "No cancelled bookings",
+    "bookingSummary": "Booking Summary",
+    "pending": "Pending",
+    "confirmed": "Confirmed",
+    "completed": "Completed",
+    "cancelled": "Cancelled",
+    "noBookingsYet": "No bookings yet",
+    "noBookingsDesc": "Start by browsing available pet services and booking with trusted providers.",
+    "browseServices": "Browse Services",
+    "leaveReview": "Leave Review",
+    "accessDenied": "Access Denied",
+    "onlyOwners": "Only pet owners can view their bookings.",
+    "backToDashboardButton": "Back to Dashboard",
+    "failedToLoad": "Failed to load bookings"
   },
   "booking": {
     "byProvider": "by Provider",
@@ -324,6 +552,113 @@
     "editProfile": "Edit Profile",
     "settings": "Settings",
     "welcome": "Welcome,"
+  },
+  "profile": {
+    "title": "Edit Profile",
+    "subtitle": "Update your profile information",
+    "backToDashboard": "← Back to Dashboard",
+    "profileInformation": "Profile Information",
+    "firstName": "First Name",
+    "firstNamePlaceholder": "Enter your first name",
+    "lastName": "Last Name",
+    "lastNamePlaceholder": "Enter your last name",
+    "avatarUrl": "Avatar URL",
+    "avatarUrlPlaceholder": "https://example.com/avatar.jpg",
+    "avatarUrlHint": "Enter a URL for your profile picture",
+    "bio": "Bio",
+    "bioPlaceholder": "Tell potential clients about yourself and your experience...",
+    "bioCharacterCount": "/500 characters",
+    "location": "Location",
+    "locationPlaceholder": "City, State/Country",
+    "locationHint": "Where are you located?",
+    "saveChanges": "Save Changes",
+    "saving": "Saving...",
+    "failedToLoad": "Failed to load profile:",
+    "unknownError": "Unknown error occurred",
+    "backToDashboardButton": "Back to Dashboard",
+    "errors": {
+      "firstNameMin": "First name must be at least 1 character",
+      "lastNameMin": "Last name must be at least 1 character",
+      "avatarUrlInvalid": "Avatar URL must be a valid URL",
+      "bioMax": "Bio must be less than 500 characters",
+      "locationMax": "Location must be less than 100 characters"
+    }
+  },
+  "providerBookings": {
+    "title": "Incoming Bookings",
+    "subtitle": "Manage booking requests for your services",
+    "breadcrumbHome": "Home",
+    "breadcrumbDashboard": "Dashboard",
+    "breadcrumbTitle": "Incoming Bookings",
+    "backToDashboard": "← Back to Dashboard",
+    "urgentAlertTitle": "booking(s) waiting for your review",
+    "urgentAlertDesc": "Please confirm or reject these bookings to keep your clients informed.",
+    "sections": {
+      "pending": "Pending Review",
+      "confirmed": "Confirmed Bookings",
+      "completed": "Completed Services",
+      "cancelled": "Rejected/Cancelled"
+    },
+    "emptyStates": {
+      "pending": "No bookings waiting for your review",
+      "confirmed": "No confirmed bookings",
+      "completed": "No completed services",
+      "cancelled": "No rejected or cancelled bookings"
+    },
+    "summary": {
+      "title": "Booking Summary",
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "noBookings": {
+      "title": "No bookings yet",
+      "description": "When pet owners book your services, their requests will appear here for you to review and confirm.",
+      "manageServices": "Manage My Services"
+    },
+    "accessDenied": {
+      "title": "Access Denied",
+      "description": "Only service providers can view incoming bookings.",
+      "backButton": "Back to Dashboard"
+    },
+    "failedToLoad": "Failed to load bookings"
+  },
+  "bookingCard": {
+    "status": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "timeLabel": "Time",
+    "serviceLabel": "Service",
+    "providerLabel": "Provider",
+    "provider": "Provider",
+    "clientLabel": "Client",
+    "client": "Client",
+    "bookedOn": "Booked on {{date}}",
+    "payNow": "Pay Now",
+    "cancel": "Cancel",
+    "reject": "Reject",
+    "confirm": "Confirm",
+    "complete": "Complete",
+    "cancelDialog": {
+      "title": "Cancel Booking",
+      "description": "Are you sure you want to cancel this booking? This action cannot be undone."
+    },
+    "confirmDialog": {
+      "title": "Confirm Booking",
+      "description": "Are you sure you want to confirm this booking? The client will be notified."
+    },
+    "rejectDialog": {
+      "title": "Reject Booking",
+      "description": "Are you sure you want to reject this booking? The client will be notified."
+    },
+    "completeDialog": {
+      "title": "Complete Service",
+      "description": "Mark this service as completed? The client will be notified."
+    }
   },
   "status": {
     "confirmed": "CONFIRMED",

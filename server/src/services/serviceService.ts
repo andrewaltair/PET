@@ -31,7 +31,16 @@ export class ServiceService {
     try {
       const service = await prisma.service.findUnique({
         where: { id: serviceId },
-        include: {
+        select: {
+          id: true,
+          providerId: true,
+          serviceType: true,
+          title: true,
+          description: true,
+          price: true,
+          availability: true,
+          createdAt: true,
+          updatedAt: true,
           provider: {
             select: {
               id: true,
@@ -52,16 +61,10 @@ export class ServiceService {
         id: service.id,
         providerId: service.providerId,
         serviceType: this.convertServiceType(service.serviceType),
-        titleGeo: service.titleGeo || undefined,
-        titleEng: service.titleEng || undefined,
-        titleRus: service.titleRus || undefined,
-        descriptionGeo: service.descriptionGeo || undefined,
-        descriptionEng: service.descriptionEng || undefined,
-        descriptionRus: service.descriptionRus || undefined,
-        mainImageUrl: service.mainImageUrl || undefined,
-        subImages: service.subImages as string[] || [],
+        title: service.title || '',
+        description: service.description || '',
         price: this.convertDecimalToNumber(service.price),
-        availability: service.availability as Record<string, string[]>,
+        availability: service.availability ? JSON.parse(service.availability as string) as Record<string, string[]> : {},
         createdAt: service.createdAt,
         updatedAt: service.updatedAt,
         provider: {
@@ -85,6 +88,17 @@ export class ServiceService {
     try {
       const services = await prisma.service.findMany({
         where: { providerId },
+        select: {
+          id: true,
+          providerId: true,
+          serviceType: true,
+          title: true,
+          description: true,
+          price: true,
+          availability: true,
+          createdAt: true,
+          updatedAt: true,
+        },
         orderBy: { createdAt: 'desc' },
       });
 
@@ -92,16 +106,10 @@ export class ServiceService {
         id: service.id,
         providerId: service.providerId,
         serviceType: this.convertServiceType(service.serviceType),
-        titleGeo: service.titleGeo || undefined,
-        titleEng: service.titleEng || undefined,
-        titleRus: service.titleRus || undefined,
-        descriptionGeo: service.descriptionGeo || undefined,
-        descriptionEng: service.descriptionEng || undefined,
-        descriptionRus: service.descriptionRus || undefined,
-        mainImageUrl: service.mainImageUrl || undefined,
-        subImages: service.subImages as string[] || [],
+        title: service.title || '',
+        description: service.description || '',
         price: this.convertDecimalToNumber(service.price),
-        availability: service.availability as Record<string, string[]>,
+        availability: service.availability ? JSON.parse(service.availability as string) as Record<string, string[]> : {},
         createdAt: service.createdAt,
         updatedAt: service.updatedAt,
       }));
@@ -139,12 +147,8 @@ export class ServiceService {
 
       if (search) {
         where.OR = [
-          { titleGeo: { contains: search, mode: 'insensitive' } },
-          { titleEng: { contains: search, mode: 'insensitive' } },
-          { titleRus: { contains: search, mode: 'insensitive' } },
-          { descriptionGeo: { contains: search, mode: 'insensitive' } },
-          { descriptionEng: { contains: search, mode: 'insensitive' } },
-          { descriptionRus: { contains: search, mode: 'insensitive' } },
+          { title: { contains: search } },
+          { description: { contains: search } },
         ];
       }
 
@@ -155,7 +159,7 @@ export class ServiceService {
       if (location) {
         where.provider = {
           profile: {
-            location: { contains: location, mode: 'insensitive' }
+            location: { contains: location }
           }
         };
       }
@@ -168,7 +172,16 @@ export class ServiceService {
       const [services, total] = await Promise.all([
         prisma.service.findMany({
           where,
-          include: {
+          select: {
+            id: true,
+            providerId: true,
+            serviceType: true,
+            title: true,
+            description: true,
+            price: true,
+            availability: true,
+            createdAt: true,
+            updatedAt: true,
             provider: {
               select: {
                 id: true,
@@ -176,6 +189,13 @@ export class ServiceService {
                 role: true,
                 createdAt: true,
                 updatedAt: true,
+                profile: {
+                  select: {
+                    firstName: true,
+                    lastName: true,
+                    location: true,
+                  },
+                },
               },
             },
           },
@@ -188,30 +208,29 @@ export class ServiceService {
 
       const totalPages = Math.ceil(total / limit);
 
-      const servicesWithProvider: ServiceWithProvider[] = services.map(service => ({
-        id: service.id,
-        providerId: service.providerId,
-        serviceType: this.convertServiceType(service.serviceType),
-        titleGeo: service.titleGeo || undefined,
-        titleEng: service.titleEng || undefined,
-        titleRus: service.titleRus || undefined,
-        descriptionGeo: service.descriptionGeo || undefined,
-        descriptionEng: service.descriptionEng || undefined,
-        descriptionRus: service.descriptionRus || undefined,
-        mainImageUrl: service.mainImageUrl || undefined,
-        subImages: service.subImages as string[] || [],
-        price: this.convertDecimalToNumber(service.price),
-        availability: service.availability as Record<string, string[]>,
-        createdAt: service.createdAt,
-        updatedAt: service.updatedAt,
-        provider: {
-          id: service.provider.id,
-          email: service.provider.email,
-          role: this.convertUserRole(service.provider.role),
-          createdAt: service.provider.createdAt,
-          updatedAt: service.provider.updatedAt,
-        },
-      }));
+      const servicesWithProvider: ServiceWithProvider[] = services.map(service => {
+        return {
+          id: service.id,
+          providerId: service.providerId,
+          serviceType: this.convertServiceType(service.serviceType),
+          title: service.title || '',
+          description: service.description || '',
+          price: this.convertDecimalToNumber(service.price),
+          availability: service.availability ? JSON.parse(service.availability as string) as Record<string, string[]> : {},
+          createdAt: service.createdAt,
+          updatedAt: service.updatedAt,
+          provider: {
+            id: service.provider.id,
+            email: service.provider.email,
+            role: this.convertUserRole(service.provider.role),
+            createdAt: service.provider.createdAt,
+            updatedAt: service.provider.updatedAt,
+            firstName: service.provider.profile?.firstName || undefined,
+            lastName: service.provider.profile?.lastName || undefined,
+            location: service.provider.profile?.location || undefined,
+          } as any, // Type assertion because we're extending User with additional fields
+        };
+      });
 
       const result = {
         data: servicesWithProvider,
@@ -245,16 +264,10 @@ export class ServiceService {
         data: {
           providerId,
           serviceType: serviceData.serviceType,
-          titleGeo: serviceData.titleGeo,
-          titleEng: serviceData.titleEng,
-          titleRus: serviceData.titleRus,
-          descriptionGeo: serviceData.descriptionGeo,
-          descriptionEng: serviceData.descriptionEng,
-          descriptionRus: serviceData.descriptionRus,
-          mainImageUrl: serviceData.mainImageUrl,
-          subImages: serviceData.subImages || [],
+          title: serviceData.title,
+          description: serviceData.description,
           price: serviceData.price,
-          availability: serviceData.availability,
+          availability: JSON.stringify(serviceData.availability),
         },
       });
 
@@ -262,16 +275,10 @@ export class ServiceService {
         id: service.id,
         providerId: service.providerId,
         serviceType: this.convertServiceType(service.serviceType),
-        titleGeo: service.titleGeo || undefined,
-        titleEng: service.titleEng || undefined,
-        titleRus: service.titleRus || undefined,
-        descriptionGeo: service.descriptionGeo || undefined,
-        descriptionEng: service.descriptionEng || undefined,
-        descriptionRus: service.descriptionRus || undefined,
-        mainImageUrl: service.mainImageUrl || undefined,
-        subImages: service.subImages as string[] || [],
+        title: service.title || '',
+        description: service.description || '',
         price: this.convertDecimalToNumber(service.price),
-        availability: service.availability as Record<string, string[]>,
+        availability: service.availability ? JSON.parse(service.availability as string) as Record<string, string[]> : {},
         createdAt: service.createdAt,
         updatedAt: service.updatedAt,
       };
@@ -302,32 +309,12 @@ export class ServiceService {
         updateData.serviceType = serviceData.serviceType;
       }
 
-      // Multilingual fields
-      if (serviceData.titleGeo !== undefined) {
-        updateData.titleGeo = serviceData.titleGeo;
+      // Basic fields
+      if (serviceData.title !== undefined) {
+        updateData.title = serviceData.title;
       }
-      if (serviceData.titleEng !== undefined) {
-        updateData.titleEng = serviceData.titleEng;
-      }
-      if (serviceData.titleRus !== undefined) {
-        updateData.titleRus = serviceData.titleRus;
-      }
-      if (serviceData.descriptionGeo !== undefined) {
-        updateData.descriptionGeo = serviceData.descriptionGeo;
-      }
-      if (serviceData.descriptionEng !== undefined) {
-        updateData.descriptionEng = serviceData.descriptionEng;
-      }
-      if (serviceData.descriptionRus !== undefined) {
-        updateData.descriptionRus = serviceData.descriptionRus;
-      }
-
-      // Images
-      if (serviceData.mainImageUrl !== undefined) {
-        updateData.mainImageUrl = serviceData.mainImageUrl;
-      }
-      if (serviceData.subImages !== undefined) {
-        updateData.subImages = serviceData.subImages;
+      if (serviceData.description !== undefined) {
+        updateData.description = serviceData.description;
       }
 
       if (serviceData.price !== undefined) {
@@ -335,7 +322,7 @@ export class ServiceService {
       }
 
       if (serviceData.availability !== undefined) {
-        updateData.availability = serviceData.availability;
+        updateData.availability = JSON.stringify(serviceData.availability);
       }
 
       if (Object.keys(updateData).length === 0) {
@@ -356,16 +343,10 @@ export class ServiceService {
         id: service.id,
         providerId: service.providerId,
         serviceType: this.convertServiceType(service.serviceType),
-        titleGeo: service.titleGeo || undefined,
-        titleEng: service.titleEng || undefined,
-        titleRus: service.titleRus || undefined,
-        descriptionGeo: service.descriptionGeo || undefined,
-        descriptionEng: service.descriptionEng || undefined,
-        descriptionRus: service.descriptionRus || undefined,
-        mainImageUrl: service.mainImageUrl || undefined,
-        subImages: service.subImages as string[] || [],
+        title: service.title || '',
+        description: service.description || '',
         price: this.convertDecimalToNumber(service.price),
-        availability: service.availability as Record<string, string[]>,
+        availability: service.availability ? JSON.parse(service.availability as string) as Record<string, string[]> : {},
         createdAt: service.createdAt,
         updatedAt: service.updatedAt,
       };

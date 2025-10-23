@@ -2,8 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { ConversationList } from '@/components/ConversationList';
 import { ChatWindow } from '@/components/ChatWindow';
+import { AIChatbot } from '@/components/AIChatbot';
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/components/ui/resizable';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
@@ -13,6 +15,7 @@ export default function MessagesPage() {
   const { user, isAuthenticated } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const t = useTranslations('messages');
   const [selectedConversationId, setSelectedConversationId] = useState<string | null>(null);
 
   // Get conversation ID from URL params
@@ -47,38 +50,38 @@ export default function MessagesPage() {
   }
 
   return (
-    <div className="h-[calc(100vh-4rem)] bg-gray-50">
-      <div className="h-full p-4">
+    <div className="min-h-[calc(100vh-12rem)] bg-gray-50">
+      <div className="container mx-auto px-4 py-6">
         {/* Breadcrumbs */}
         <div className="mb-4">
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink href="/">Home</BreadcrumbLink>
+                <BreadcrumbLink href="/">{t('breadcrumbHome')}</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+                <BreadcrumbLink href="/dashboard">{t('breadcrumbDashboard')}</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage>Messages</BreadcrumbPage>
+                <BreadcrumbPage>{t('breadcrumbMessages')}</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
         </div>
 
-        <div className="h-full bg-white rounded-lg shadow-sm border">
+        <div className="h-[calc(100vh-18rem)] bg-white rounded-lg shadow-sm border">
           <ResizablePanelGroup direction="horizontal" className="h-full">
             {/* Conversations List Panel */}
             <ResizablePanel defaultSize={30} minSize={25} maxSize={40}>
               <div className="h-full border-r">
                 <div className="p-4 border-b bg-gray-50">
                   <h1 className="text-lg font-semibold text-gray-900">
-                    Messages
+                    {t('title')}
                   </h1>
                   <p className="text-sm text-gray-600">
-                    Chat with service providers
+                    {t('subtitle')}
                   </p>
                 </div>
                 <ConversationList
@@ -93,10 +96,14 @@ export default function MessagesPage() {
 
             {/* Chat Window Panel */}
             <ResizablePanel defaultSize={70}>
-              <ChatWindow
-                conversationId={selectedConversationId}
-                className="h-full"
-              />
+              {selectedConversationId === 'ai-chatbot' ? (
+                <AIChatbot className="h-full" />
+              ) : (
+                <ChatWindow
+                  conversationId={selectedConversationId}
+                  className="h-full"
+                />
+              )}
             </ResizablePanel>
           </ResizablePanelGroup>
         </div>

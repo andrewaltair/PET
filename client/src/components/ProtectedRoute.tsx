@@ -24,7 +24,7 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
     }
   }, [isAuthenticated, isLoading]);
 
-  // Show loading while initializing
+  // Show loading while initializing - use consistent wrapper
   if (isLoading) {
     console.log('[ProtectedRoute DEBUG] Still loading, showing loading spinner');
     return (
@@ -37,12 +37,19 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
     );
   }
 
-  // Don't render if not authenticated
+  // Show loading placeholder if not authenticated (prevents hydration mismatch)
   if (!isAuthenticated) {
-    console.log('[ProtectedRoute DEBUG] Not authenticated, returning null');
-    return null;
+    console.log('[ProtectedRoute DEBUG] Not authenticated, showing placeholder');
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
   }
 
   console.log('[ProtectedRoute DEBUG] Rendering protected content');
-  return <>{children}</>;
+  return <div className="py-8">{children}</div>;
 }

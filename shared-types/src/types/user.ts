@@ -66,7 +66,7 @@ export interface Service {
   title: string;
   description: string;
   price: number;
-  availability: Record<string, string[]>; // JSONB field: {"monday": ["09:00-18:00"], "tuesday": ["10:00-17:00"]}
+  availability: Record<string, string[]>;
   createdAt: Date;
   updatedAt: Date;
   provider?: User; // Populated when needed
@@ -77,6 +77,7 @@ export interface ServiceWithProvider extends Service {
 }
 
 export interface CreateServiceRequest {
+  providerId: string;
   serviceType: ServiceType;
   title: string;
   description: string;

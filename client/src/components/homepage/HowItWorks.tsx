@@ -59,14 +59,14 @@ export function HowItWorks() {
           </p>
         </div>
 
-        {/* Steps */}
-        <div className="flex flex-col md:flex-row items-stretch gap-6 md:gap-8 mb-10 md:mb-12">
+        {/* Steps - Responsive Grid Layout */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 mb-10 md:mb-12">
           {steps.map((step, index) => {
             const Icon = step.icon;
             return (
-              <React.Fragment key={step.number}>
+              <div key={step.number} className="relative">
                 {/* Step Card */}
-                <div className="relative bg-white rounded-xl md:rounded-2xl shadow-lg p-5 md:p-6 hover:shadow-xl transition-all border border-gray-100 w-full md:flex-1 overflow-visible">
+                <div className="relative bg-white rounded-xl shadow-lg p-5 md:p-6 hover:shadow-xl transition-all border border-gray-100 overflow-visible h-full">
                   {/* Number Badge - positioned at top-left corner */}
                   <div className={`absolute -top-3 md:-top-4 -left-3 md:-left-4 w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-r ${step.color} text-white text-lg md:text-xl font-bold flex items-center justify-center shadow-lg z-10`}>
                     {step.number}
@@ -87,15 +87,15 @@ export function HowItWorks() {
                   <p className="text-sm md:text-base text-gray-600 leading-relaxed">{step.description}</p>
                 </div>
 
-                {/* Connector Arrow (hidden on last item and mobile) */}
-                {index < steps.length - 1 && (
-                  <div className="hidden md:flex items-center justify-center flex-shrink-0">
-                    <svg className="w-6 h-6 md:w-8 md:h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {/* Connector Arrow (show only on lg+ screens between 2nd and 3rd cards) */}
+                {index === 1 && (
+                  <div className="hidden lg:block absolute left-full top-1/2 -translate-y-1/2 translate-x-[-50%] w-8 h-8 flex items-center justify-center z-20">
+                    <svg className="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </div>
                 )}
-              </React.Fragment>
+              </div>
             );
           })}
         </div>

@@ -66,6 +66,7 @@ export interface ServiceWithProvider extends Service {
     provider: User;
 }
 export interface CreateServiceRequest {
+    providerId: string;
     serviceType: ServiceType;
     title: string;
     description: string;

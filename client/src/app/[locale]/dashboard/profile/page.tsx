@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useAuth } from '@/contexts/AuthContext';
 import { useProfile, useUpdateProfile } from '@/hooks/useProfile';
 import { UpdateProfileRequest, UserRole } from 'petservice-marketplace-shared-types';
@@ -17,6 +18,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 import { Save } from 'lucide-react';
 
 function ProfileForm() {
+  const t = useTranslations();
   const { user } = useAuth();
   const router = useRouter();
   const { data: profile, isPending: profileLoading, error: profileError } = useProfile();
@@ -57,24 +59,24 @@ function ProfileForm() {
     const newErrors: Record<string, string> = {};
 
     if (formData.firstName && formData.firstName.length < 1) {
-      newErrors.firstName = 'First name must be at least 1 character';
+      newErrors.firstName = t('profile.errors.firstNameMin');
     }
 
     if (formData.lastName && formData.lastName.length < 1) {
-      newErrors.lastName = 'Last name must be at least 1 character';
+      newErrors.lastName = t('profile.errors.lastNameMin');
     }
 
     if (formData.avatarUrl && !formData.avatarUrl.match(/^https?:\/\/.+/)) {
-      newErrors.avatarUrl = 'Avatar URL must be a valid URL';
+      newErrors.avatarUrl = t('profile.errors.avatarUrlInvalid');
     }
 
     if (user?.role === UserRole.PROVIDER) {
       if (formData.bio && formData.bio.length > 500) {
-        newErrors.bio = 'Bio must be less than 500 characters';
+        newErrors.bio = t('profile.errors.bioMax');
       }
 
       if (formData.location && formData.location.length > 100) {
-        newErrors.location = 'Location must be less than 100 characters';
+        newErrors.location = t('profile.errors.locationMax');
       }
     }
 
@@ -115,7 +117,7 @@ function ProfileForm() {
         <div className="text-center">
           <Alert variant="destructive" className="max-w-md">
             <AlertDescription>
-              Failed to load profile: {profileError instanceof Error ? profileError.message : 'Unknown error occurred'}
+              {t('profile.failedToLoad')} {profileError instanceof Error ? profileError.message : t('profile.unknownError')}
             </AlertDescription>
           </Alert>
           <Button
@@ -123,7 +125,7 @@ function ProfileForm() {
             onClick={() => router.push('/dashboard')}
             className="mt-4"
           >
-            Back to Dashboard
+            {t('profile.backToDashboardButton')}
           </Button>
         </div>
       </div>
@@ -138,15 +140,15 @@ function ProfileForm() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink href="/">Home</BreadcrumbLink>
+                <BreadcrumbLink href="/">{t('dashboard.breadcrumbs.home')}</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+                <BreadcrumbLink href="/dashboard">{t('dashboard.breadcrumbs.dashboard')}</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage>Profile</BreadcrumbPage>
+                <BreadcrumbPage>{t('dashboard.nav.profile')}</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -159,31 +161,31 @@ function ProfileForm() {
             onClick={handleCancel}
             className="mb-4 p-0 h-auto font-normal"
           >
-            ← Back to Dashboard
+            {t('profile.backToDashboard')}
           </Button>
-          <h1 className="text-3xl font-bold text-foreground">Edit Profile</h1>
+          <h1 className="text-3xl font-bold text-foreground">{t('profile.title')}</h1>
           <p className="text-muted-foreground mt-2">
-            Update your profile information
+            {t('profile.subtitle')}
           </p>
         </div>
 
         {/* Form */}
         <Card>
           <CardHeader>
-            <CardTitle>Profile Information</CardTitle>
+            <CardTitle>{t('profile.profileInformation')}</CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Basic Information */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="firstName">First Name</Label>
+                  <Label htmlFor="firstName">{t('profile.firstName')}</Label>
                   <Input
                     type="text"
                     id="firstName"
                     value={formData.firstName}
                     onChange={(e) => handleInputChange('firstName', e.target.value)}
-                    placeholder="Enter your first name"
+                    placeholder={t('profile.firstNamePlaceholder')}
                   />
                   {errors.firstName && (
                     <p className="text-destructive text-sm">{errors.firstName}</p>
@@ -191,13 +193,13 @@ function ProfileForm() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="lastName">Last Name</Label>
+                  <Label htmlFor="lastName">{t('profile.lastName')}</Label>
                   <Input
                     type="text"
                     id="lastName"
                     value={formData.lastName}
                     onChange={(e) => handleInputChange('lastName', e.target.value)}
-                    placeholder="Enter your last name"
+                    placeholder={t('profile.lastNamePlaceholder')}
                   />
                   {errors.lastName && (
                     <p className="text-destructive text-sm">{errors.lastName}</p>
@@ -207,19 +209,19 @@ function ProfileForm() {
 
               {/* Avatar URL */}
               <div className="space-y-2">
-                <Label htmlFor="avatarUrl">Avatar URL</Label>
+                <Label htmlFor="avatarUrl">{t('profile.avatarUrl')}</Label>
                 <Input
                   type="url"
                   id="avatarUrl"
                   value={formData.avatarUrl}
                   onChange={(e) => handleInputChange('avatarUrl', e.target.value)}
-                  placeholder="https://example.com/avatar.jpg"
+                  placeholder={t('profile.avatarUrlPlaceholder')}
                 />
                 {errors.avatarUrl && (
                   <p className="text-destructive text-sm">{errors.avatarUrl}</p>
                 )}
                 <p className="text-muted-foreground text-sm">
-                  Enter a URL for your profile picture
+                  {t('profile.avatarUrlHint')}
                 </p>
               </div>
 
@@ -228,37 +230,37 @@ function ProfileForm() {
                 <>
                   {/* Bio */}
                   <div className="space-y-2">
-                    <Label htmlFor="bio">Bio</Label>
+                    <Label htmlFor="bio">{t('profile.bio')}</Label>
                     <Textarea
                       id="bio"
                       value={formData.bio}
                       onChange={(e) => handleInputChange('bio', e.target.value)}
-                      placeholder="Tell potential clients about yourself and your experience..."
+                      placeholder={t('profile.bioPlaceholder')}
                       rows={4}
                     />
                     {errors.bio && (
                       <p className="text-destructive text-sm">{errors.bio}</p>
                     )}
                     <p className="text-muted-foreground text-sm">
-                      {formData.bio?.length || 0}/500 characters
+                      {formData.bio?.length || 0}{t('profile.bioCharacterCount')}
                     </p>
                   </div>
 
                   {/* Location */}
                   <div className="space-y-2">
-                    <Label htmlFor="location">Location</Label>
+                    <Label htmlFor="location">{t('profile.location')}</Label>
                     <Input
                       type="text"
                       id="location"
                       value={formData.location}
                       onChange={(e) => handleInputChange('location', e.target.value)}
-                      placeholder="City, State/Country"
+                      placeholder={t('profile.locationPlaceholder')}
                     />
                     {errors.location && (
                       <p className="text-destructive text-sm">{errors.location}</p>
                     )}
                     <p className="text-muted-foreground text-sm">
-                      Where are you located?
+                      {t('profile.locationHint')}
                     </p>
                   </div>
                 </>
@@ -272,7 +274,7 @@ function ProfileForm() {
                   onClick={handleCancel}
                   disabled={updateMutation.isPending}
                 >
-                  Cancel
+                  {t('common.cancel')}
                 </Button>
                 <Button
                   type="submit"
@@ -280,7 +282,7 @@ function ProfileForm() {
                   disabled={updateMutation.isPending}
                 >
                   <Save className="mr-2 h-4 w-4" />
-                  {updateMutation.isPending ? 'Saving...' : 'Save Changes'}
+                  {updateMutation.isPending ? t('profile.saving') : t('profile.saveChanges')}
                 </Button>
               </div>
             </form>

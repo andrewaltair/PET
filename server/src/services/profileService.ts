@@ -177,7 +177,16 @@ export class ProfileService {
       // Get all services for this provider
       const services = await prisma.service.findMany({
         where: { providerId: userId },
-        include: {
+        select: {
+          id: true,
+          providerId: true,
+          serviceType: true,
+          title: true,
+          description: true,
+          price: true,
+          availability: true,
+          createdAt: true,
+          updatedAt: true,
           provider: {
             select: {
               id: true,

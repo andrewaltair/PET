@@ -8,7 +8,7 @@ import { conversationsAPI } from '../services/api';
 import { Card, CardContent } from './ui/card';
 import { Badge } from './ui/badge';
 import { format } from 'date-fns';
-import { MessageCircle, User } from 'lucide-react';
+import { MessageCircle, User, Bot, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface ConversationListProps {
@@ -23,6 +23,7 @@ export function ConversationList({
   className
 }: ConversationListProps) {
   const t = useTranslations('conversations');
+  const aiT = useTranslations('messages.aiChat');
   const {
     data: conversationsResponse,
     isLoading,
@@ -71,35 +72,68 @@ export function ConversationList({
     );
   }
 
-  if (error) {
-    return (
-      <div className={cn('p-4', className)}>
-        <div className="text-center text-red-500">
-          {t('errorLoading')}
-        </div>
-      </div>
-    );
-  }
-
   const conversations = conversationsResponse?.conversations || [];
-
-  if (conversations.length === 0) {
-    return (
-      <div className={cn('p-4 text-center', className)}>
-        <MessageCircle className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-        <h3 className="text-sm font-medium text-gray-900 mb-2">
-          {t('empty.title')}
-        </h3>
-        <p className="text-sm text-gray-500">
-          {t('empty.description')}
-        </p>
-      </div>
-    );
-  }
+  const aiChatId = 'ai-chatbot';
 
   return (
     <div className={cn('divide-y divide-gray-200', className)}>
-      {conversations.map((conversation) => {
+      {/* AI Chatbot Option - Always at the top */}
+      <div
+        className={cn(
+          'p-4 cursor-pointer hover:bg-purple-50 transition-colors border-b-2 border-purple-100',
+          selectedConversationId === aiChatId && 'bg-purple-50 border-r-2 border-purple-500'
+        )}
+        onClick={() => onConversationSelect(aiChatId)}
+      >
+        <div className="flex items-start space-x-3">
+          <div className="flex-shrink-0">
+            <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center shadow-md">
+              <Bot className="w-5 h-5 text-white" />
+            </div>
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-medium text-gray-900 flex items-center gap-2">
+                {aiT('title')}
+                <Sparkles className="w-3 h-3 text-purple-500" />
+              </p>
+            </div>
+            <div className="flex items-center justify-between mt-1">
+              <p className="text-sm text-gray-600 truncate">
+                {aiT('subtitle')}
+              </p>
+              <Badge variant="secondary" className="ml-2 text-xs bg-purple-100 text-purple-700">
+                AI
+              </Badge>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Error State */}
+      {error && (
+        <div className="p-4 border-b">
+          <div className="text-center text-red-500 text-sm">
+            {t('errorLoading')}
+          </div>
+        </div>
+      )}
+
+      {/* Empty State */}
+      {!error && conversations.length === 0 && (
+        <div className="p-4 text-center border-b">
+          <MessageCircle className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+          <h3 className="text-sm font-medium text-gray-900 mb-2">
+            {t('empty.title')}
+          </h3>
+          <p className="text-sm text-gray-500">
+            {t('empty.description')}
+          </p>
+        </div>
+      )}
+
+      {/* Regular Conversations */}
+      {!error && conversations.map((conversation) => {
         const otherParticipant = getOtherParticipant(conversation);
         const isSelected = selectedConversationId === conversation.id;
 

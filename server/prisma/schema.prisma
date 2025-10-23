@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,7 +7,139 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Enums
+model User {
+  id              String    @id @default(cuid()) @db.VarChar(36)
+  email           String    @unique
+  password        String    @map("password_hash")
+  role            UserRole
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+  bookings        Booking[]
+  sentMessages    Message[] @relation("MessageSender")
+  profile         Profile?
+  ownedReviews    Review[]  @relation("reviewOwner")
+  providerReviews Review[]  @relation("reviewProvider")
+  services        Service[]
+
+  @@map("users")
+}
+
+model Profile {
+  id                       String   @id @default(cuid()) @db.VarChar(36)
+  userId                   String   @unique @map("user_id") @db.VarChar(36)
+  firstName                String?  @map("first_name")
+  lastName                 String?  @map("last_name")
+  avatarUrl                String?  @map("avatar_url")
+  bio                      String?
+  location                 String?  @map("location")
+  overallAverageRating     Float    @default(0) @map("overall_average_rating")
+  stripeAccountId          String?  @unique @map("stripe_account_id")
+  stripeOnboardingComplete Boolean  @default(false) @map("stripe_onboarding_complete")
+  createdAt                DateTime @default(now()) @map("created_at")
+  updatedAt                DateTime @updatedAt @map("updated_at")
+  user                     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("profiles")
+}
+
+model Service {
+  id            String      @id @default(cuid()) @db.VarChar(36)
+  providerId    String      @map("provider_id") @db.VarChar(36)
+  serviceType   ServiceType @map("service_type")
+  title         String
+  description   String
+  price         Decimal     @db.Decimal(10, 2)
+  availability  String      @db.LongText
+  averageRating Float       @default(0) @map("average_rating")
+  rankingScore  Float       @default(0) @map("ranking_score")
+  createdAt     DateTime    @default(now()) @map("created_at")
+  updatedAt     DateTime    @updatedAt @map("updated_at")
+  bookings      Booking[]
+  reviews       Review[]
+  provider      User        @relation(fields: [providerId], references: [id], onDelete: Cascade)
+
+  @@index([providerId], map: "services_provider_id_fkey")
+  @@index([serviceType])
+  @@index([createdAt])
+  @@index([averageRating])
+  @@index([rankingScore])
+  @@map("services")
+}
+
+model Booking {
+  id              String        @id @default(cuid()) @db.VarChar(36)
+  ownerId         String        @map("owner_id") @db.VarChar(36)
+  serviceId       String        @map("service_id") @db.VarChar(36)
+  bookingTime     DateTime      @map("booking_time")
+  status          BookingStatus @default(PENDING)
+  paymentIntentId String?       @unique @map("payment_intent_id")
+  paymentStatus   PaymentStatus @default(PENDING)
+  notes           String?
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+  owner           User          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  service         Service       @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  review          Review?
+
+  @@index([ownerId], map: "bookings_owner_id_fkey")
+  @@index([serviceId], map: "bookings_service_id_fkey")
+  @@map("bookings")
+}
+
+model Review {
+  id         String   @id @default(cuid()) @db.VarChar(36)
+  bookingId  String   @unique @map("booking_id") @db.VarChar(36)
+  serviceId  String   @map("service_id") @db.VarChar(36)
+  ownerId    String   @map("owner_id") @db.VarChar(36)
+  providerId String   @map("provider_id") @db.VarChar(36)
+  rating     Int
+  comment    String?
+  createdAt  DateTime @default(now()) @map("created_at")
+  booking    Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  owner      User     @relation("reviewOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  provider   User     @relation("reviewProvider", fields: [providerId], references: [id], onDelete: Cascade)
+  service    Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@index([ownerId], map: "reviews_owner_id_fkey")
+  @@index([providerId], map: "reviews_provider_id_fkey")
+  @@index([serviceId], map: "reviews_service_id_fkey")
+  @@map("reviews")
+}
+
+model Conversation {
+  id                       String                     @id @default(cuid()) @db.VarChar(36)
+  createdAt                DateTime                   @default(now()) @map("created_at")
+  updatedAt                DateTime                   @updatedAt @map("updated_at")
+  ConversationParticipants ConversationParticipants[]
+  messages                 Message[]
+
+  @@map("conversations")
+}
+
+model Message {
+  id             String       @id @default(cuid()) @db.VarChar(36)
+  conversationId String       @map("conversation_id") @db.VarChar(36)
+  senderId       String       @map("sender_id") @db.VarChar(36)
+  content        String
+  createdAt      DateTime     @default(now()) @map("created_at")
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender         User         @relation("MessageSender", fields: [senderId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId], map: "messages_conversation_id_fkey")
+  @@index([senderId], map: "messages_sender_id_fkey")
+  @@map("messages")
+}
+
+model ConversationParticipants {
+  A             String       @db.VarChar(36)
+  B             String
+  conversations Conversation @relation(fields: [A], references: [id], onDelete: Cascade)
+
+  @@unique([A, B], map: "_ConversationParticipants_AB_unique")
+  @@index([B], map: "_ConversationParticipants_B_index")
+  @@map("_ConversationParticipants")
+}
+
 enum UserRole {
   OWNER
   PROVIDER
@@ -36,168 +165,4 @@ enum PaymentStatus {
   PENDING
   PAID
   FAILED
-}
-
-// Models
-model User {
-  id          String   @id @default(cuid())
-  email       String   @unique
-  password    String   @map("password_hash")
-  role        UserRole
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
-
-  // Relations
-  profile        Profile?
-  services       Service[]
-  bookings       Booking[]
-  ownedReviews   Review[] @relation("reviewOwner")
-  providerReviews Review[] @relation("reviewProvider")
-  conversations  Conversation[] @relation("ConversationParticipants")
-  sentMessages   Message[] @relation("MessageSender")
-
-  @@index([role])
-  @@index([createdAt])
-  @@map("users")
-}
-
-model Profile {
-  id                       String  @id @default(cuid()) @db.VarChar(36)
-  userId                   String  @unique @map("user_id") @db.VarChar(36)
-  firstName                String? @map("first_name")
-  lastName                 String? @map("last_name")
-  avatarUrl                String? @map("avatar_url")
-  bio                      String? // Only for PROVIDER
-  location                 String? @map("location") // Only for PROVIDER
-  overallAverageRating     Float   @default(0) @map("overall_average_rating")
-  rankingScore             Float   @default(0) @map("ranking_score")
-  stripeAccountId          String? @unique @map("stripe_account_id")
-  stripeOnboardingComplete Boolean @default(false) @map("stripe_onboarding_complete")
-  createdAt                DateTime @default(now()) @map("created_at")
-  updatedAt                DateTime @updatedAt @map("updated_at")
-
-  // Relations
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([rankingScore])
-  @@map("profiles")
-}
-
-model Service {
-  id            String  @id @default(cuid()) @db.VarChar(36)
-  providerId    String  @map("provider_id") @db.VarChar(36)
-  serviceType   ServiceType @map("service_type")
-  // Legacy fields (for backward compatibility)
-  title         String? @db.VarChar(200)
-  description   String? @db.Text
-  // Multilingual fields
-  titleGeo      String? @map("title_geo")
-  titleEng      String? @map("title_eng")
-  titleRus      String? @map("title_rus")
-  descriptionGeo String? @map("description_geo") @db.Text
-  descriptionEng String? @map("description_eng") @db.Text
-  descriptionRus String? @map("description_rus") @db.Text
-  // Images
-  mainImageUrl  String? @map("main_image_url")
-  subImages     Json    @default("[]") @map("sub_images")
-  price         Decimal @db.Decimal(10, 2)
-  availability  Json    @default("{}")
-  averageRating Float   @default(0) @map("average_rating")
-  rankingScore  Float   @default(0) @map("ranking_score")
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt @map("updated_at")
-
-  // Relations
-  provider  User      @relation(fields: [providerId], references: [id], onDelete: Cascade)
-  bookings  Booking[]
-  reviews   Review[]
-
-  // Indexes for performance
-  @@index([providerId])
-  @@index([serviceType])
-  @@index([createdAt])
-  @@index([averageRating])
-  @@index([rankingScore])
-  @@map("services")
-}
-
-model Booking {
-  id             String   @id @default(cuid()) @db.VarChar(36)
-  ownerId        String   @map("owner_id") @db.VarChar(36)
-  serviceId      String   @map("service_id") @db.VarChar(36)
-  bookingTime    DateTime @map("booking_time")
-  status         BookingStatus @default(PENDING)
-  paymentIntentId String? @unique @map("payment_intent_id")
-  paymentStatus  PaymentStatus @default(PENDING)
-  notes          String?
-  createdAt      DateTime @default(now()) @map("created_at")
-  updatedAt      DateTime @updatedAt @map("updated_at")
-
-  // Relations
-  owner    User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  service  Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
-  review   Review?
-
-  // Indexes for performance
-  @@index([ownerId])
-  @@index([serviceId])
-  @@index([status])
-  @@index([bookingTime])
-  @@index([createdAt])
-  @@index([paymentStatus])
-  @@map("bookings")
-}
-
-model Review {
-  id        String   @id @default(cuid()) @db.VarChar(36)
-  bookingId String   @unique @map("booking_id") @db.VarChar(36)
-  serviceId String   @map("service_id") @db.VarChar(36)
-  ownerId   String   @map("owner_id") @db.VarChar(36)
-  providerId String  @map("provider_id") @db.VarChar(36)
-  rating    Int
-  comment   String?
-  createdAt DateTime @default(now()) @map("created_at")
-
-  // Relations
-  booking  Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
-  service  Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
-  owner    User    @relation("reviewOwner", fields: [ownerId], references: [id], onDelete: Cascade)
-  provider User    @relation("reviewProvider", fields: [providerId], references: [id], onDelete: Cascade)
-
-  // Indexes for performance
-  @@index([serviceId])
-  @@index([ownerId])
-  @@index([providerId])
-  @@index([rating])
-  @@index([createdAt])
-  @@map("reviews")
-}
-
-// Chat System Models
-model Conversation {
-  id          String   @id @default(cuid()) @db.VarChar(36)
-  participants User[]  @relation("ConversationParticipants")
-  messages    Message[]
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
-
-  @@map("conversations")
-}
-
-model Message {
-  id             String      @id @default(cuid()) @db.VarChar(36)
-  conversationId String      @map("conversation_id") @db.VarChar(36)
-  senderId       String      @map("sender_id") @db.VarChar(36)
-  content        String
-  createdAt      DateTime    @default(now()) @map("created_at")
-
-  // Relations
-  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-  sender         User         @relation("MessageSender", fields: [senderId], references: [id], onDelete: Cascade)
-
-  // Indexes for performance
-  @@index([conversationId])
-  @@index([senderId])
-  @@index([createdAt])
-  @@map("messages")
 }

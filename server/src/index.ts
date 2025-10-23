@@ -33,6 +33,7 @@ import { bookingRouter } from './routes/bookings';
 import { reviewRouter } from './routes/reviews';
 import { conversationRouter } from './routes/conversations';
 import { stripeRouter } from './routes/stripe';
+import { aiRouter } from './routes/ai';
 import { SocketServer } from './config/socketServer';
 import { appConfig } from './config/app';
 import { testConnection, closeConnection } from './config/database';
@@ -71,10 +72,10 @@ const limiter = rateLimit({
   legacyHeaders: false,
 });
 
-// Stricter rate limiting for auth endpoints
+// Rate limiting for auth endpoints
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 20, // Lower limit for auth
+  max: appConfig.authRateLimitMax, // Configurable limit for auth
   message: {
     success: false,
     error: 'Too many authentication attempts, please try again later.',
@@ -216,6 +217,7 @@ app.use('/api/v1/bookings', bookingRouter);
 app.use('/api/v1/reviews', reviewRouter);
 app.use('/api/v1/conversations', conversationRouter);
 app.use('/api/v1/stripe', stripeRouter);
+app.use('/api/v1/ai', aiRouter);
 
 // 404 handler
 app.use('*', (req, res) => {

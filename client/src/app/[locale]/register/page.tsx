@@ -46,7 +46,8 @@ export default function RegisterPage() {
       confirmPassword: '',
       role: UserRole.OWNER,
     },
-    mode: 'onChange', // Enable real-time validation
+    mode: 'onSubmit', // Only validate on form submission
+    reValidateMode: 'onSubmit', // Only re-validate on form submission
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -156,9 +157,9 @@ export default function RegisterPage() {
                               ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
                               : ''
                           }`}
-                          {...field}
-                          onBlur={() => {
-                            field.onBlur();
+                          value={field.value}
+                          onChange={field.onChange}
+                          onBlur={(e) => {
                             handleFieldTouch('email');
                           }}
                         />
@@ -241,9 +242,9 @@ export default function RegisterPage() {
                               ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
                               : ''
                           }`}
-                          {...field}
-                          onBlur={() => {
-                            field.onBlur();
+                          value={field.value}
+                          onChange={field.onChange}
+                          onBlur={(e) => {
                             handleFieldTouch('password');
                           }}
                         />
@@ -338,9 +339,9 @@ export default function RegisterPage() {
                               ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
                               : ''
                           }`}
-                          {...field}
-                          onBlur={() => {
-                            field.onBlur();
+                          value={field.value}
+                          onChange={field.onChange}
+                          onBlur={(e) => {
                             handleFieldTouch('confirmPassword');
                           }}
                         />

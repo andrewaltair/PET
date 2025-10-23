@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 import { Conversation, Message } from 'petservice-marketplace-shared-types';
 import { conversationsAPI } from '../services/api';
 import { useChat } from '../hooks/useChat';
@@ -20,6 +21,7 @@ interface ChatWindowProps {
 }
 
 export function ChatWindow({ conversationId, className }: ChatWindowProps) {
+  const t = useTranslations('messages.chat');
   const [messageInput, setMessageInput] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -104,13 +106,13 @@ export function ChatWindow({ conversationId, className }: ChatWindowProps) {
         <div className="text-center max-w-sm mx-auto px-4">
           <div className="text-6xl mb-4">💬</div>
           <h3 className="text-lg font-medium text-gray-900 mb-2">
-            Start a conversation
+            {t('noConversation.title')}
           </h3>
           <p className="text-gray-500 text-sm leading-relaxed">
-            Select a conversation from the sidebar or wait for pet owners/providers to reach out to you.
+            {t('noConversation.description')}
           </p>
           <div className="mt-4 text-xs text-gray-400">
-            💡 Tip: Conversations appear here when someone books your services
+            💡 {t('noConversation.tip')}
           </div>
         </div>
       </div>
@@ -129,7 +131,7 @@ export function ChatWindow({ conversationId, className }: ChatWindowProps) {
     return (
       <div className={cn('flex items-center justify-center h-full', className)}>
         <div className="text-center text-red-500">
-          Failed to load conversation
+          {t('failedToLoad')}
         </div>
       </div>
     );
@@ -147,10 +149,10 @@ export function ChatWindow({ conversationId, className }: ChatWindowProps) {
           </div>
           <div>
             <div className="text-sm font-medium">
-              {'Chat'}
+              {t('chatWith')}
             </div>
             <div className="text-xs text-gray-500">
-              {isConnected ? 'Online' : 'Offline'}
+              {isConnected ? t('online') : t('offline')}
             </div>
           </div>
         </CardTitle>
@@ -164,13 +166,13 @@ export function ChatWindow({ conversationId, className }: ChatWindowProps) {
               <div className="max-w-sm">
                 <div className="text-4xl mb-3">👋</div>
                 <h4 className="text-sm font-medium text-gray-900 mb-2">
-                  Start the conversation
+                  {t('emptyTitle')}
                 </h4>
                 <p className="text-sm text-gray-500 leading-relaxed">
-                  Send a message to get started. You can discuss service details, availability, or any questions you have.
+                  {t('emptyDescription')}
                 </p>
                 <div className="mt-3 text-xs text-gray-400">
-                  💡 Tip: Be friendly and professional to build trust with your clients
+                  💡 {t('emptyTip')}
                 </div>
               </div>
             </div>
@@ -193,7 +195,7 @@ export function ChatWindow({ conversationId, className }: ChatWindowProps) {
               <Input
                 ref={inputRef}
                 type="text"
-                placeholder="Type your message..."
+                placeholder={t('placeholder')}
                 value={messageInput}
                 onChange={(e) => setMessageInput(e.target.value)}
                 className="pr-12"
@@ -228,7 +230,7 @@ export function ChatWindow({ conversationId, className }: ChatWindowProps) {
                 <Send className="w-4 h-4" />
               )}
               <span className="sr-only">
-                {isSendingMessage ? 'Sending message' : 'Send message'}
+                {isSendingMessage ? t('sending') : t('send')}
               </span>
             </Button>
           </div>
@@ -238,16 +240,16 @@ export function ChatWindow({ conversationId, className }: ChatWindowProps) {
             {!isConnected ? (
               <p className="text-red-500 flex items-center gap-1">
                 <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-                Disconnected from chat server
+                {t('disconnected')}
               </p>
             ) : isSendingMessage ? (
               <p className="text-blue-600 flex items-center gap-1">
                 <div className="animate-spin rounded-full h-3 w-3 border-b border-blue-600" />
-                Sending message...
+                {t('sendingMessage')}
               </p>
             ) : (
               <p className="text-gray-400">
-                Press Enter to send, Shift+Enter for new line
+                {t('hint')}
               </p>
             )}
 

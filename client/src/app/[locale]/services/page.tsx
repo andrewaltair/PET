@@ -3,6 +3,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useAuth } from '@/contexts/AuthContext';
 import { useInfinitePublicServices, useAllLoadedServices } from '@/hooks/usePublicServices';
 import { UserRole, ServiceType } from 'petservice-marketplace-shared-types';
@@ -31,6 +32,7 @@ const getServiceTypeLabel = (serviceType: ServiceType): string => {
 };
 
 function ServiceCard({ service }: { service: any }) {
+  const t = useTranslations('servicesPage');
 
   const formatAvailability = (availability: Record<string, string[]>): string => {
     const days = Object.keys(availability);
@@ -105,7 +107,7 @@ function ServiceCard({ service }: { service: any }) {
           <Button asChild variant="outline" className="w-full hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 transition-all duration-200 shadow-sm hover:shadow-md">
             <Link href={`/services/${service.id}`}>
               <Eye className="mr-2 h-4 w-4" />
-              View Details
+              {t('viewDetails')}
             </Link>
           </Button>
         </div>
@@ -118,6 +120,7 @@ function ServicesList() {
   const { user } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const t = useTranslations('servicesPage');
 
   // Prevent hydration mismatch by tracking mount state
   const [mounted, setMounted] = useState(false);
@@ -192,6 +195,41 @@ function ServicesList() {
     }
   };
 
+  // CRITICAL: Check mounted FIRST to prevent hydration mismatch
+  // Server will never render this skeleton, client will on first render
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-gray-50 py-8">
+        <div className="max-w-7xl mx-auto px-4">
+          {/* Header skeleton */}
+          <div className="text-center mb-12">
+            <div className="h-10 bg-gray-300 rounded w-64 mx-auto mb-4 animate-pulse"></div>
+            <div className="h-6 bg-gray-300 rounded w-96 mx-auto animate-pulse"></div>
+          </div>
+
+          {/* Filters skeleton */}
+          <div className="bg-white rounded-lg shadow-sm border p-6 mb-8">
+            <div className="flex flex-col lg:flex-row gap-4 items-center">
+              <div className="flex-1 min-w-0">
+                <div className="h-10 bg-gray-300 rounded animate-pulse"></div>
+              </div>
+              <div className="w-full lg:w-64">
+                <div className="h-10 bg-gray-300 rounded animate-pulse"></div>
+              </div>
+            </div>
+          </div>
+
+          {/* Services Grid Skeleton */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+            {Array.from({ length: 8 }).map((_, index) => (
+              <ServiceCardSkeleton key={index} />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 py-8">
@@ -230,7 +268,7 @@ function ServicesList() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="text-red-600 text-lg font-semibold mb-2">
-            Failed to load services
+            {t('failedToLoad')}
           </div>
           <p className="text-gray-600 mb-4">
             {error instanceof Error ? error.message : 'Unknown error occurred'}
@@ -240,7 +278,7 @@ function ServicesList() {
             variant="outline"
             className="hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 transition-all duration-200 shadow-sm hover:shadow-md"
           >
-            Try Again
+            {t('tryAgain')}
           </Button>
         </div>
       </div>
@@ -257,50 +295,52 @@ function ServicesList() {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>Services</BreadcrumbPage>
+              <BreadcrumbPage>{t('breadcrumb')}</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
       }>
         <div className="bg-gray-50 py-8" suppressHydrationWarning>
-          <div className="max-w-7xl mx-auto px-4" suppressHydrationWarning>
+          <div className="max-w-7xl mx-auto px-4">
             {/* Header */}
             <div className="text-center mb-12">
               <h1 className="text-4xl font-bold text-gray-900 mb-4">
-                Pet Services
+                {t('title')}
               </h1>
               <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                Find trusted pet care providers for walking, sitting, grooming, and more
+                {t('subtitle')}
               </p>
 
               {/* User-specific actions */}
-              {mounted && user && (
-                <div className="mt-6">
-                  {user.role === UserRole.PROVIDER ? (
-                    <Button asChild className="shadow-md hover:shadow-lg transform hover:scale-[1.02] transition-all duration-200 font-semibold">
-                      <Link href="/dashboard/services">
-                        Manage My Services
-                      </Link>
-                    </Button>
-                  ) : (
-                    <Button asChild variant="outline" className="hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 transition-all duration-200 shadow-sm hover:shadow-md">
-                      <Link href="/dashboard">
-                        Go to Dashboard
-                      </Link>
-                    </Button>
-                  )}
-                </div>
-              )}
+              <div className="mt-6">
+                {mounted && user && (
+                  <>
+                    {user.role === UserRole.PROVIDER ? (
+                      <Button asChild className="shadow-md hover:shadow-lg transform hover:scale-[1.02] transition-all duration-200 font-semibold">
+                        <Link href="/dashboard/services">
+                          {t('manageMyServices')}
+                        </Link>
+                      </Button>
+                    ) : (
+                      <Button asChild variant="outline" className="hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 transition-all duration-200 shadow-sm hover:shadow-md">
+                        <Link href="/dashboard">
+                          {t('goToDashboard')}
+                        </Link>
+                      </Button>
+                    )}
+                  </>
+                )}
+              </div>
             </div>
 
             {/* Filters */}
             <div className="bg-white rounded-lg shadow-sm border p-6 mb-8">
               <div className="flex items-center gap-2 mb-4">
                 <SlidersHorizontal className="w-5 h-5 text-gray-600" />
-                <h3 className="font-medium text-gray-900">Filters</h3>
+                <h3 className="font-medium text-gray-900">{t('filters')}</h3>
                 {hasActiveFilters && (
                   <Badge variant="secondary" className="ml-2">
-                    {hasActiveFilters ? 1 + (finalServiceType ? 1 : 0) : 0} active
+                    {hasActiveFilters ? 1 + (finalServiceType ? 1 : 0) : 0} {t('activeFilters')}
                   </Badge>
                 )}
               </div>
@@ -311,7 +351,7 @@ function ServicesList() {
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                   <Input
                     type="text"
-                    placeholder="Search services..."
+                    placeholder={t('searchPlaceholder')}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="pl-10 pr-4"
@@ -327,11 +367,11 @@ function ServicesList() {
                     <SelectTrigger>
                       <div className="flex items-center gap-2">
                         <Filter className="w-4 h-4" />
-                        <SelectValue placeholder="All service types" />
+                        <SelectValue placeholder={t('allServiceTypes')} />
                       </div>
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="all">All service types</SelectItem>
+                      <SelectItem value="all">{t('allServiceTypes')}</SelectItem>
                       <SelectItem value={ServiceType.WALKING}>🐕 Dog Walking</SelectItem>
                       <SelectItem value={ServiceType.SITTING}>🏡 Pet Sitting</SelectItem>
                       <SelectItem value={ServiceType.GROOMING}>✂️ Grooming</SelectItem>
@@ -351,7 +391,7 @@ function ServicesList() {
                     className="flex items-center gap-2 hover:bg-red-50 hover:border-red-300 hover:text-red-700 transition-all duration-200"
                   >
                     <X className="w-4 h-4" />
-                    Clear all
+                    {t('clearAll')}
                   </Button>
                 )}
               </div>
@@ -360,7 +400,7 @@ function ServicesList() {
               {hasActiveFilters && (
                 <div className="mt-4 pt-4 border-t border-gray-200">
                   <div className="flex flex-wrap gap-2 items-center">
-                    <span className="text-sm font-medium text-gray-600 mr-2">Active filters:</span>
+                    <span className="text-sm font-medium text-gray-600 mr-2">{t('activeFiltersLabel')}</span>
                     {finalSearchQuery && (
                       <Badge variant="default" className="flex items-center gap-1">
                         <Search className="w-3 h-3" />
@@ -392,29 +432,29 @@ function ServicesList() {
               )}
             </div>
 
-            {/* Services Grid */}
-            {!services || services.length === 0 ? (
-              <div className="text-center py-16">
-                <div className="max-w-2xl mx-auto">
-                  <div className="text-8xl mb-6">
-                    {hasActiveFilters ? '🔍' : '🏠'}
-                  </div>
+        {/* Services Grid */}
+        {!services || services.length === 0 ? (
+          <div className="text-center py-16">
+            <div className="max-w-2xl mx-auto">
+              <div className="text-8xl mb-6">
+                {hasActiveFilters ? '🔍' : '🏠'}
+              </div>
 
-                  <h2 className="text-2xl font-semibold text-gray-900 mb-3">
-                    {hasActiveFilters ? 'No services match your filters' : 'No services available yet'}
-                  </h2>
+              <h2 className="text-2xl font-semibold text-gray-900 mb-3">
+                {hasActiveFilters ? t('noServicesMatch') : t('noServicesAvailable')}
+              </h2>
 
-                  <p className="text-gray-600 mb-8 leading-relaxed">
-                    {hasActiveFilters
-                      ? 'We couldn\'t find any services matching your current search criteria. Try adjusting your filters or search terms to discover more options.'
-                      : 'We\'re working hard to connect pet owners with trusted service providers in your area. Check back soon for new services!'
-                    }
-                  </p>
+              <p className="text-gray-600 mb-8 leading-relaxed">
+                {hasActiveFilters
+                  ? t('noServicesMatchDesc')
+                  : t('noServicesAvailableDesc')
+                }
+              </p>
 
-                  {/* Popular Searches Suggestion */}
-                  {hasActiveFilters && (
-                    <div className="mb-8 p-6 bg-blue-50 rounded-lg border border-blue-100">
-                      <p className="text-sm font-semibold text-gray-700 mb-3">💡 Try these popular searches:</p>
+              {/* Popular Searches Suggestion */}
+              {hasActiveFilters && (
+                <div className="mb-8 p-6 bg-blue-50 rounded-lg border border-blue-100">
+                  <p className="text-sm font-semibold text-gray-700 mb-3">{t('tryPopularSearches')}</p>
                       <div className="flex flex-wrap gap-2 justify-center">
                         {['Dog Walking', 'Pet Sitting', 'Grooming', 'Training'].map((term) => (
                           <Button
@@ -443,7 +483,7 @@ function ServicesList() {
                           className="flex items-center gap-2"
                         >
                           <SlidersHorizontal className="w-4 h-4" />
-                          Clear all filters
+                          {t('clearAllFilters')}
                         </Button>
                         <Button
                           onClick={() => setSearchQuery('')}
@@ -451,7 +491,7 @@ function ServicesList() {
                           className="flex items-center gap-2"
                         >
                           <Search className="w-4 h-4" />
-                          Clear search
+                          {t('clearSearch')}
                         </Button>
                       </>
                     ) : (
@@ -461,12 +501,12 @@ function ServicesList() {
                           variant="outline"
                           className="flex items-center gap-2"
                         >
-                          🔄 Refresh page
+                          {t('refreshPage')}
                         </Button>
                         {mounted && !user && (
                           <Link href="/register">
                             <Button className="flex items-center gap-2">
-                              🏪 Become a provider
+                              {t('becomeProvider')}
                             </Button>
                           </Link>
                         )}
@@ -478,14 +518,14 @@ function ServicesList() {
                   {!hasActiveFilters && mounted && !user && (
                     <div className="mt-12 p-6 bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg border border-purple-100">
                       <p className="text-gray-700 mb-4 font-medium">
-                        Want to offer pet services in this area?
+                        {t('wantToOffer')}
                       </p>
                       <p className="text-sm text-gray-600 mb-4">
-                        Join hundreds of pet care providers earning extra income while helping pets!
+                        {t('joinProviders')}
                       </p>
                       <Button asChild className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
                         <Link href="/register?role=provider">
-                          Become a Provider - It's Free
+                          {t('becomeProviderFree')}
                         </Link>
                       </Button>
                     </div>
@@ -509,7 +549,7 @@ function ServicesList() {
                       variant="outline"
                       className="hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 transition-all duration-200 shadow-sm hover:shadow-md"
                     >
-                      {isLoadingMore ? 'Loading...' : 'Load More Services'}
+                      {isLoadingMore ? t('loading') : t('loadMore')}
                     </Button>
                   </div>
                 )}
@@ -517,7 +557,7 @@ function ServicesList() {
                 {/* End of results message */}
                 {!hasMore && services.length > 0 && (
                   <div className="text-center text-gray-600 py-8">
-                    <p>You've seen all available services!</p>
+                    <p>{t('seenAllServices')}</p>
                   </div>
                 )}
               </>
@@ -527,20 +567,20 @@ function ServicesList() {
             {mounted && !user && (
               <div className="mt-16 bg-blue-50 rounded-lg p-8 text-center">
                 <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                  Are you a pet care provider?
+                  {t('areYouProvider')}
                 </h2>
                 <p className="text-gray-600 mb-6">
-                  Join our platform to offer your services and connect with pet owners.
+                  {t('becomeProviderCta')}
                 </p>
                 <div className="space-x-4">
                   <Button asChild className="shadow-md hover:shadow-lg transform hover:scale-[1.02] transition-all duration-200 font-semibold">
                     <Link href="/register">
-                      Sign Up as Provider
+                      {t('signUpAsProvider')}
                     </Link>
                   </Button>
                   <Button asChild variant="outline" className="hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 transition-all duration-200 shadow-sm hover:shadow-md">
                     <Link href="/login">
-                      Sign In
+                      {t('signIn')}
                     </Link>
                   </Button>
                 </div>

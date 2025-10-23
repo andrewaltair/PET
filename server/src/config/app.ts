@@ -9,6 +9,7 @@ export interface AppConfig {
   corsOrigin: string;
   rateLimitWindowMs: number;
   rateLimitMax: number;
+  authRateLimitMax: number;
 }
 
 export const appConfig: AppConfig = {
@@ -22,5 +23,6 @@ export const appConfig: AppConfig = {
   corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:5000',
   rateLimitWindowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS || '900000'), // 15 minutes
   rateLimitMax: parseInt(process.env.RATE_LIMIT_MAX || '100'), // limit each IP to 100 requests per windowMs
+  authRateLimitMax: parseInt(process.env.AUTH_RATE_LIMIT_MAX || '100'), // Higher limit for auth in development
 };
 

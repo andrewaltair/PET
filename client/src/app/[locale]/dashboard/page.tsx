@@ -1,16 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '@/contexts/AuthContext';
 import { UserRole } from 'petservice-marketplace-shared-types';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
-import { Menu, X } from 'lucide-react';
 import { useDashboardStats } from '@/hooks/useDashboardStats';
 import { useProfile } from '@/hooks/useProfile';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -21,8 +17,7 @@ import { useOwnerBookings } from '@/hooks/useOwnerBookings';
 import { useProviderBookings } from '@/hooks/useProviderBookings';
 
 function DashboardContent() {
-  const { user, logout } = useAuth();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user } = useAuth();
   const t = useTranslations('dashboard');
   const { data: stats, isLoading: statsLoading } = useDashboardStats(user?.role || UserRole.OWNER);
   const { data: profile } = useProfile();
@@ -39,7 +34,7 @@ function DashboardContent() {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
           <p className="text-gray-600">{t('loadingUser')}</p>
@@ -49,184 +44,7 @@ function DashboardContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center space-x-4">
-              <Link href="/" className="text-2xl font-bold text-gray-900">🐾 PetService</Link>
-              <span className="text-sm text-gray-500 hidden sm:inline">{t('title')}</span>
-            </div>
-            <div className="flex items-center space-x-4">
-              {/* Desktop Navigation */}
-              <nav className="hidden md:flex space-x-4">
-                <Link href="/dashboard/profile" className="text-sm text-gray-600 hover:text-blue-600 transition-colors">
-                  {t('nav.profile')}
-                </Link>
-                {user.role === UserRole.PROVIDER && (
-                  <>
-                    <Link href="/dashboard/services" className="text-sm text-gray-600 hover:text-blue-600 transition-colors">
-                      {t('nav.services')}
-                    </Link>
-                    <Link href="/dashboard/provider-bookings" className="text-sm text-gray-600 hover:text-blue-600 transition-colors">
-                      {t('nav.bookings')}
-                    </Link>
-                    <Link href="/dashboard/messages" className="text-sm text-gray-600 hover:text-blue-600 transition-colors">
-                      {t('nav.messages')}
-                    </Link>
-                  </>
-                )}
-                {user.role === UserRole.OWNER && (
-                  <>
-                    <Link href="/dashboard/my-bookings" className="text-sm text-gray-600 hover:text-blue-600 transition-colors">
-                      {t('nav.myBookings')}
-                    </Link>
-                    <Link href="/services" className="text-sm text-gray-600 hover:text-blue-600 transition-colors">
-                      {t('nav.browseServices')}
-                    </Link>
-                    <Link href="/dashboard/messages" className="text-sm text-gray-600 hover:text-blue-600 transition-colors">
-                      {t('nav.messages')}
-                    </Link>
-                  </>
-                )}
-              </nav>
-
-              {/* Mobile Navigation */}
-              <div className="md:hidden">
-                <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-                  <SheetTrigger asChild>
-                    <Button variant="ghost" size="sm" aria-label={t('nav.openMenu')}>
-                      <Menu className="h-5 w-5" />
-                    </Button>
-                  </SheetTrigger>
-                  <SheetContent side="right" className="w-80">
-                    <div className="flex flex-col space-y-4 mt-8">
-                      <div className="pb-4 border-b">
-                        <p className="text-sm text-gray-600">{t('welcome')}, {getUserDisplayName()}</p>
-                      </div>
-
-                      <nav className="flex flex-col space-y-2">
-                        <Link
-                          href="/dashboard/profile"
-                          className="text-gray-700 hover:text-blue-600 transition-colors py-2 px-3 rounded-md hover:bg-gray-50"
-                          onClick={() => setMobileMenuOpen(false)}
-                        >
-                          {t('nav.profileSettings')}
-                        </Link>
-
-                        {user.role === UserRole.PROVIDER && (
-                          <>
-                            <Link
-                              href="/dashboard/services"
-                              className="text-gray-700 hover:text-blue-600 transition-colors py-2 px-3 rounded-md hover:bg-gray-50"
-                              onClick={() => setMobileMenuOpen(false)}
-                            >
-                              {t('nav.myServices')}
-                            </Link>
-                            <Link
-                              href="/dashboard/provider-bookings"
-                              className="text-gray-700 hover:text-blue-600 transition-colors py-2 px-3 rounded-md hover:bg-gray-50"
-                              onClick={() => setMobileMenuOpen(false)}
-                            >
-                              {t('nav.incomingBookings')}
-                            </Link>
-                            <Link
-                              href="/dashboard/messages"
-                              className="text-gray-700 hover:text-blue-600 transition-colors py-2 px-3 rounded-md hover:bg-gray-50"
-                              onClick={() => setMobileMenuOpen(false)}
-                            >
-                              {t('nav.messages')}
-                            </Link>
-                          </>
-                        )}
-
-                        {user.role === UserRole.OWNER && (
-                          <>
-                            <Link
-                              href="/dashboard/my-bookings"
-                              className="text-gray-700 hover:text-blue-600 transition-colors py-2 px-3 rounded-md hover:bg-gray-50"
-                              onClick={() => setMobileMenuOpen(false)}
-                            >
-                              {t('nav.myBookings')}
-                            </Link>
-                            <Link
-                              href="/services"
-                              className="text-gray-700 hover:text-blue-600 transition-colors py-2 px-3 rounded-md hover:bg-gray-50"
-                              onClick={() => setMobileMenuOpen(false)}
-                            >
-                              {t('nav.browseServices')}
-                            </Link>
-                            <Link
-                              href="/dashboard/messages"
-                              className="text-gray-700 hover:text-blue-600 transition-colors py-2 px-3 rounded-md hover:bg-gray-50"
-                              onClick={() => setMobileMenuOpen(false)}
-                            >
-                              {t('nav.messages')}
-                            </Link>
-                          </>
-                        )}
-                      </nav>
-
-                      <div className="pt-4 border-t">
-                        <Button
-                          onClick={() => {
-                            if (confirm(t('logoutConfirm'))) {
-                              logout();
-                            }
-                          }}
-                          variant="outline"
-                          className="w-full"
-                        >
-                          {t('logout')}
-                        </Button>
-                      </div>
-                    </div>
-                  </SheetContent>
-                </Sheet>
-              </div>
-
-              {/* Desktop User Info and Logout */}
-              <div className="hidden md:flex items-center space-x-4">
-                <span className="text-sm text-gray-600">
-                  {t('welcome')}, {getUserDisplayName()}
-                </span>
-                <Button
-                  onClick={() => {
-                    if (confirm(t('logoutConfirm'))) {
-                      logout();
-                    }
-                  }}
-                  variant="outline"
-                  size="sm"
-                >
-                  {t('logout')}
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Breadcrumbs */}
-      <div className="bg-white border-b">
-        <div className="container mx-auto px-4 py-2">
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink href="/">{t('breadcrumbs.home')}</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbPage>{t('breadcrumbs.dashboard')}</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           {/* Welcome Card */}
           <Card className="mb-8 hover:shadow-lg transition-all duration-200">
@@ -262,10 +80,12 @@ function DashboardContent() {
               <>
                 <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer">
                   <CardContent className="pt-6">
-                    <div className="text-3xl mb-4">🔍</div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                      {t('ownerCards.findServices.title')}
-                    </h3>
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="text-3xl">🔍</div>
+                      <h3 className="text-lg font-semibold text-gray-900 text-right flex-1 ml-3">
+                        {t('ownerCards.findServices.title')}
+                      </h3>
+                    </div>
                     <p className="text-gray-600 text-sm mb-4">
                       {t('ownerCards.findServices.description')}
                     </p>
@@ -279,10 +99,12 @@ function DashboardContent() {
 
                 <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer">
                   <CardContent className="pt-6">
-                    <div className="text-3xl mb-4">📅</div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                      {t('ownerCards.myBookings.title')}
-                    </h3>
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="text-3xl">📅</div>
+                      <h3 className="text-lg font-semibold text-gray-900 text-right flex-1 ml-3">
+                        {t('ownerCards.myBookings.title')}
+                      </h3>
+                    </div>
                     <p className="text-gray-600 text-sm mb-4">
                       {t('ownerCards.myBookings.description')}
                     </p>
@@ -296,10 +118,12 @@ function DashboardContent() {
 
                 <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer">
                   <CardContent className="pt-6">
-                    <div className="text-3xl mb-4">⭐</div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                      {t('ownerCards.reviews.title')}
-                    </h3>
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="text-3xl">⭐</div>
+                      <h3 className="text-lg font-semibold text-gray-900 text-right flex-1 ml-3">
+                        {t('ownerCards.reviews.title')}
+                      </h3>
+                    </div>
                     <p className="text-gray-600 text-sm mb-4">
                       {t('ownerCards.reviews.description')}
                     </p>
@@ -316,10 +140,12 @@ function DashboardContent() {
               <>
                 <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer">
                   <CardContent className="pt-6">
-                    <div className="text-3xl mb-4">👤</div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                      {t('providerCards.profile.title')}
-                    </h3>
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="text-3xl">👤</div>
+                      <h3 className="text-lg font-semibold text-gray-900 text-right flex-1 ml-3">
+                        {t('providerCards.profile.title')}
+                      </h3>
+                    </div>
                     <p className="text-gray-600 text-sm mb-4">
                       {t('providerCards.profile.description')}
                     </p>
@@ -333,10 +159,12 @@ function DashboardContent() {
 
                 <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer">
                   <CardContent className="pt-6">
-                    <div className="text-3xl mb-4">➕</div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                      {t('providerCards.addService.title')}
-                    </h3>
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="text-3xl">➕</div>
+                      <h3 className="text-lg font-semibold text-gray-900 text-right flex-1 ml-3">
+                        {t('providerCards.addService.title')}
+                      </h3>
+                    </div>
                     <p className="text-gray-600 text-sm mb-4">
                       {t('providerCards.addService.description')}
                     </p>
@@ -350,10 +178,12 @@ function DashboardContent() {
 
                 <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer">
                   <CardContent className="pt-6">
-                    <div className="text-3xl mb-4">📋</div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                      {t('providerCards.manageServices.title')}
-                    </h3>
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="text-3xl">📋</div>
+                      <h3 className="text-lg font-semibold text-gray-900 text-right flex-1 ml-3">
+                        {t('providerCards.manageServices.title')}
+                      </h3>
+                    </div>
                     <p className="text-gray-600 text-sm mb-4">
                       {t('providerCards.manageServices.description')}
                     </p>
@@ -367,10 +197,12 @@ function DashboardContent() {
 
                 <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer">
                   <CardContent className="pt-6">
-                    <div className="text-3xl mb-4">📅</div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                      {t('providerCards.incomingBookings.title')}
-                    </h3>
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="text-3xl">📅</div>
+                      <h3 className="text-lg font-semibold text-gray-900 text-right flex-1 ml-3">
+                        {t('providerCards.incomingBookings.title')}
+                      </h3>
+                    </div>
                     <p className="text-gray-600 text-sm mb-4">
                       {t('providerCards.incomingBookings.description')}
                     </p>
@@ -444,7 +276,6 @@ function DashboardContent() {
             <AchievementBadges stats={stats || {}} role={user.role} />
           </div>
         </div>
-      </main>
     </div>
   );
 }
