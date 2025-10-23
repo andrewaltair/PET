@@ -42,14 +42,14 @@ function ServiceCard({ service }: { service: any }) {
   };
 
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-shadow">
+    <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group border-2 border-transparent hover:border-blue-200">
       <CardContent className="p-6">
         {/* Service Type Badge */}
         <div className="flex justify-between items-start mb-4">
-          <span className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">
+          <span className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full group-hover:bg-blue-200 transition-colors">
             {getServiceTypeLabel(service.serviceType)}
           </span>
-          <span className="text-lg font-bold text-blue-600">
+          <span className="text-lg font-bold text-blue-600 group-hover:text-blue-700 transition-colors">
             ${Number(service.price).toFixed(2)}
           </span>
         </div>
@@ -104,9 +104,9 @@ function ServiceCard({ service }: { service: any }) {
 
         {/* Action */}
         <div className="pt-4 border-t border-gray-200">
-          <Button asChild variant="outline" className="w-full hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 transition-all duration-200 shadow-sm hover:shadow-md">
+          <Button asChild variant="outline" className="w-full hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 transition-all duration-300 shadow-sm hover:shadow-lg">
             <Link href={`/services/${service.id}`}>
-              <Eye className="mr-2 h-4 w-4" />
+              <Eye className="mr-2 h-4 w-4 transition-transform group-hover:scale-110" />
               {t('viewDetails')}
             </Link>
           </Button>

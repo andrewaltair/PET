@@ -17,7 +17,8 @@
     "happyPets": "Счастливые питомцы",
     "verifiedProviders": "Проверенные поставщики",
     "averageRating": "Средний рейтинг",
-    "support": "Поддержка"
+    "support": "Поддержка",
+    "loading": "Загрузка..."
   },
   "services": {
     "dogBoarding": "Размещение собак",

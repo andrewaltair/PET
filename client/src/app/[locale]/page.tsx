@@ -46,8 +46,8 @@ export default function HomePage() {
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 pt-8 pb-12">
           {/* Social Proof Badge */}
-          <div className="flex justify-center mb-6">
-            <div className="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-md border border-green-100">
+          <div className="flex justify-center mb-6 animate-fade-in">
+            <div className="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-md border border-green-100 hover:shadow-lg transition-all duration-300 hover:scale-105 group">
               <div className="flex -space-x-2">
                 {[
                   '0450249b131eec36dc8333b7cf847bc4.webp',
@@ -59,24 +59,25 @@ export default function HomePage() {
                     key={i}
                     src={`/avatars/${avatar}`}
                     alt={`User ${i + 1}`}
-                    className="w-8 h-8 rounded-full border-2 border-white object-cover"
+                    className="w-8 h-8 rounded-full border-2 border-white object-cover transform transition-transform duration-300 group-hover:scale-110"
+                    style={{ animationDelay: `${i * 100}ms` }}
                   />
                 ))}
               </div>
-              <span className="text-sm font-semibold text-gray-700">
+              <span className="text-sm font-semibold text-gray-700 group-hover:text-green-600 transition-colors">
                 {t('hero.join')} <span className="text-green-600">50,000+</span> {t('hero.petParents')}
               </span>
             </div>
           </div>
 
           {/* Main Heading */}
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 text-center max-w-5xl mx-auto leading-tight">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 text-center max-w-5xl mx-auto leading-tight animate-slide-in-right">
             {t('hero.titleLine1')}<br className="hidden md:block" />
-            <span className="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent"> {t('hero.titleLine2')}</span>
+            <span className="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent animate-subtle-glow"> {t('hero.titleLine2')}</span>
           </h1>
 
           {/* Subheading */}
-          <p className="text-xl md:text-2xl text-gray-600 mb-10 text-center max-w-3xl mx-auto">
+          <p className="text-xl md:text-2xl text-gray-600 mb-10 text-center max-w-3xl mx-auto animate-fade-in">
             {t('hero.subtitle')}
           </p>
 

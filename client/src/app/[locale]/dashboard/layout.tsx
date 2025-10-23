@@ -41,33 +41,40 @@ export default function DashboardLayout({
             </div>
             <div className="flex items-center space-x-4">
               {/* Desktop Navigation */}
-              <nav className="hidden md:flex space-x-4">
-                <Link href="/dashboard/profile" className="text-sm text-gray-600 hover:text-blue-600 transition-colors">
+              <nav className="hidden md:flex space-x-1">
+                <Link href="/dashboard/profile" className="relative px-3 py-2 text-sm font-medium text-gray-600 hover:text-blue-600 transition-all duration-200 rounded-md hover:bg-blue-50 group">
                   {t('nav.profile')}
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-200 group-hover:w-full" />
                 </Link>
                 {user?.role === UserRole.PROVIDER && (
                   <>
-                    <Link href="/dashboard/services" className="text-sm text-gray-600 hover:text-blue-600 transition-colors">
+                    <Link href="/dashboard/services" className="relative px-3 py-2 text-sm font-medium text-gray-600 hover:text-blue-600 transition-all duration-200 rounded-md hover:bg-blue-50 group">
                       {t('nav.services')}
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-200 group-hover:w-full" />
                     </Link>
-                    <Link href="/dashboard/provider-bookings" className="text-sm text-gray-600 hover:text-blue-600 transition-colors">
+                    <Link href="/dashboard/provider-bookings" className="relative px-3 py-2 text-sm font-medium text-gray-600 hover:text-blue-600 transition-all duration-200 rounded-md hover:bg-blue-50 group">
                       {t('nav.bookings')}
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-200 group-hover:w-full" />
                     </Link>
-                    <Link href="/dashboard/messages" className="text-sm text-gray-600 hover:text-blue-600 transition-colors">
+                    <Link href="/dashboard/messages" className="relative px-3 py-2 text-sm font-medium text-gray-600 hover:text-blue-600 transition-all duration-200 rounded-md hover:bg-blue-50 group">
                       {t('nav.messages')}
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-200 group-hover:w-full" />
                     </Link>
                   </>
                 )}
                 {user?.role === UserRole.OWNER && (
                   <>
-                    <Link href="/dashboard/my-bookings" className="text-sm text-gray-600 hover:text-blue-600 transition-colors">
+                    <Link href="/dashboard/my-bookings" className="relative px-3 py-2 text-sm font-medium text-gray-600 hover:text-blue-600 transition-all duration-200 rounded-md hover:bg-blue-50 group">
                       {t('nav.myBookings')}
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-200 group-hover:w-full" />
                     </Link>
-                    <Link href="/services" className="text-sm text-gray-600 hover:text-blue-600 transition-colors">
+                    <Link href="/services" className="relative px-3 py-2 text-sm font-medium text-gray-600 hover:text-blue-600 transition-all duration-200 rounded-md hover:bg-blue-50 group">
                       {t('nav.browseServices')}
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-200 group-hover:w-full" />
                     </Link>
-                    <Link href="/dashboard/messages" className="text-sm text-gray-600 hover:text-blue-600 transition-colors">
+                    <Link href="/dashboard/messages" className="relative px-3 py-2 text-sm font-medium text-gray-600 hover:text-blue-600 transition-all duration-200 rounded-md hover:bg-blue-50 group">
                       {t('nav.messages')}
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-200 group-hover:w-full" />
                     </Link>
                   </>
                 )}

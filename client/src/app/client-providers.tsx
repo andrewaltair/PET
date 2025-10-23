@@ -4,6 +4,7 @@
 import { LanguageProvider } from '../contexts/LanguageProvider'
 import { ErrorBoundary } from '../components/ui/error-boundary'
 import { Providers } from './providers'
+import { AppLoader } from '../components/AppLoader'
 
 export default function ClientProviders({ 
   children
@@ -12,12 +13,14 @@ export default function ClientProviders({
 }) {
   return (
     <LanguageProvider>
-      <div key="providers">
+      <div key="providers" suppressHydrationWarning>
         <ErrorBoundary>
           <Providers>
-            <div key="children">
-              {children}
-            </div>
+            <AppLoader>
+              <div key="children" suppressHydrationWarning>
+                {children}
+              </div>
+            </AppLoader>
           </Providers>
         </ErrorBoundary>
       </div>

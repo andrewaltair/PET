@@ -45,17 +45,17 @@ export function MessageBubble({ message, className, status = 'sent' }: MessageBu
   return (
     <div
       className={cn(
-        'flex mb-4',
+        'flex mb-4 animate-fade-in',
         isOwnMessage ? 'justify-end' : 'justify-start',
         className
       )}
     >
       <div
         className={cn(
-          'max-w-xs lg:max-w-md px-4 py-2 rounded-lg shadow-sm',
+          'max-w-xs lg:max-w-md px-4 py-2 rounded-2xl shadow-md transition-all duration-200 hover:shadow-lg group',
           isOwnMessage
-            ? 'bg-blue-500 text-white rounded-br-none'
-            : 'bg-gray-100 text-gray-900 rounded-bl-none'
+            ? 'bg-blue-500 text-white rounded-br-none hover:bg-blue-600'
+            : 'bg-gray-100 text-gray-900 rounded-bl-none hover:bg-gray-200'
         )}
       >
         {!isOwnMessage && (
@@ -63,16 +63,16 @@ export function MessageBubble({ message, className, status = 'sent' }: MessageBu
             {message.sender.email}
           </div>
         )}
-        <div className="text-sm break-words">{message.content}</div>
+        <div className="text-sm break-words whitespace-pre-wrap">{message.content}</div>
         <div
           className={cn(
-            'text-xs mt-1 flex items-center gap-1',
+            'text-xs mt-1 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200',
             isOwnMessage ? 'text-blue-100 justify-end' : 'text-gray-500 justify-start'
           )}
         >
           <span>{formatMessageTime(message.createdAt)}</span>
           {isOwnMessage && (
-            <span className="flex items-center" title={`Message ${status}`}>
+            <span className="flex items-center gap-0.5" title={`Message ${status}`}>
               {getStatusIcon()}
             </span>
           )}

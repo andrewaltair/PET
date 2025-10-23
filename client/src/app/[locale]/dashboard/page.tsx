@@ -15,6 +15,7 @@ import { QuickActions } from '@/components/dashboard/QuickActions';
 import { AchievementBadges } from '@/components/dashboard/AchievementBadges';
 import { useOwnerBookings } from '@/hooks/useOwnerBookings';
 import { useProviderBookings } from '@/hooks/useProviderBookings';
+import { AnimatedCounter } from '@/components/AnimatedCounter';
 
 function DashboardContent() {
   const { user } = useAuth();
@@ -47,7 +48,7 @@ function DashboardContent() {
     <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           {/* Welcome Card */}
-          <Card className="mb-8 hover:shadow-lg transition-all duration-200">
+          <Card className="mb-8 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-gradient-to-br from-blue-50 to-purple-50 border-2 border-transparent hover:border-blue-200">
             <CardContent className="pt-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -61,7 +62,7 @@ function DashboardContent() {
                     }
                   </p>
                 </div>
-                <div className="text-5xl">
+                <div className="text-5xl transform transition-transform duration-300 hover:scale-110 hover:rotate-12">
                   {user.role === UserRole.OWNER ? '🐕' : '🏢'}
                 </div>
               </div>
@@ -78,18 +79,18 @@ function DashboardContent() {
             {user.role === UserRole.OWNER ? (
               // Pet Owner Dashboard
               <>
-                <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer">
+                <Card className="hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer group border-2 border-transparent hover:border-blue-200">
                   <CardContent className="pt-6">
                     <div className="flex items-start justify-between mb-4">
-                      <div className="text-3xl">🔍</div>
-                      <h3 className="text-lg font-semibold text-gray-900 text-right flex-1 ml-3">
+                      <div className="text-3xl transform transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12">🔍</div>
+                      <h3 className="text-lg font-semibold text-gray-900 text-right flex-1 ml-3 group-hover:text-blue-600 transition-colors">
                         {t('ownerCards.findServices.title')}
                       </h3>
                     </div>
                     <p className="text-gray-600 text-sm mb-4">
                       {t('ownerCards.findServices.description')}
                     </p>
-                    <Button asChild className="w-full">
+                    <Button asChild className="w-full shadow-md hover:shadow-lg">
                       <Link href="/services">
                         {t('ownerCards.findServices.button')}
                       </Link>
@@ -97,18 +98,18 @@ function DashboardContent() {
                   </CardContent>
                 </Card>
 
-                <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer">
+                <Card className="hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer group border-2 border-transparent hover:border-blue-200">
                   <CardContent className="pt-6">
                     <div className="flex items-start justify-between mb-4">
-                      <div className="text-3xl">📅</div>
-                      <h3 className="text-lg font-semibold text-gray-900 text-right flex-1 ml-3">
+                      <div className="text-3xl transform transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12">📅</div>
+                      <h3 className="text-lg font-semibold text-gray-900 text-right flex-1 ml-3 group-hover:text-blue-600 transition-colors">
                         {t('ownerCards.myBookings.title')}
                       </h3>
                     </div>
                     <p className="text-gray-600 text-sm mb-4">
                       {t('ownerCards.myBookings.description')}
                     </p>
-                    <Button asChild variant="outline" className="w-full">
+                    <Button asChild variant="outline" className="w-full shadow-md hover:shadow-lg">
                       <Link href="/dashboard/my-bookings">
                         {t('ownerCards.myBookings.button')}
                       </Link>
@@ -116,18 +117,18 @@ function DashboardContent() {
                   </CardContent>
                 </Card>
 
-                <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer">
+                <Card className="hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer group border-2 border-transparent hover:border-blue-200">
                   <CardContent className="pt-6">
                     <div className="flex items-start justify-between mb-4">
-                      <div className="text-3xl">⭐</div>
-                      <h3 className="text-lg font-semibold text-gray-900 text-right flex-1 ml-3">
+                      <div className="text-3xl transform transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12">⭐</div>
+                      <h3 className="text-lg font-semibold text-gray-900 text-right flex-1 ml-3 group-hover:text-blue-600 transition-colors">
                         {t('ownerCards.reviews.title')}
                       </h3>
                     </div>
                     <p className="text-gray-600 text-sm mb-4">
                       {t('ownerCards.reviews.description')}
                     </p>
-                    <Button asChild variant="outline" className="w-full">
+                    <Button asChild variant="outline" className="w-full shadow-md hover:shadow-lg">
                       <Link href="/services">
                         {t('ownerCards.reviews.button')}
                       </Link>
@@ -138,18 +139,18 @@ function DashboardContent() {
             ) : (
               // Service Provider Dashboard
               <>
-                <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer">
+                <Card className="hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer group border-2 border-transparent hover:border-blue-200">
                   <CardContent className="pt-6">
                     <div className="flex items-start justify-between mb-4">
-                      <div className="text-3xl">👤</div>
-                      <h3 className="text-lg font-semibold text-gray-900 text-right flex-1 ml-3">
+                      <div className="text-3xl transform transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12">👤</div>
+                      <h3 className="text-lg font-semibold text-gray-900 text-right flex-1 ml-3 group-hover:text-blue-600 transition-colors">
                         {t('providerCards.profile.title')}
                       </h3>
                     </div>
                     <p className="text-gray-600 text-sm mb-4">
                       {t('providerCards.profile.description')}
                     </p>
-                    <Button asChild variant="outline" className="w-full">
+                    <Button asChild variant="outline" className="w-full shadow-md hover:shadow-lg">
                       <Link href="/dashboard/profile">
                         {t('providerCards.profile.button')}
                       </Link>
@@ -157,18 +158,18 @@ function DashboardContent() {
                   </CardContent>
                 </Card>
 
-                <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer">
+                <Card className="hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer group border-2 border-transparent hover:border-blue-200">
                   <CardContent className="pt-6">
                     <div className="flex items-start justify-between mb-4">
-                      <div className="text-3xl">➕</div>
-                      <h3 className="text-lg font-semibold text-gray-900 text-right flex-1 ml-3">
+                      <div className="text-3xl transform transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12">➕</div>
+                      <h3 className="text-lg font-semibold text-gray-900 text-right flex-1 ml-3 group-hover:text-blue-600 transition-colors">
                         {t('providerCards.addService.title')}
                       </h3>
                     </div>
                     <p className="text-gray-600 text-sm mb-4">
                       {t('providerCards.addService.description')}
                     </p>
-                    <Button asChild className="w-full">
+                    <Button asChild className="w-full shadow-md hover:shadow-lg">
                       <Link href="/dashboard/services/new">
                         {t('providerCards.addService.button')}
                       </Link>
@@ -176,18 +177,18 @@ function DashboardContent() {
                   </CardContent>
                 </Card>
 
-                <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer">
+                <Card className="hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer group border-2 border-transparent hover:border-blue-200">
                   <CardContent className="pt-6">
                     <div className="flex items-start justify-between mb-4">
-                      <div className="text-3xl">📋</div>
-                      <h3 className="text-lg font-semibold text-gray-900 text-right flex-1 ml-3">
+                      <div className="text-3xl transform transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12">📋</div>
+                      <h3 className="text-lg font-semibold text-gray-900 text-right flex-1 ml-3 group-hover:text-blue-600 transition-colors">
                         {t('providerCards.manageServices.title')}
                       </h3>
                     </div>
                     <p className="text-gray-600 text-sm mb-4">
                       {t('providerCards.manageServices.description')}
                     </p>
-                    <Button asChild variant="outline" className="w-full">
+                    <Button asChild variant="outline" className="w-full shadow-md hover:shadow-lg">
                       <Link href="/dashboard/services">
                         {t('providerCards.manageServices.button')}
                       </Link>
@@ -195,18 +196,18 @@ function DashboardContent() {
                   </CardContent>
                 </Card>
 
-                <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer">
+                <Card className="hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer group border-2 border-transparent hover:border-blue-200">
                   <CardContent className="pt-6">
                     <div className="flex items-start justify-between mb-4">
-                      <div className="text-3xl">📅</div>
-                      <h3 className="text-lg font-semibold text-gray-900 text-right flex-1 ml-3">
+                      <div className="text-3xl transform transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12">📅</div>
+                      <h3 className="text-lg font-semibold text-gray-900 text-right flex-1 ml-3 group-hover:text-blue-600 transition-colors">
                         {t('providerCards.incomingBookings.title')}
                       </h3>
                     </div>
                     <p className="text-gray-600 text-sm mb-4">
                       {t('providerCards.incomingBookings.description')}
                     </p>
-                    <Button asChild variant="outline" className="w-full">
+                    <Button asChild variant="outline" className="w-full shadow-md hover:shadow-lg">
                       <Link href="/dashboard/provider-bookings">
                         {t('providerCards.incomingBookings.button')}
                       </Link>
@@ -231,25 +232,33 @@ function DashboardContent() {
               </>
             ) : (
               <>
-                <div className="bg-white rounded-lg p-6 text-center shadow-sm border hover:shadow-md transition-shadow">
-                  <div className="text-2xl font-bold text-blue-600">{stats?.activeBookings || stats?.totalServices || 0}</div>
-                  <div className="text-sm text-gray-600">
+                <div className="bg-white rounded-lg p-6 text-center shadow-sm border hover:shadow-md transition-all duration-300 hover:-translate-y-1 group cursor-pointer">
+                  <div className="text-2xl font-bold text-blue-600">
+                    <AnimatedCounter value={stats?.activeBookings || stats?.totalServices || 0} />
+                  </div>
+                  <div className="text-sm text-gray-600 group-hover:text-blue-600 transition-colors">
                     {user.role === UserRole.OWNER ? t('stats.activeBookings') : t('stats.totalServices')}
                   </div>
                 </div>
-                <div className="bg-white rounded-lg p-6 text-center shadow-sm border hover:shadow-md transition-shadow">
-                  <div className="text-2xl font-bold text-blue-600">{stats?.completedServices || stats?.totalBookings || 0}</div>
-                  <div className="text-sm text-gray-600">
+                <div className="bg-white rounded-lg p-6 text-center shadow-sm border hover:shadow-md transition-all duration-300 hover:-translate-y-1 group cursor-pointer">
+                  <div className="text-2xl font-bold text-blue-600">
+                    <AnimatedCounter value={stats?.completedServices || stats?.totalBookings || 0} />
+                  </div>
+                  <div className="text-sm text-gray-600 group-hover:text-blue-600 transition-colors">
                     {user.role === UserRole.OWNER ? t('stats.completedServices') : t('stats.totalBookings')}
                   </div>
                 </div>
-                <div className="bg-white rounded-lg p-6 text-center shadow-sm border hover:shadow-md transition-shadow">
-                  <div className="text-2xl font-bold text-purple-600">{stats?.reviews || 0}</div>
-                  <div className="text-sm text-gray-600">{t('stats.reviews')}</div>
+                <div className="bg-white rounded-lg p-6 text-center shadow-sm border hover:shadow-md transition-all duration-300 hover:-translate-y-1 group cursor-pointer">
+                  <div className="text-2xl font-bold text-purple-600">
+                    <AnimatedCounter value={stats?.reviews || 0} />
+                  </div>
+                  <div className="text-sm text-gray-600 group-hover:text-purple-600 transition-colors">{t('stats.reviews')}</div>
                 </div>
-                <div className="bg-white rounded-lg p-6 text-center shadow-sm border hover:shadow-md transition-shadow">
-                  <div className="text-2xl font-bold text-orange-600">{stats?.favorites || 0}</div>
-                  <div className="text-sm text-gray-600">{t('stats.favorites')}</div>
+                <div className="bg-white rounded-lg p-6 text-center shadow-sm border hover:shadow-md transition-all duration-300 hover:-translate-y-1 group cursor-pointer">
+                  <div className="text-2xl font-bold text-orange-600">
+                    <AnimatedCounter value={stats?.favorites || 0} />
+                  </div>
+                  <div className="text-sm text-gray-600 group-hover:text-orange-600 transition-colors">{t('stats.favorites')}</div>
                 </div>
               </>
             )}

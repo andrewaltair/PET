@@ -17,7 +17,8 @@
     "happyPets": "Happy Pets",
     "verifiedProviders": "Verified Providers",
     "averageRating": "Average Rating",
-    "support": "Support"
+    "support": "Support",
+    "loading": "Loading..."
   },
   "services": {
     "dogBoarding": "Dog Boarding",

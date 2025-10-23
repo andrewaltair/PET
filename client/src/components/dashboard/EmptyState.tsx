@@ -60,17 +60,17 @@ export function EmptyState({ type, role }: EmptyStateProps) {
   if (!content) return null;
 
   return (
-    <Card className="border-dashed">
+    <Card className="border-dashed hover:border-solid transition-all duration-300 hover:shadow-lg">
       <CardContent className="flex flex-col items-center justify-center py-12 px-6">
-        <div className="mb-4">{content.icon}</div>
-        <h3 className="text-xl font-semibold text-gray-900 mb-2 text-center">
+        <div className="mb-4 animate-bounce-in">{content.icon}</div>
+        <h3 className="text-xl font-semibold text-gray-900 mb-2 text-center animate-fade-in">
           {content.title}
         </h3>
-        <p className="text-gray-600 text-center mb-6 max-w-md">
+        <p className="text-gray-600 text-center mb-6 max-w-md animate-fade-in">
           {content.description}
         </p>
-        <div className="flex flex-col sm:flex-row gap-3">
-          <Button asChild size="lg">
+        <div className="flex flex-col sm:flex-row gap-3 animate-slide-in-right">
+          <Button asChild size="lg" className="shadow-md hover:shadow-lg">
             <Link href={content.primaryAction.href}>
               {content.primaryAction.text}
             </Link>

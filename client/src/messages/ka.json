@@ -17,7 +17,8 @@
     "happyPets": "ბედნიერი ცხოველი",
     "verifiedProviders": "სანდო მომვლელი",
     "averageRating": "რეიტინგი",
-    "support": "დახმარება"
+    "support": "დახმარება",
+    "loading": "იტვირთება..."
   },
   "services": {
     "dogBoarding": "ძაღლის დაფარვა",
