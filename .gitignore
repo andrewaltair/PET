@@ -97,3 +97,37 @@ scripts/.env
 *.pem
 *.key
 .vercel
+
+# Temporary documentation files
+*_COMPLETE.md
+*_SUMMARY.md
+*_STATUS.md
+*_GUIDE.md
+*_FIX.md
+*_PLAN.md
+*_SUCCESS.md
+*_READY.md
+*_IMPLEMENTATION.md
+LOGIN_FIX*.md
+HYDRATION*.md
+SECURITY_FIXES*.md
+AUDIT*.md
+QUICK*.md
+PHASE*.md
+TESTIMONIALS*.md
+TRANSLATION*.md
+Д*.md
+И*.md
+К*.md
+П*.md
+С*.md
+*.txt
+!README.txt
+!LICENSE.txt
+
+# Test files
+test-*.html
+performance-*.json
+
+# Storybook
+.storybook/
