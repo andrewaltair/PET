@@ -118,15 +118,15 @@ pet-service-marketplace/
 
 - **Node.js** 18.0.0 or higher
 - **npm** 9.0.0 or higher (or yarn/pnpm)
-- **PostgreSQL 15+** or **MySQL 8.0+**
+- **MySQL 8.0+** or **PostgreSQL 15+**
 - **Git**
 
 ### Installation
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/pet-service-marketplace.git
-   cd pet-service-marketplace
+   git clone https://github.com/andrewaltair/PET.git
+   cd PET
    ```
 
 2. **Install dependencies**
@@ -136,26 +136,21 @@ pet-service-marketplace/
 
 3. **Set up environment variables**
 
-   Create `.env` files in root and `server/` directory:
-   
-   **Root `.env`:**
-   ```env
-   DATABASE_URL="postgresql://user:password@localhost:5432/petservice_marketplace"
-   ```
+   Create `.env` file in `server/` directory:
    
    **Server `.env` (server/.env):**
    ```env
    # Database
-   DATABASE_URL="postgresql://user:password@localhost:5432/petservice_marketplace"
+   DATABASE_URL="mysql://user:password@localhost:3306/petservice_marketplace"
    
    # Server
    PORT=3001
    NODE_ENV=development
-   CORS_ORIGIN=http://localhost:5000
+   CORS_ORIGIN=http://localhost:3000
    
-   # JWT
-   JWT_SECRET=your-super-secret-jwt-key-change-in-production
-   JWT_REFRESH_SECRET=your-super-secret-refresh-key-change-in-production
+   # JWT (minimum 32 characters)
+   JWT_SECRET=your-super-secret-jwt-key-32chars-minimum
+   JWT_REFRESH_SECRET=your-super-secret-refresh-key-32chars-minimum
    JWT_EXPIRES_IN=1h
    JWT_REFRESH_EXPIRES_IN=7d
    
@@ -165,6 +160,10 @@ pet-service-marketplace/
    # Rate Limiting
    RATE_LIMIT_WINDOW_MS=900000
    RATE_LIMIT_MAX=100
+   AUTH_RATE_LIMIT_MAX=100
+   
+   # Redis (optional)
+   REDIS_URL=redis://localhost:6379
    
    # Stripe (optional)
    STRIPE_SECRET_KEY=sk_test_...
@@ -179,11 +178,11 @@ pet-service-marketplace/
 
 4. **Set up the database**
    ```bash
-   # Using PostgreSQL
-   createdb petservice_marketplace
-   
-   # Or using MySQL
+   # Using MySQL
    mysql -u root -p -e "CREATE DATABASE petservice_marketplace;"
+   
+   # Or using PostgreSQL
+   createdb petservice_marketplace
    ```
 
 5. **Run database migrations**
@@ -208,9 +207,10 @@ pet-service-marketplace/
    ```
 
 7. **Access the application**
-   - Frontend: http://localhost:5000
+   - Frontend: http://localhost:3000
    - Backend API: http://localhost:3001
    - API Health: http://localhost:3001/health
+   - API Docs: http://localhost:3001/api-docs
 
 ## 🐳 Docker Setup
 
@@ -240,17 +240,20 @@ This will start:
 
 ### Test Accounts
 
+**Admin Account:**
+- Email: `admin@petcare.com`
+- Password: `admin`
+- Role: `ADMIN`
+
 **Owner Account:**
 - Email: `testowner@test.com`
 - Password: `password123`
+- Role: `OWNER`
 
 **Provider Account:**
 - Email: `testprovider@test.com`
 - Password: `password123`
-
-**Admin Account:**
-- Email: `admin@example.com`
-- Password: `admin`
+- Role: `PROVIDER`
 
 ### Running Tests
 
@@ -403,7 +406,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👥 Authors
 
-- Your Name - [@yourusername](https://github.com/yourusername)
+- Andrew Altair - [@andrewaltair](https://github.com/andrewaltair)
 
 ## 🙏 Acknowledgments
 
@@ -415,8 +418,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 For questions or support:
-- Open an issue on GitHub
-- Contact: your.email@example.com
+- Open an issue on [GitHub](https://github.com/andrewaltair/PET/issues)
+- Check the [changes.md](changes.md) for recent updates
 
 ## 🗺️ Roadmap
 
