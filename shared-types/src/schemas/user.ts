@@ -27,6 +27,16 @@ export const updateProfileSchema = z.object({
   avatarUrl: z.string().url().optional(),
   bio: z.string().max(500).optional(),
   location: z.string().max(100).optional(),
+  address: z.string().max(200).optional(),
+  phone: z.string().max(20).optional(),
+  facebookUrl: z.string().url().optional(),
+  instagramUrl: z.string().url().optional(),
+  tiktokUrl: z.string().url().optional(),
+  telegramUrl: z.string().url().optional(),
+  whatsappUrl: z.string().url().optional(),
+  viberUrl: z.string().url().optional(),
+  animalTypes: z.enum(['DOGS_ONLY', 'ALL_ANIMALS']).optional(),
+  servicesProvided: z.array(z.string()).optional(),
 });
 
 export const createServiceSchema = z.object({

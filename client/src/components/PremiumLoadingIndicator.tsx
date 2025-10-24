@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
 
 interface PremiumLoadingIndicatorProps {
@@ -10,8 +9,6 @@ interface PremiumLoadingIndicatorProps {
 }
 
 export function PremiumLoadingIndicator({ isLoading = true, className }: PremiumLoadingIndicatorProps) {
-  const t = useTranslations('hero');
-  
   if (!isLoading) return null;
 
   return (
@@ -32,7 +29,7 @@ export function PremiumLoadingIndicator({ isLoading = true, className }: Premium
       
       {/* Loading text */}
       <div className="absolute bottom-1/4 left-1/2 -translate-x-1/2 text-center" suppressHydrationWarning>
-        <p className="text-gray-600 font-medium animate-pulse">{t('loading')}</p>
+        <p className="text-gray-600 font-medium animate-pulse">Loading...</p>
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ var UserRole;
 (function (UserRole) {
     UserRole["OWNER"] = "OWNER";
     UserRole["PROVIDER"] = "PROVIDER";
+    UserRole["ADMIN"] = "ADMIN";
 })(UserRole || (exports.UserRole = UserRole = {}));
 var ServiceType;
 (function (ServiceType) {

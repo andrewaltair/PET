@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <defs>
+    <linearGradient id="petTaxiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6366f1;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#petTaxiGrad)"/>
+  <g transform="translate(150, 200)">
+    <!-- Car -->
+    <rect x="100" y="150" width="200" height="80" rx="10" fill="#ffffff" opacity="0.3"/>
+    <rect x="120" y="130" width="160" height="40" rx="5" fill="#ffffff" opacity="0.2"/>
+    <circle cx="150" cy="230" r="25" fill="#ffffff" opacity="0.3"/>
+    <circle cx="250" cy="230" r="25" fill="#ffffff" opacity="0.3"/>
+    <!-- Pet in car -->
+    <ellipse cx="200" cy="180" rx="40" ry="35" fill="#ffffff" opacity="0.4"/>
+    <circle cx="180" cy="160" r="15" fill="#ffffff" opacity="0.5"/>
+    <circle cx="195" cy="155" r="5" fill="#ffffff" opacity="0.6"/>
+    <circle cx="205" cy="155" r="5" fill="#ffffff" opacity="0.6"/>
+  </g>
+  <text x="400" y="400" font-family="Arial, sans-serif" font-size="60" font-weight="bold" fill="#ffffff" text-anchor="middle" opacity="0.9">🚗 Pet Taxi</text>
+</svg>
+

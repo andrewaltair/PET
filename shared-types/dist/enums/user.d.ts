@@ -1,6 +1,7 @@
 export declare enum UserRole {
     OWNER = "OWNER",
-    PROVIDER = "PROVIDER"
+    PROVIDER = "PROVIDER",
+    ADMIN = "ADMIN"
 }
 export declare enum ServiceType {
     WALKING = "WALKING",

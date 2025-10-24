@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { AuthController } from '../controllers/authController';
+import { OAuthController } from '../controllers/oauthController';
 import { validateRequest } from '../middleware/validation';
 import { authenticateToken } from '../middleware/auth';
 import { createUserSchema, loginSchema } from 'petservice-marketplace-shared-types';
@@ -378,6 +379,79 @@ router.post(
   '/refresh',
   AuthController.refreshToken
 );
+
+/**
+ * @swagger
+ * /auth/oauth/callback:
+ *   post:
+ *     tags:
+ *       - Authentication
+ *     summary: OAuth callback endpoint
+ *     description: Handle OAuth callback from Google, Facebook, or Instagram
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - provider
+ *               - email
+ *               - id
+ *             properties:
+ *               provider:
+ *                 type: string
+ *                 enum: [google, facebook, instagram]
+ *                 description: OAuth provider name
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 description: User's email from OAuth provider
+ *               id:
+ *                 type: string
+ *                 description: User's ID from OAuth provider
+ *               name:
+ *                 type: string
+ *                 description: User's full name
+ *               picture:
+ *                 type: string
+ *                 description: User's profile picture URL
+ *               firstName:
+ *                 type: string
+ *                 description: User's first name
+ *               lastName:
+ *                 type: string
+ *                 description: User's last name
+ *     responses:
+ *       200:
+ *         description: OAuth authentication successful
+ *       400:
+ *         description: Missing required OAuth data
+ *       500:
+ *         description: OAuth authentication failed
+ */
+router.post('/oauth/callback', OAuthController.handleCallback);
+
+/**
+ * @swagger
+ * /auth/oauth/:provider:
+ *   get:
+ *     tags:
+ *       - Authentication
+ *     summary: Get OAuth URL for a provider
+ *     description: Returns information about OAuth provider
+ *     parameters:
+ *       - in: path
+ *         name: provider
+ *         required: true
+ *         schema:
+ *           type: string
+ *           enum: [google, facebook, instagram]
+ *     responses:
+ *       200:
+ *         description: OAuth provider information
+ */
+router.get('/oauth/:provider', OAuthController.getAuthUrl);
 
 export { router as authRouter };
 

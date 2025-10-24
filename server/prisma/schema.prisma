@@ -8,19 +8,26 @@ datasource db {
 }
 
 model User {
-  id              String    @id @default(cuid()) @db.VarChar(36)
-  email           String    @unique
-  password        String    @map("password_hash")
+  id              String         @id @default(cuid()) @db.VarChar(36)
+  email           String         @unique
+  password        String?        @map("password_hash")
+  oauthProvider   String?        @map("oauth_provider")
+  oauthId         String?        @map("oauth_id")
   role            UserRole
-  createdAt       DateTime  @default(now()) @map("created_at")
-  updatedAt       DateTime  @updatedAt @map("updated_at")
+  createdAt       DateTime       @default(now()) @map("created_at")
+  updatedAt       DateTime       @updatedAt @map("updated_at")
   bookings        Booking[]
-  sentMessages    Message[] @relation("MessageSender")
+  sentMessages    Message[]      @relation("MessageSender")
   profile         Profile?
-  ownedReviews    Review[]  @relation("reviewOwner")
-  providerReviews Review[]  @relation("reviewProvider")
+  ownedReviews    Review[]       @relation("reviewOwner")
+  providerReviews Review[]       @relation("reviewProvider")
   services        Service[]
+  pets            Pet[]
+  veterinarians   Veterinarian[]
+  certifications  Certification[]
+  availabilities  Availability[]
 
+  @@unique([oauthProvider, oauthId])
   @@map("users")
 }
 
@@ -32,6 +39,19 @@ model Profile {
   avatarUrl                String?  @map("avatar_url")
   bio                      String?
   location                 String?  @map("location")
+  address                  String?  @map("address")
+  phone                    String?  @map("phone")
+  facebookUrl              String?  @map("facebook_url")
+  instagramUrl             String?  @map("instagram_url")
+  tiktokUrl                String?  @map("tiktok_url")
+  telegramUrl              String?  @map("telegram_url")
+  whatsappUrl              String?  @map("whatsapp_url")
+  viberUrl                 String?  @map("viber_url")
+  telegramUsername         String?  @map("telegram_username")
+  whatsappNumber           String?  @map("whatsapp_number")
+  viberNumber              String?  @map("viber_number")
+  animalTypes              String?  @map("animal_types")
+  servicesProvided         String?  @map("services_provided") @db.LongText
   overallAverageRating     Float    @default(0) @map("overall_average_rating")
   stripeAccountId          String?  @unique @map("stripe_account_id")
   stripeOnboardingComplete Boolean  @default(false) @map("stripe_onboarding_complete")
@@ -49,6 +69,7 @@ model Service {
   title         String
   description   String
   price         Decimal     @db.Decimal(10, 2)
+  imageUrl      String?     @map("image_url")
   availability  String      @db.LongText
   averageRating Float       @default(0) @map("average_rating")
   rankingScore  Float       @default(0) @map("ranking_score")
@@ -140,9 +161,77 @@ model ConversationParticipants {
   @@map("_ConversationParticipants")
 }
 
+model Pet {
+  id            String   @id @default(cuid()) @db.VarChar(36)
+  ownerId       String   @map("owner_id") @db.VarChar(36)
+  name          String
+  petType       String   @map("pet_type")
+  breed         String?
+  age           Int?
+  weight        Float?
+  medicalNotes  String?  @map("medical_notes") @db.LongText
+  photoUrl      String?  @map("photo_url")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+  owner         User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  @@index([ownerId])
+  @@map("pets")
+}
+
+model Availability {
+  id          String   @id @default(cuid()) @db.VarChar(36)
+  providerId  String   @map("provider_id") @db.VarChar(36)
+  dayOfWeek   String   @map("day_of_week")
+  startTime   String   @map("start_time")
+  endTime     String   @map("end_time")
+  isAvailable Boolean  @default(true) @map("is_available")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  provider    User     @relation(fields: [providerId], references: [id], onDelete: Cascade)
+
+  @@index([providerId])
+  @@map("availabilities")
+}
+
+model Certification {
+  id          String   @id @default(cuid()) @db.VarChar(36)
+  providerId  String   @map("provider_id") @db.VarChar(36)
+  title       String
+  issuer      String
+  issueDate   DateTime @map("issue_date")
+  expiryDate  DateTime? @map("expiry_date")
+  certificateUrl String? @map("certificate_url")
+  verified    Boolean  @default(false)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  provider    User     @relation(fields: [providerId], references: [id], onDelete: Cascade)
+
+  @@index([providerId])
+  @@map("certifications")
+}
+
+model Veterinarian {
+  id          String   @id @default(cuid()) @db.VarChar(36)
+  ownerId     String   @map("owner_id") @db.VarChar(36)
+  name        String
+  clinicName  String?  @map("clinic_name")
+  phone       String?
+  email       String?
+  address     String?
+  notes       String?  @db.LongText
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  @@index([ownerId])
+  @@map("veterinarians")
+}
+
 enum UserRole {
   OWNER
   PROVIDER
+  ADMIN
 }
 
 enum ServiceType {

@@ -1,5 +1,5 @@
 import prisma from '../config/database';
-import { BookingWithDetails, CreateBookingRequest, UpdateBookingStatusRequest, UserRole, BookingStatus, ServiceWithProvider } from 'petservice-marketplace-shared-types';
+import { BookingWithDetails, CreateBookingRequest, UpdateBookingStatusRequest, UserRole, BookingStatus, ServiceWithProvider, User } from 'petservice-marketplace-shared-types';
 
 export class BookingService {
   /**

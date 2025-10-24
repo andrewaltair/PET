@@ -5,25 +5,34 @@ import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../../contexts/AuthContext';
 import { Button } from '../ui/button';
+import { Logo } from '../ui/Logo';
 import { Globe, Menu, X } from 'lucide-react';
 import { LanguageSwitcher } from '../LanguageSwitcher';
+import { AuthModal } from '../auth/AuthModal';
 
 export function PetBackerHeader() {
   const { isAuthenticated } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authModalTab, setAuthModalTab] = useState<'login' | 'register'>('login');
   const t = useTranslations();
+
+  const openLoginModal = () => {
+    setAuthModalTab('login');
+    setIsAuthModalOpen(true);
+  };
+
+  const openRegisterModal = () => {
+    setAuthModalTab('register');
+    setIsAuthModalOpen(true);
+  };
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50" suppressHydrationWarning>
       <div className="max-w-7xl mx-auto px-4">
         <nav className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2" suppressHydrationWarning>
-            <div className="w-10 h-10 bg-gradient-to-r from-green-600 to-blue-600 rounded-full flex items-center justify-center">
-              <span className="text-white text-xl font-bold">🐾</span>
-            </div>
-            <span className="text-2xl font-bold text-gray-900">PetService</span>
-          </Link>
+          <Logo size="lg" />
 
           {/* Desktop Navigation Links */}
           <div className="hidden md:flex items-center gap-6">
@@ -49,16 +58,12 @@ export function PetBackerHeader() {
               </Link>
             ) : (
               <>
-                <Link href="/register" suppressHydrationWarning>
-                  <Button variant="outline" className="border-green-600 text-green-600 hover:bg-green-50">
-                    {t('header.signUp')}
-                  </Button>
-                </Link>
-                <Link href="/login" suppressHydrationWarning>
-                  <Button className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white">
-                    {t('header.login')}
-                  </Button>
-                </Link>
+                <Button variant="outline" className="border-green-600 text-green-600 hover:bg-green-50" onClick={openRegisterModal}>
+                  {t('header.signUp')}
+                </Button>
+                <Button className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white" onClick={openLoginModal}>
+                  {t('header.login')}
+                </Button>
               </>
             )}
           </div>
@@ -118,16 +123,25 @@ export function PetBackerHeader() {
                   </Link>
                 ) : (
                   <>
-                    <Link href="/register" onClick={() => setIsMobileMenuOpen(false)} suppressHydrationWarning>
-                      <Button variant="outline" className="w-full border-green-600 text-green-600 hover:bg-green-50">
-                        {t('header.signUp')}
-                      </Button>
-                    </Link>
-                    <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} suppressHydrationWarning>
-                      <Button className="w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white">
-                        {t('header.login')}
-                      </Button>
-                    </Link>
+                    <Button 
+                      variant="outline" 
+                      className="w-full border-green-600 text-green-600 hover:bg-green-50"
+                      onClick={() => {
+                        setIsMobileMenuOpen(false);
+                        openRegisterModal();
+                      }}
+                    >
+                      {t('header.signUp')}
+                    </Button>
+                    <Button 
+                      className="w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white"
+                      onClick={() => {
+                        setIsMobileMenuOpen(false);
+                        openLoginModal();
+                      }}
+                    >
+                      {t('header.login')}
+                    </Button>
                   </>
                 )}
               </div>
@@ -135,6 +149,13 @@ export function PetBackerHeader() {
           </div>
         )}
       </div>
+
+      {/* Auth Modal */}
+      <AuthModal 
+        isOpen={isAuthModalOpen} 
+        onClose={() => setIsAuthModalOpen(false)}
+        defaultTab={authModalTab}
+      />
     </header>
   );
 }

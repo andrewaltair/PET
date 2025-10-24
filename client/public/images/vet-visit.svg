@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <defs>
+    <linearGradient id="vetVisitGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ef4444;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f97316;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#vetVisitGrad)"/>
+  <g transform="translate(200, 150)">
+    <!-- Medical Cross -->
+    <rect x="185" y="100" width="30" height="100" fill="#ffffff" opacity="0.4"/>
+    <rect x="155" y="130" width="90" height="30" fill="#ffffff" opacity="0.4"/>
+    <!-- Pet -->
+    <ellipse cx="200" cy="280" rx="70" ry="60" fill="#ffffff" opacity="0.3"/>
+    <circle cx="175" cy="250" r="20" fill="#ffffff" opacity="0.4"/>
+    <circle cx="188" cy="245" r="6" fill="#ffffff" opacity="0.5"/>
+    <circle cx="193" cy="245" r="6" fill="#ffffff" opacity="0.5"/>
+    <!-- Heartbeat -->
+    <polyline points="250,230 260,210 270,240 280,220 290,230" stroke="#ffffff" stroke-width="4" fill="none" opacity="0.5"/>
+  </g>
+  <text x="400" y="420" font-family="Arial, sans-serif" font-size="60" font-weight="bold" fill="#ffffff" text-anchor="middle" opacity="0.9">🏥 Vet Visit</text>
+</svg>
+

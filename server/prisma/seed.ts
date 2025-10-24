@@ -126,9 +126,183 @@ async function main() {
     return `/avatars/${avatar}`;
   };
 
-  // Create Seekers (OWNER role) - 100 users
-  console.log('📝 Creating 100 OWNER users...');
-  for (let i = 0; i < 100; i++) {
+  // Helper function to get service-specific images from Unsplash
+  const getServiceImage = (serviceType: ServiceType): string => {
+    const serviceImages: Record<ServiceType, string[]> = {
+      [ServiceType.WALKING]: [
+        'https://images.unsplash.com/photo-1552053831-71594a27632d?w=800&h=600&fit=crop',
+        'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=800&h=600&fit=crop',
+        'https://images.unsplash.com/photo-1517849845537-4d257902454a?w=800&h=600&fit=crop',
+      ],
+      [ServiceType.SITTING]: [
+        'https://images.unsplash.com/photo-1551717743-49959800b1f6?w=800&h=600&fit=crop',
+        'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=800&h=600&fit=crop',
+        'https://images.unsplash.com/photo-1574158622682-e40e69881006?w=800&h=600&fit=crop',
+      ],
+      [ServiceType.GROOMING]: [
+        'https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?w=800&h=600&fit=crop',
+        'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=800&h=600&fit=crop',
+        'https://images.unsplash.com/photo-1522276498395-f4f68f7f8454?w=800&h=600&fit=crop',
+      ],
+      [ServiceType.VETERINARIAN_VISIT]: [
+        'https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=800&h=600&fit=crop',
+        'https://images.unsplash.com/photo-1578164252419-74dcee31bfe3?w=800&h=600&fit=crop',
+        'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=800&h=600&fit=crop',
+      ],
+      [ServiceType.TAXI]: [
+        'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=800&h=600&fit=crop',
+        'https://images.unsplash.com/photo-1519099064598-86a67c52577e?w=800&h=600&fit=crop',
+        'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=800&h=600&fit=crop',
+      ],
+      [ServiceType.TRAINING]: [
+        'https://images.unsplash.com/photo-1574158622682-e40e69881006?w=800&h=600&fit=crop',
+        'https://images.unsplash.com/photo-1593134257782-e89567b7718a?w=800&h=600&fit=crop',
+        'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=800&h=600&fit=crop',
+      ],
+    };
+    return faker.helpers.arrayElement(serviceImages[serviceType]);
+  };
+
+  // Helper function to generate realistic service data
+  const generateServiceData = (serviceType: ServiceType) => {
+    const serviceData: Record<ServiceType, { titles: string[]; descriptions: string[] }> = {
+      [ServiceType.WALKING]: {
+        titles: [
+          'Профессиональный выгул собак',
+          'Прогулка с вашим питомцем',
+          'Активные прогулки для собак',
+          'Выгул собак в парке',
+          'Индивидуальная прогулка',
+        ],
+        descriptions: [
+          'Профессиональный выгул собак с учетом их потребностей в физической активности. Подходит для всех пород.',
+          'Регулярные прогулки для вашего питомца с опытным собаководом. Большой опыт работы с различными породами.',
+          'Активные прогулки с играми и физическими упражнениями. Отлично подходит для энергичных собак.',
+          'Прогулки в парке с возможностью свободного выгула. Безопасность и комфорт вашего питомца - приоритет.',
+          'Индивидуальный подход к каждому питомцу. Прогулки по удобному для вас графику.',
+        ],
+      },
+      [ServiceType.SITTING]: {
+        titles: [
+          'Домашний присмотр за питомцем',
+          'Профессиональный ситтер',
+          'Присмотр с заботой',
+          'Ситтинг для собак и кошек',
+          'Дневной присмотр',
+        ],
+        descriptions: [
+          'Профессиональный присмотр за вашим питомцем дома. Включает кормление, прогулки и игры.',
+          'Опытный ситтер с большим стажем работы. Ваш питомец будет в надежных руках.',
+          'Заботливый присмотр с вниманием к деталям. Регулярные фото-отчеты и обновления.',
+          'Присмотр как для собак, так и для кошек. Гибкий график и индивидуальный подход.',
+          'Дневной присмотр с возможностью выгула. Отлично подходит для работающих владельцев.',
+        ],
+      },
+      [ServiceType.GROOMING]: {
+        titles: [
+          'Полный груминг собак',
+          'Стрижка и уход за шерстью',
+          'Профессиональный груминг',
+          'Уход за питомцем',
+          'Мобильный груминг',
+        ],
+        descriptions: [
+          'Полный спектр услуг груминга: стрижка, мытье, сушка, стрижка когтей. Все инструменты профессиональные.',
+          'Стрижка и уход за шерстью всех пород. Используем только качественную косметику для животных.',
+          'Профессиональный груминг с использованием современных техник. Большой опыт работы.',
+          'Комплексный уход за вашим питомцем. Включает все необходимые процедуры.',
+          'Мобильный груминг с выездом на дом. Удобно для вас и комфортно для питомца.',
+        ],
+      },
+      [ServiceType.VETERINARIAN_VISIT]: {
+        titles: [
+          'Ветеринарный осмотр на дому',
+          'Консультация ветеринара',
+          'Профилактический осмотр',
+          'Ветеринарные услуги',
+          'Домашний визит ветеринара',
+        ],
+        descriptions: [
+          'Ветеринарный осмотр на дому. Профессиональный врач проведет полное обследование вашего питомца.',
+          'Консультация опытного ветеринара по вопросам здоровья и ухода за питомцем.',
+          'Профилактический осмотр с рекомендациями по уходу и питанию.',
+          'Полный спектр ветеринарных услуг на дому. При необходимости - лабораторные анализы.',
+          'Удобный визит ветеринара на дом. Без стресса для питомца, с полным вниманием врача.',
+        ],
+      },
+      [ServiceType.TAXI]: {
+        titles: [
+          'Транспортировка питомцев',
+          'Такси для животных',
+          'Безопасная перевозка',
+          'Ветеринарное такси',
+          'Комфортная перевозка',
+        ],
+        descriptions: [
+          'Безопасная транспортировка вашего питомца. Опытный водитель и специальное оборудование.',
+          'Удобное такси для перевозки животных. Комфорт и безопасность - главные приоритеты.',
+          'Безопасная перевозка питомцев в клинику, на выставку или домой. Профессиональное оборудование.',
+          'Ветеринарное такси с контролем условий транспортировки. Подходит для больных животных.',
+          'Комфортная перевозка с заботой о питомце. Опытный персонал и современный транспорт.',
+        ],
+      },
+      [ServiceType.TRAINING]: {
+        titles: [
+          'Дрессировка собак',
+          'Профессиональная тренировка',
+          'Курс послушания',
+          'Дрессировка щенков',
+          'Коррекция поведения',
+        ],
+        descriptions: [
+          'Профессиональная дрессировка собак всех пород. Используем современные методы обучения.',
+          'Тренировка с индивидуальным подходом. Опытный кинолог поможет воспитать послушного питомца.',
+          'Курс базового послушания и команды. Подходит для собак всех возрастов.',
+          'Специализированная дрессировка для щенков. Заложим правильные привычки с раннего возраста.',
+          'Коррекция нежелательного поведения. Работаем с агрессией, лаем, страхами и другими проблемами.',
+        ],
+      },
+    };
+    return serviceData[serviceType];
+  };
+
+  // Helper function to get pet images
+  const getPetImage = (petType: string): string => {
+    const petImages: Record<string, string[]> = {
+      dog: [
+        'https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?w=400&h=400&fit=crop',
+        'https://images.unsplash.com/photo-1587402092301-725e37c70fd8?w=400&h=400&fit=crop',
+        'https://images.unsplash.com/photo-1561037404-61cd46aa615b?w=400&h=400&fit=crop',
+        'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=400&h=400&fit=crop',
+      ],
+      cat: [
+        'https://images.unsplash.com/photo-1513245543132-31f507417b26?w=400&h=400&fit=crop',
+        'https://images.unsplash.com/photo-1520087619250-584c0cbd35f8?w=400&h=400&fit=crop',
+        'https://images.unsplash.com/photo-1529778873920-7da60d5e8fd2?w=400&h=400&fit=crop',
+        'https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?w=400&h=400&fit=crop',
+      ],
+      bird: [
+        'https://images.unsplash.com/photo-1452570053594-1b985d6ea890?w=400&h=400&fit=crop',
+        'https://images.unsplash.com/photo-1511735111819-9a3f7709049c?w=400&h=400&fit=crop',
+      ],
+      rabbit: [
+        'https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=400&h=400&fit=crop',
+        'https://images.unsplash.com/photo-1560114928-40f1f1eb26a0?w=400&h=400&fit=crop',
+      ],
+    };
+    return faker.helpers.arrayElement(petImages[petType] || petImages.dog);
+  };
+
+  // Pet types and breeds
+  const petTypes = ['dog', 'cat', 'bird', 'rabbit'];
+  const dogBreeds = ['Лабрадор', 'Овчарка', 'Хаски', 'Ретривер', 'Бигль', 'Йоркширский терьер', 'Такса', 'Бульдог'];
+  const catBreeds = ['Британская', 'Персидская', 'Мейн-кун', 'Сфинкс', 'Сиамская', 'Русская голубая', 'Шотландская вислоухая'];
+  const birdBreeds = ['Канарейка', 'Попугай', 'Волнистый попугайчик'];
+  const rabbitBreeds = ['Карликовый', 'Ангорский', 'Вислоухий'];
+
+  // Create Seekers (OWNER role) - 50 users
+  console.log('📝 Creating 50 OWNER users...');
+  for (let i = 0; i < 50; i++) {
     const user = await db.user.create({
       data: {
         email: faker.internet.email(),
@@ -137,21 +311,57 @@ async function main() {
       },
     });
 
-    // Create profile for each owner
+    // Create profile for each owner with complete data
     await db.profile.create({
       data: {
         userId: user.id,
         firstName: faker.person.firstName(),
         lastName: faker.person.lastName(),
         avatarUrl: getRandomAvatar(),
+        bio: faker.lorem.paragraphs(2),
+        location: `${faker.location.city()}, ${faker.location.state()}`,
       },
     });
 
-    if ((i + 1) % 20 === 0) {
-      console.log(`   ✓ Created ${i + 1} owners`);
+    // Create 1-2 pets for each owner
+    const numPets = faker.number.int({ min: 1, max: 2 });
+    for (let j = 0; j < numPets; j++) {
+      const petType = faker.helpers.arrayElement(petTypes);
+      let breed = '';
+      
+      switch (petType) {
+        case 'dog':
+          breed = faker.helpers.arrayElement(dogBreeds);
+          break;
+        case 'cat':
+          breed = faker.helpers.arrayElement(catBreeds);
+          break;
+        case 'bird':
+          breed = faker.helpers.arrayElement(birdBreeds);
+          break;
+        case 'rabbit':
+          breed = faker.helpers.arrayElement(rabbitBreeds);
+          break;
+      }
+
+      await db.pet.create({
+        data: {
+          ownerId: user.id,
+          name: faker.person.firstName(),
+          petType: petType === 'dog' ? 'Собака' : petType === 'cat' ? 'Кошка' : petType === 'bird' ? 'Птица' : 'Кролик',
+          breed,
+          age: faker.number.int({ min: 1, max: 15 }),
+          weight: faker.number.float({ min: 1, max: 50, fractionDigits: 1 }),
+          photoUrl: getPetImage(petType),
+        },
+      });
+    }
+
+    if ((i + 1) % 10 === 0) {
+      console.log(`   ✓ Created ${i + 1} owners with pets`);
     }
   }
-  console.log('✅ Created 100 OWNER users with profiles');
+  console.log('✅ Created 50 OWNER users with profiles and pets');
 
   // Create Providers - 50 users
   console.log('📝 Creating 50 PROVIDER users...');
@@ -173,35 +383,48 @@ async function main() {
       },
     });
 
-    // Create profile for each provider with bio and location
+    // Create profile for each provider with complete data
     await db.profile.create({
       data: {
         userId: provider.id,
         firstName: faker.person.firstName(),
         lastName: faker.person.lastName(),
         avatarUrl: getRandomAvatar(),
-        bio: faker.lorem.paragraph(),
+        bio: faker.lorem.paragraphs(3),
         location: `${faker.location.city()}, ${faker.location.state()}`,
+        servicesProvided: serviceTypes.map(st => st.toLowerCase()).join(', '),
       },
     });
 
-    // Create 1-3 random services for each provider
-    const numServices = faker.number.int({ min: 1, max: 3 });
+    // Create 1-2 services for each provider
+    const numServices = faker.number.int({ min: 1, max: 2 });
     for (let j = 0; j < numServices; j++) {
+      const serviceType = faker.helpers.arrayElement(serviceTypes);
+      const serviceData = generateServiceData(serviceType);
+      
       await db.service.create({
         data: {
           providerId: provider.id,
-          serviceType: faker.helpers.arrayElement(serviceTypes),
-          title: faker.commerce.productName(),
-          description: faker.lorem.sentence(),
-          price: faker.number.float({ min: 10, max: 200, precision: 0.01 }),
-          availability: {},
+          serviceType,
+          title: faker.helpers.arrayElement(serviceData.titles),
+          description: faker.helpers.arrayElement(serviceData.descriptions),
+          price: faker.number.float({ min: 15, max: 300, fractionDigits: 2 }),
+          imageUrl: getServiceImage(serviceType),
+          availability: JSON.stringify({
+            monday: { start: '09:00', end: '18:00' },
+            tuesday: { start: '09:00', end: '18:00' },
+            wednesday: { start: '09:00', end: '18:00' },
+            thursday: { start: '09:00', end: '18:00' },
+            friday: { start: '09:00', end: '18:00' },
+            saturday: { start: '10:00', end: '16:00' },
+            sunday: { start: '10:00', end: '16:00' },
+          }),
         },
       });
     }
 
     if ((i + 1) % 10 === 0) {
-      console.log(`   ✓ Created ${i + 1} providers`);
+      console.log(`   ✓ Created ${i + 1} providers with services`);
     }
   }
   console.log('✅ Created 50 PROVIDER users with profiles and services');
@@ -217,4 +440,3 @@ main()
   .finally(async () => {
     await db.$disconnect();
   });
-

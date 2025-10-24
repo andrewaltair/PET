@@ -1,0 +1,57 @@
+## [2025-01-23] Add New Service Modal Improvements
+
+**Date**: 2025-01-23
+
+**Objective**: Modernize the "Add New Service" modal by replacing basic HTML elements with shadcn/ui components and improving the user experience for price input and image upload.
+
+### Changes Made
+
+**1. Replaced Windows 98-style Dropdown with shadcn Select**
+- **Before**: Basic HTML `<select>` element with minimal styling
+- **After**: Modern shadcn/ui `<Select>` component with proper styling and animations
+- **Benefits**: Better UX, proper keyboard navigation, consistent with design system
+
+**2. Added File Upload Button (replaced URL input)**
+- **Before**: Text input field for image URL
+- **After**: File upload button with preview functionality
+- **Features**:
+  - Drag-and-drop style upload area
+  - Image preview after selection
+  - Remove image button
+  - Accepts PNG, JPG, WEBP formats
+  - Shows upload instructions
+
+**3. Changed Price Input to FROM - TO Format**
+- **Before**: Single price input field
+- **After**: Two separate inputs for "Price From" and "Price To"
+- **Benefits**: Allows providers to specify price ranges for their services
+
+### Technical Implementation
+
+**New State Variables**:
+- `imageFile`: Stores the selected File object
+- `imagePreview`: Stores the preview URL for display
+- `priceFrom` and `priceTo`: Separate price range inputs
+
+**New Functions**:
+- `handleImageUpload()`: Handles file selection and creates preview
+- `handleRemoveImage()`: Clears the selected image
+
+**Updated Form Structure**:
+- Service Type: Now uses Select, SelectTrigger, SelectValue, SelectContent, SelectItem components
+- Price: Split into two number inputs (priceFrom, priceTo)
+- Image: File upload with preview display
+
+### Files Modified
+- `client/src/components/user/ProviderServiceManagement.tsx`
+
+### Import Additions
+- Added: `Select, SelectContent, SelectItem, SelectTrigger, SelectValue` from '@/components/ui/select'
+- Added: `Upload, X` icons from 'lucide-react'
+
+### Result
+✅ Modern, professional-looking form that matches the rest of the application
+✅ Better user experience with visual feedback and proper component usage
+✅ Price range functionality for flexible service pricing
+✅ Image upload capability with preview
+

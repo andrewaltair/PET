@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Home, Heart, Scissors, Dog, Car, GraduationCap } from 'lucide-react';
 import { ServiceType } from 'petservice-marketplace-shared-types';
+import { Button } from '../ui/button';
 
 export function ServiceCategories() {
   const router = useRouter();
@@ -30,20 +31,18 @@ export function ServiceCategories() {
           {services.map((service, index) => {
             const Icon = service.icon;
             return (
-              <div
+              <Button
                 key={index}
-                className="flex flex-col items-center gap-3 min-w-[100px] cursor-pointer group"
+                variant="ghost"
+                className="flex flex-col items-center gap-3 min-w-[100px] h-auto p-3 group"
                 onClick={() => handleCategoryClick(service.serviceType)}
-                onKeyPress={(e) => e.key === 'Enter' && handleCategoryClick(service.serviceType)}
-                role="button"
-                tabIndex={0}
                 aria-label={`View ${service.label} services`}
               >
                 <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${service.color} ${service.hoverColor} flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all transform group-hover:scale-105`}>
                   <Icon className="w-10 h-10 text-white" />
                 </div>
                 <span className="text-sm font-semibold text-gray-700 text-center group-hover:text-gray-900 transition-colors">{service.label}</span>
-              </div>
+              </Button>
             );
           })}
         </div>

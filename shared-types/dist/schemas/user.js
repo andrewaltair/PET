@@ -26,6 +26,16 @@ exports.updateProfileSchema = zod_1.z.object({
     avatarUrl: zod_1.z.string().url().optional(),
     bio: zod_1.z.string().max(500).optional(),
     location: zod_1.z.string().max(100).optional(),
+    address: zod_1.z.string().max(200).optional(),
+    phone: zod_1.z.string().max(20).optional(),
+    facebookUrl: zod_1.z.string().url().optional(),
+    instagramUrl: zod_1.z.string().url().optional(),
+    tiktokUrl: zod_1.z.string().url().optional(),
+    telegramUrl: zod_1.z.string().url().optional(),
+    whatsappUrl: zod_1.z.string().url().optional(),
+    viberUrl: zod_1.z.string().url().optional(),
+    animalTypes: zod_1.z.enum(['DOGS_ONLY', 'ALL_ANIMALS']).optional(),
+    servicesProvided: zod_1.z.array(zod_1.z.string()).optional(),
 });
 exports.createServiceSchema = zod_1.z.object({
     serviceType: zod_1.z.nativeEnum(enums_1.ServiceType),

@@ -51,18 +51,48 @@ export declare const updateProfileSchema: z.ZodObject<{
     avatarUrl: z.ZodOptional<z.ZodString>;
     bio: z.ZodOptional<z.ZodString>;
     location: z.ZodOptional<z.ZodString>;
+    address: z.ZodOptional<z.ZodString>;
+    phone: z.ZodOptional<z.ZodString>;
+    facebookUrl: z.ZodOptional<z.ZodString>;
+    instagramUrl: z.ZodOptional<z.ZodString>;
+    tiktokUrl: z.ZodOptional<z.ZodString>;
+    telegramUrl: z.ZodOptional<z.ZodString>;
+    whatsappUrl: z.ZodOptional<z.ZodString>;
+    viberUrl: z.ZodOptional<z.ZodString>;
+    animalTypes: z.ZodOptional<z.ZodEnum<["DOGS_ONLY", "ALL_ANIMALS"]>>;
+    servicesProvided: z.ZodOptional<z.ZodArray<z.ZodString, "many">>;
 }, "strip", z.ZodTypeAny, {
     firstName?: string | undefined;
     lastName?: string | undefined;
     avatarUrl?: string | undefined;
     bio?: string | undefined;
     location?: string | undefined;
+    address?: string | undefined;
+    phone?: string | undefined;
+    facebookUrl?: string | undefined;
+    instagramUrl?: string | undefined;
+    tiktokUrl?: string | undefined;
+    telegramUrl?: string | undefined;
+    whatsappUrl?: string | undefined;
+    viberUrl?: string | undefined;
+    animalTypes?: "DOGS_ONLY" | "ALL_ANIMALS" | undefined;
+    servicesProvided?: string[] | undefined;
 }, {
     firstName?: string | undefined;
     lastName?: string | undefined;
     avatarUrl?: string | undefined;
     bio?: string | undefined;
     location?: string | undefined;
+    address?: string | undefined;
+    phone?: string | undefined;
+    facebookUrl?: string | undefined;
+    instagramUrl?: string | undefined;
+    tiktokUrl?: string | undefined;
+    telegramUrl?: string | undefined;
+    whatsappUrl?: string | undefined;
+    viberUrl?: string | undefined;
+    animalTypes?: "DOGS_ONLY" | "ALL_ANIMALS" | undefined;
+    servicesProvided?: string[] | undefined;
 }>;
 export declare const createServiceSchema: z.ZodObject<{
     serviceType: z.ZodNativeEnum<typeof ServiceType>;

@@ -1,4 +1,4 @@
-import { prisma } from '../config/database';
+import prisma from '../config/database';
 import { CreateReviewRequest, ReviewResponse, BookingStatus, UserRole } from 'petservice-marketplace-shared-types';
 
 export class ReviewService {

@@ -3,10 +3,12 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { authAPI } from '../services/api';
 import { toast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 export function useRegister() {
   const queryClient = useQueryClient();
   const router = useRouter();
+  const t = useTranslations('auth');
 
   return useMutation({
     mutationFn: authAPI.register,
@@ -25,7 +27,7 @@ export function useRegister() {
       queryClient.setQueryData(['auth', 'me'], data.user);
       console.log('[useRegister DEBUG] queryClient updated with user:', data.user);
 
-      toast({ title: 'Registration Successful!', description: 'Welcome!' });
+      toast({ title: t('loginSuccess'), description: t('loginSuccessDesc') });
 
       console.log('[useRegister DEBUG] About to redirect to /dashboard');
       router.push('/dashboard');
@@ -41,6 +43,7 @@ export function useRegister() {
 export function useLogin() {
   const queryClient = useQueryClient();
   const router = useRouter();
+  const t = useTranslations('auth');
 
   return useMutation({
     mutationFn: authAPI.login,
@@ -59,7 +62,7 @@ export function useLogin() {
       queryClient.setQueryData(['auth', 'me'], data.user);
       console.log('[useLogin DEBUG] queryClient updated with user:', data.user);
 
-      toast({ title: 'Login Successful!', description: 'Welcome back!' });
+      toast({ title: t('loginSuccess'), description: t('loginSuccessDesc') });
 
       console.log('[useLogin DEBUG] About to redirect to /dashboard');
       router.push('/dashboard');

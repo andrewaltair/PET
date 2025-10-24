@@ -2,9 +2,10 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useTranslations } from 'next-intl';
 import { useLogin } from '../../hooks/useAuth';
 import { Button } from '../ui/button';
-import { LogIn } from 'lucide-react';
+import { LogIn, Mail, Lock } from 'lucide-react';
 import { Input } from '../ui/input';
 import {
   Form,
@@ -17,6 +18,7 @@ import {
 } from '../ui/form';
 import { loginSchema, type LoginFormData } from '../../lib/validators/auth';
 import { LoginRequest } from '../../api/auth';
+import { SocialAuthButton } from './SocialAuthButton';
 
 interface LoginFormProps {
   onSuccess?: () => void;
@@ -25,6 +27,7 @@ interface LoginFormProps {
 }
 
 export function LoginForm({ onSuccess, defaultValues, className }: LoginFormProps) {
+  const t = useTranslations('auth');
   const loginMutation = useLogin();
 
   const form = useForm<LoginFormData>({
@@ -61,15 +64,16 @@ export function LoginForm({ onSuccess, defaultValues, className }: LoginFormProp
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel htmlFor="email">Email address</FormLabel>
+                <FormLabel htmlFor="email">{t('emailAddress')}</FormLabel>
                 <FormControl>
                   <Input
+                    {...field}
                     id="email"
                     type="email"
                     autoComplete="email"
-                    placeholder="Enter your email"
+                    placeholder={t('enterYourEmail')}
                     aria-describedby="email-error"
-                    {...field}
+                    leftIcon={<Mail className="h-4 w-4" />}
                   />
                 </FormControl>
                 <FormMessage id="email-error" />
@@ -82,19 +86,20 @@ export function LoginForm({ onSuccess, defaultValues, className }: LoginFormProp
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel htmlFor="password">Password</FormLabel>
+                <FormLabel htmlFor="password">{t('password')}</FormLabel>
                 <FormControl>
                   <Input
+                    {...field}
                     id="password"
                     type="password"
                     autoComplete="current-password"
-                    placeholder="Enter your password"
+                    placeholder={t('enterYourPassword')}
                     aria-describedby="password-error"
-                    {...field}
+                    leftIcon={<Lock className="h-4 w-4" />}
                   />
                 </FormControl>
                 <FormDescription>
-                  Use the password associated with your account
+                  {t('usePasswordAssociated')}
                 </FormDescription>
                 <FormMessage id="password-error" />
               </FormItem>
@@ -103,16 +108,34 @@ export function LoginForm({ onSuccess, defaultValues, className }: LoginFormProp
 
           <Button
             type="submit"
-            variant="default"
             disabled={loginMutation.isPending}
-            className="w-full shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 font-semibold"
+            className="w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 font-semibold"
             aria-describedby={loginMutation.isPending ? "login-loading" : undefined}
           >
             <LogIn className="mr-2 h-5 w-5" aria-hidden="true" />
             <span id={loginMutation.isPending ? "login-loading" : undefined}>
-              {loginMutation.isPending ? 'Logging in...' : 'Sign in'}
+              {loginMutation.isPending ? t('loggingIn') : t('signIn')}
             </span>
           </Button>
+
+          {/* Divider */}
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-background px-2 text-muted-foreground">
+                {t('orContinueWith')}
+              </span>
+            </div>
+          </div>
+
+          {/* Social Login Buttons */}
+          <div className="grid grid-cols-1 gap-3">
+            <SocialAuthButton provider="google" onSuccess={onSuccess} />
+            <SocialAuthButton provider="facebook" onSuccess={onSuccess} />
+            <SocialAuthButton provider="instagram" onSuccess={onSuccess} />
+          </div>
         </form>
       </Form>
     </div>

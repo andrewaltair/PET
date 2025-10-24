@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { BookingWithDetails, BookingStatus, PaymentStatus, UserRole } from 'petservice-marketplace-shared-types';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -19,6 +19,7 @@ interface BookingCardProps {
 
 export function BookingCard({ booking, userRole, onStatusUpdate, isUpdating }: BookingCardProps) {
   const t = useTranslations('bookingCard');
+  const locale = useLocale();
   const [confirmDialog, setConfirmDialog] = useState<{
     open: boolean;
     title: string;
@@ -63,7 +64,7 @@ export function BookingCard({ booking, userRole, onStatusUpdate, isUpdating }: B
   };
 
   const formatBookingTime = (date: Date): string => {
-    return new Intl.DateTimeFormat('en-US', {
+    return new Intl.DateTimeFormat(locale, {
       weekday: 'long',
       year: 'numeric',
       month: 'long',
@@ -187,9 +188,9 @@ export function BookingCard({ booking, userRole, onStatusUpdate, isUpdating }: B
       </CardContent>
 
       <CardFooter>
-        <div className="flex justify-between items-center w-full">
+          <div className="flex justify-between items-center w-full">
           <div className="text-xs text-muted-foreground">
-            {t('bookedOn', { date: new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(booking.createdAt)) })}
+            {t('bookedOn', { date: new Intl.DateTimeFormat(locale, { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(booking.createdAt)) })}
           </div>
 
           <div className="flex space-x-2">
@@ -198,7 +199,7 @@ export function BookingCard({ booking, userRole, onStatusUpdate, isUpdating }: B
                 onClick={handlePay}
                 variant="default"
                 size="sm"
-                className="bg-blue-600 hover:bg-blue-700"
+                className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white shadow-lg hover:shadow-xl"
               >
                 <CreditCard className="mr-2 h-4 w-4" />
                 {t('payNow')}

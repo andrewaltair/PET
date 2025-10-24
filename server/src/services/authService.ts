@@ -17,8 +17,8 @@ export class AuthService {
       throw new Error('User with this email already exists');
     }
 
-    // Hash password
-    const passwordHash = await bcrypt.hash(password, appConfig.bcryptRounds);
+    // Hash password if provided
+    const passwordHash = password ? await bcrypt.hash(password, appConfig.bcryptRounds) : null;
 
     // Insert user into database
     const user = await prisma.user.create({

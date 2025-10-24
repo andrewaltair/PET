@@ -23,6 +23,19 @@ export class ProfileService {
         avatarUrl: profile.avatarUrl || undefined,
         bio: profile.bio || undefined,
         location: profile.location || undefined,
+        address: profile.address || undefined,
+        phone: profile.phone || undefined,
+        facebookUrl: profile.facebookUrl || undefined,
+        instagramUrl: profile.instagramUrl || undefined,
+        tiktokUrl: profile.tiktokUrl || undefined,
+        telegramUrl: profile.telegramUrl || undefined,
+        whatsappUrl: profile.whatsappUrl || undefined,
+        viberUrl: profile.viberUrl || undefined,
+        telegramUsername: profile.telegramUsername || undefined,
+        whatsappNumber: profile.whatsappNumber || undefined,
+        viberNumber: profile.viberNumber || undefined,
+        animalTypes: profile.animalTypes || undefined,
+        servicesProvided: profile.servicesProvided ? JSON.parse(profile.servicesProvided) : undefined,
         overallAverageRating: profile.overallAverageRating,
         createdAt: profile.createdAt,
         updatedAt: profile.updatedAt,
@@ -57,6 +70,19 @@ export class ProfileService {
         avatarUrl: profile.avatarUrl || undefined,
         bio: profile.bio || undefined,
         location: profile.location || undefined,
+        address: profile.address || undefined,
+        phone: profile.phone || undefined,
+        facebookUrl: profile.facebookUrl || undefined,
+        instagramUrl: profile.instagramUrl || undefined,
+        tiktokUrl: profile.tiktokUrl || undefined,
+        telegramUrl: profile.telegramUrl || undefined,
+        whatsappUrl: profile.whatsappUrl || undefined,
+        viberUrl: profile.viberUrl || undefined,
+        telegramUsername: profile.telegramUsername || undefined,
+        whatsappNumber: profile.whatsappNumber || undefined,
+        viberNumber: profile.viberNumber || undefined,
+        animalTypes: profile.animalTypes || undefined,
+        servicesProvided: profile.servicesProvided ? JSON.parse(profile.servicesProvided) : undefined,
         overallAverageRating: profile.overallAverageRating,
         createdAt: profile.createdAt,
         updatedAt: profile.updatedAt,
@@ -105,6 +131,58 @@ export class ProfileService {
         updateData.location = profileData.location;
       }
 
+      if (profileData.address !== undefined) {
+        updateData.address = profileData.address;
+      }
+
+      if (profileData.phone !== undefined) {
+        updateData.phone = profileData.phone;
+      }
+
+      if (profileData.facebookUrl !== undefined) {
+        updateData.facebookUrl = profileData.facebookUrl;
+      }
+
+      if (profileData.instagramUrl !== undefined) {
+        updateData.instagramUrl = profileData.instagramUrl;
+      }
+
+      if (profileData.tiktokUrl !== undefined) {
+        updateData.tiktokUrl = profileData.tiktokUrl;
+      }
+
+      if (profileData.telegramUrl !== undefined) {
+        updateData.telegramUrl = profileData.telegramUrl;
+      }
+
+      if (profileData.whatsappUrl !== undefined) {
+        updateData.whatsappUrl = profileData.whatsappUrl;
+      }
+
+      if (profileData.viberUrl !== undefined) {
+        updateData.viberUrl = profileData.viberUrl;
+      }
+
+      if (profileData.telegramUsername !== undefined) {
+        updateData.telegramUsername = profileData.telegramUsername;
+      }
+
+      if (profileData.whatsappNumber !== undefined) {
+        updateData.whatsappNumber = profileData.whatsappNumber;
+      }
+
+      if (profileData.viberNumber !== undefined) {
+        updateData.viberNumber = profileData.viberNumber;
+      }
+
+      if (profileData.animalTypes !== undefined) {
+        updateData.animalTypes = profileData.animalTypes;
+      }
+
+      if (profileData.servicesProvided !== undefined) {
+        updateData.servicesProvided = JSON.stringify(profileData.servicesProvided);
+      }
+
       if (Object.keys(updateData).length === 0) {
         return existingProfile; // Nothing to update
       }
@@ -122,6 +200,19 @@ export class ProfileService {
         avatarUrl: profile.avatarUrl || undefined,
         bio: profile.bio || undefined,
         location: profile.location || undefined,
+        address: profile.address || undefined,
+        phone: profile.phone || undefined,
+        facebookUrl: profile.facebookUrl || undefined,
+        instagramUrl: profile.instagramUrl || undefined,
+        tiktokUrl: profile.tiktokUrl || undefined,
+        telegramUrl: profile.telegramUrl || undefined,
+        whatsappUrl: profile.whatsappUrl || undefined,
+        viberUrl: profile.viberUrl || undefined,
+        telegramUsername: profile.telegramUsername || undefined,
+        whatsappNumber: profile.whatsappNumber || undefined,
+        viberNumber: profile.viberNumber || undefined,
+        animalTypes: profile.animalTypes || undefined,
+        servicesProvided: profile.servicesProvided ? JSON.parse(profile.servicesProvided) : undefined,
         overallAverageRating: profile.overallAverageRating,
         createdAt: profile.createdAt,
         updatedAt: profile.updatedAt,
@@ -153,6 +244,19 @@ export class ProfileService {
         avatarUrl: profile.avatarUrl || undefined,
         bio: profile.bio || undefined,
         location: profile.location || undefined,
+        address: profile.address || undefined,
+        phone: profile.phone || undefined,
+        facebookUrl: profile.facebookUrl || undefined,
+        instagramUrl: profile.instagramUrl || undefined,
+        tiktokUrl: profile.tiktokUrl || undefined,
+        telegramUrl: profile.telegramUrl || undefined,
+        whatsappUrl: profile.whatsappUrl || undefined,
+        viberUrl: profile.viberUrl || undefined,
+        telegramUsername: profile.telegramUsername || undefined,
+        whatsappNumber: profile.whatsappNumber || undefined,
+        viberNumber: profile.viberNumber || undefined,
+        animalTypes: profile.animalTypes || undefined,
+        servicesProvided: profile.servicesProvided ? JSON.parse(profile.servicesProvided) : undefined,
         overallAverageRating: profile.overallAverageRating,
         createdAt: profile.createdAt,
         updatedAt: profile.updatedAt,
@@ -252,10 +356,13 @@ export class ProfileService {
         const serviceCounts = await prisma.service.groupBy({
           by: ['providerId'],
           _count: { _all: true },
+          orderBy: {
+            _count: {
+              _all: 'desc'
+            }
+          },
           take: 5,
         });
-        // Sort by count descending
-        serviceCounts.sort((a, b) => b._count._all - a._count._all);
         finalProviderIds = serviceCounts.map(s => s.providerId);
       }
 

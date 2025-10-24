@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <defs>
+    <linearGradient id="groomingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ec4899;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#groomingGrad)"/>
+  <g transform="translate(200, 150)">
+    <!-- Scissors -->
+    <g opacity="0.4">
+      <rect x="120" y="100" width="3" height="80" fill="#ffffff"/>
+      <path d="M 120 100 Q 140 110 120 140" stroke="#ffffff" stroke-width="4" fill="none"/>
+      <path d="M 120 140 Q 140 130 120 160" stroke="#ffffff" stroke-width="4" fill="none"/>
+      <rect x="277" y="100" width="3" height="80" fill="#ffffff"/>
+      <path d="M 280 100 Q 260 110 280 140" stroke="#ffffff" stroke-width="4" fill="none"/>
+      <path d="M 280 140 Q 260 130 280 160" stroke="#ffffff" stroke-width="4" fill="none"/>
+    </g>
+    <!-- Pet -->
+    <ellipse cx="200" cy="280" rx="80" ry="70" fill="#ffffff" opacity="0.3"/>
+    <circle cx="170" cy="250" r="25" fill="#ffffff" opacity="0.4"/>
+    <circle cx="185" cy="240" r="8" fill="#ffffff" opacity="0.5"/>
+    <circle cx="200" cy="240" r="8" fill="#ffffff" opacity="0.5"/>
+    <!-- Haircut effect -->
+    <circle cx="200" cy="200" r="30" fill="#ffffff" opacity="0.2"/>
+  </g>
+  <text x="400" y="420" font-family="Arial, sans-serif" font-size="60" font-weight="bold" fill="#ffffff" text-anchor="middle" opacity="0.9">✂️ Grooming</text>
+</svg>
+

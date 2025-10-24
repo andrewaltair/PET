@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <defs>
+    <linearGradient id="petSittingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ef4444;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#petSittingGrad)"/>
+  <g transform="translate(200, 150)">
+    <!-- House -->
+    <rect x="100" y="200" width="200" height="150" fill="#ffffff" opacity="0.2"/>
+    <polygon points="100,200 200,120 300,200" fill="#ffffff" opacity="0.3"/>
+    <rect x="120" y="220" width="40" height="60" fill="#ffffff" opacity="0.4"/>
+    <rect x="240" y="250" width="40" height="60" fill="#ffffff" opacity="0.4"/>
+    <!-- Pet -->
+    <ellipse cx="250" cy="300" rx="60" ry="50" fill="#ffffff" opacity="0.3"/>
+    <circle cx="220" cy="280" r="20" fill="#ffffff" opacity="0.4"/>
+    <circle cx="240" cy="285" r="8" fill="#ffffff" opacity="0.5"/>
+    <circle cx="245" cy="285" r="8" fill="#ffffff" opacity="0.5"/>
+  </g>
+  <text x="400" y="420" font-family="Arial, sans-serif" font-size="60" font-weight="bold" fill="#ffffff" text-anchor="middle" opacity="0.9">🏡 Pet Sitting</text>
+</svg>
+

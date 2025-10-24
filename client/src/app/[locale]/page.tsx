@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Suspense } from 'react';
+import React, { Suspense, useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { PetBackerHeader } from '../../components/homepage/PetBackerHeader';
 import { PetBackerSearchBar } from '../../components/homepage/PetBackerSearchBar';
@@ -21,8 +21,9 @@ import { FAQ } from '../../components/homepage/FAQ';
 import { LiveChat } from '../../components/homepage/LiveChat';
 import { ReviewsCarousel } from '../../components/homepage/ReviewsCarousel';
 
-export default function HomePage() {
+function HomePageContent() {
   const t = useTranslations();
+  
   return (
     <div className="min-h-screen bg-white">
       {/* Skip to content link for accessibility */}
@@ -155,3 +156,21 @@ export default function HomePage() {
   );
 }
 
+export default function HomePage() {
+  const [isMounted, setIsMounted] = useState(false);
+  
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+  
+  // Show placeholder during SSR to prevent hydration mismatch
+  if (!isMounted) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+  
+  return <HomePageContent />;
+}

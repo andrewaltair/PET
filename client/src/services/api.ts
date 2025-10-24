@@ -266,6 +266,56 @@ export const conversationsAPI = {
   },
 };
 
+// Admin API
+export const adminAPI = {
+  getAnalytics: async () => {
+    const response = await api.get<ApiResponse<any>>('/admin/analytics');
+    return response.data.data!;
+  },
+
+  getChartData: async (days: number = 30) => {
+    const response = await api.get<ApiResponse<any>>('/admin/analytics/charts', {
+      params: { days },
+    });
+    return response.data.data!;
+  },
+
+  getAllUsers: async (page: number = 1, limit: number = 20) => {
+    const response = await api.get<ApiResponse<any>>('/admin/users', {
+      params: { page, limit },
+    });
+    return response.data.data!;
+  },
+
+  updateUserRole: async (userId: string, role: string) => {
+    const response = await api.put<ApiResponse<any>>(`/admin/users/${userId}/role`, { role });
+    return response.data.data!;
+  },
+
+  deleteUser: async (userId: string) => {
+    await api.delete(`/admin/users/${userId}`);
+  },
+
+  getPendingVerifications: async () => {
+    const response = await api.get<ApiResponse<any>>('/admin/verifications/pending');
+    return response.data.data!;
+  },
+
+  getAllServices: async (page: number = 1, limit: number = 20) => {
+    const response = await api.get<ApiResponse<any>>('/admin/services', {
+      params: { page, limit },
+    });
+    return response.data.data!;
+  },
+
+  getAllBookings: async (page: number = 1, limit: number = 20) => {
+    const response = await api.get<ApiResponse<any>>('/admin/bookings', {
+      params: { page, limit },
+    });
+    return response.data.data!;
+  },
+};
+
 // Export the main api instance for direct usage (like in useStripe.ts)
 export { api };
 

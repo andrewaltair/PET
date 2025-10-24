@@ -278,7 +278,7 @@ function DashboardContent() {
                   ? ownerBookingsLoading
                   : providerBookingsLoading
               }
-              role={user.role}
+              role={user.role as 'OWNER' | 'PROVIDER'}
             />
 
             {/* Achievement Badges */}

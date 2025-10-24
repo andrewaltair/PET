@@ -3,6 +3,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { AuthProvider } from '../contexts/AuthContext'
 import { Toaster } from '@/components/ui/toaster'
+import { OAuthProvider } from '../components/auth/OAuthProvider'
 
 // Create a client function
 function makeQueryClient() {
@@ -43,10 +44,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        {children}
-        <Toaster />
-      </AuthProvider>
+      <OAuthProvider>
+        <AuthProvider>
+          {children}
+          <Toaster />
+        </AuthProvider>
+      </OAuthProvider>
     </QueryClientProvider>
   )
 }

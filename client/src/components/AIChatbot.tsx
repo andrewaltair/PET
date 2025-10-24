@@ -3,7 +3,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { aiChatService, ChatMessage } from '../services/aiChatService';
-import { MessageBubble } from './MessageBubble';
 import { ScrollArea } from './ui/scroll-area';
 import { Button } from './ui/button';
 import { Input } from './ui/input';

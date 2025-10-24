@@ -157,82 +157,6 @@ router.post(
   BookingController.createBooking
 );
 
-// Mock bookings data for testing when database is not available
-const mockBookings = [
-  {
-    id: 'booking-1',
-    ownerId: 'user-1',
-    serviceId: 'service-1',
-    bookingTime: new Date(Date.now() + 86400000), // Tomorrow
-    status: 'PENDING',
-    paymentStatus: 'PENDING',
-    notes: 'Please bring treats for my dog',
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    owner: {
-      id: 'user-1',
-      email: 'user@example.com',
-      role: 'OWNER',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    service: {
-      id: 'service-1',
-      providerId: 'provider-1',
-      serviceType: 'DOG_WALKING',
-      title: 'Evening Dog Walk',
-      description: 'A relaxing evening walk for your dog',
-      price: 25,
-      availability: {},
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      provider: {
-        id: 'provider-1',
-        email: 'provider@example.com',
-        role: 'PROVIDER',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    },
-  },
-  {
-    id: 'booking-2',
-    ownerId: 'user-1',
-    serviceId: 'service-2',
-    bookingTime: new Date(Date.now() + 172800000), // Day after tomorrow
-    status: 'CONFIRMED',
-    paymentStatus: 'PENDING',
-    notes: 'My cat needs grooming',
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    owner: {
-      id: 'user-1',
-      email: 'user@example.com',
-      role: 'OWNER',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    service: {
-      id: 'service-2',
-      providerId: 'provider-2',
-      serviceType: 'PET_GROOMING',
-      title: 'Cat Grooming Service',
-      description: 'Professional grooming for cats',
-      price: 40,
-      availability: {},
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      provider: {
-        id: 'provider-2',
-        email: 'provider2@example.com',
-        role: 'PROVIDER',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    },
-  },
-];
-
 /**
  * @swagger
  * /bookings/my-as-owner:
@@ -370,24 +294,7 @@ router.get(
   '/my-as-owner',
   authenticateToken,
   requireOwnerRole,
-  (req: Request, res: Response) => {
-    try {
-      // Return mock data for testing
-      const response = {
-        success: true,
-        data: { bookings: mockBookings },
-        message: 'Bookings retrieved successfully',
-      };
-      res.json(response);
-    } catch (error) {
-      console.error('Mock bookings error:', error);
-      const response = {
-        success: false,
-        error: 'Failed to get bookings',
-      };
-      res.status(500).json(response);
-    }
-  }
+  BookingController.getMyBookingsAsOwner
 );
 
 /**
@@ -527,24 +434,7 @@ router.get(
   '/my-as-provider',
   authenticateToken,
   requireProviderRole,
-  (req: Request, res: Response) => {
-    try {
-      // Return mock data for testing
-      const response = {
-        success: true,
-        data: { bookings: mockBookings },
-        message: 'Bookings retrieved successfully',
-      };
-      res.json(response);
-    } catch (error) {
-      console.error('Mock provider bookings error:', error);
-      const response = {
-        success: false,
-        error: 'Failed to get bookings',
-      };
-      res.status(500).json(response);
-    }
-  }
+  BookingController.getMyBookingsAsProvider
 );
 
 /**

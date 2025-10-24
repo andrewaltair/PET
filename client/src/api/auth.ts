@@ -73,8 +73,40 @@ export const authAPI = {
     const responseData = await response.json();
     return responseData.data || responseData;
   },
+
+  /**
+   * OAuth callback function - POST to /api/auth/oauth/callback
+   * @param data - OAuth provider data
+   * @returns Promise<AuthResponse>
+   */
+  oauthCallback: async (data: {
+    provider: 'google' | 'facebook' | 'instagram';
+    email: string;
+    id: string;
+    name?: string;
+    picture?: string;
+    firstName?: string;
+    lastName?: string;
+  }): Promise<AuthResponse> => {
+    const response = await fetch(`${API_BASE_URL}/auth/oauth/callback`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({ message: 'OAuth authentication failed' }));
+      throw new Error(errorData.message || 'OAuth authentication failed');
+    }
+
+    const responseData = await response.json();
+    return responseData.data || responseData;
+  },
 };
 
 // Export individual functions for direct use with useMutateData
 export const login = authAPI.login;
 export const register = authAPI.register;
+export const oauthCallback = authAPI.oauthCallback;

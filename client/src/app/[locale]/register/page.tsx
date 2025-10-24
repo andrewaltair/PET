@@ -11,7 +11,7 @@ import { useRegister } from '@/hooks/useAuth';
 import { useQueryClient } from '@tanstack/react-query';
 import { UserRole } from 'petservice-marketplace-shared-types';
 import { Button } from '@/components/ui/button';
-import { UserPlus, CheckCircle, XCircle, AlertCircle, Mail, Lock } from 'lucide-react';
+import { UserPlus, CheckCircle, XCircle, AlertCircle, Mail, Lock, User } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import {
   Form,
@@ -41,6 +41,7 @@ export default function RegisterPage() {
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerFormSchema),
     defaultValues: {
+      name: '',
       email: '',
       password: '',
       confirmPassword: '',
@@ -177,6 +178,62 @@ export default function RegisterPage() {
                       </div>
                     </FormControl>
                     <FormMessage id="email-error" />
+                  </FormItem>
+                );
+              }}
+            />
+
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => {
+                const fieldState = getFieldState('name');
+                return (
+                  <FormItem>
+                    <FormLabel htmlFor="name" className="flex items-center gap-2 text-gray-700 font-medium">
+                      {t('register.fullName')}
+                      {fieldState === 'success' && (
+                        <CheckCircle className="w-4 h-4 text-blue-600" aria-hidden="true" />
+                      )}
+                      {fieldState === 'error' && (
+                        <XCircle className="w-4 h-4 text-red-600" aria-hidden="true" />
+                      )}
+                    </FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Input
+                          id="name"
+                          type="text"
+                          autoComplete="name"
+                          placeholder={t('register.fullNamePlaceholder')}
+                          aria-describedby="name-error"
+                          className={`pl-10 pr-10 h-12 border-gray-200 focus:border-green-500 focus:ring-green-500/20 ${
+                            fieldState === 'success'
+                              ? 'border-blue-500 focus:border-blue-500 focus:ring-blue-500'
+                              : fieldState === 'error'
+                              ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
+                              : ''
+                          }`}
+                          value={field.value}
+                          onChange={field.onChange}
+                          onBlur={(e) => {
+                            handleFieldTouch('name');
+                          }}
+                        />
+                        <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+                          <User className="w-5 h-5 text-gray-400" />
+                        </div>
+                        <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                          {fieldState === 'success' && (
+                            <CheckCircle className="w-5 h-5 text-blue-600" aria-hidden="true" />
+                          )}
+                          {fieldState === 'error' && (
+                            <XCircle className="w-5 h-5 text-red-600" aria-hidden="true" />
+                          )}
+                        </div>
+                      </div>
+                    </FormControl>
+                    <FormMessage id="name-error" />
                   </FormItem>
                 );
               }}

@@ -1,20 +1,8 @@
 import dotenv from 'dotenv';
 import path from 'path'; // Убедитесь, что этот импорт есть
 
-// --- Начало отладки ---
-const envPath = path.resolve(process.cwd(), '..', '.env');
-console.log(`[DEBUG] Ищем .env файл по пути: ${envPath}`);
-const result = dotenv.config({ path: envPath });
-
-if (result.error) {
-  console.error('[DEBUG] ОШИБКА ЗАГРУЗКИ .env:', result.error);
-} else {
-  console.log('[DEBUG] .env файл успешно загружен.');
-}
-
-// Этот лог — КЛЮЧЕВОЙ.
-console.log(`[DEBUG] Значение DATABASE_URL из process.env: ${process.env.DATABASE_URL}`);
-// --- Конец отладки ---
+// Load environment variables from server/.env
+dotenv.config();
 
 
 // --- Здесь начинаются остальные импорты ---
@@ -34,6 +22,7 @@ import { reviewRouter } from './routes/reviews';
 import { conversationRouter } from './routes/conversations';
 import { stripeRouter } from './routes/stripe';
 import { aiRouter } from './routes/ai';
+import { adminRouter } from './routes/admin';
 import { SocketServer } from './config/socketServer';
 import { appConfig } from './config/app';
 import { testConnection, closeConnection } from './config/database';
@@ -218,6 +207,7 @@ app.use('/api/v1/reviews', reviewRouter);
 app.use('/api/v1/conversations', conversationRouter);
 app.use('/api/v1/stripe', stripeRouter);
 app.use('/api/v1/ai', aiRouter);
+app.use('/api/v1/admin', adminRouter);
 
 // 404 handler
 app.use('*', (req, res) => {

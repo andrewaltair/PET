@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { ChevronDown, HelpCircle } from 'lucide-react';
+import { Button } from '../ui/button';
 
 interface FAQItem {
   question: string;
@@ -68,9 +69,10 @@ export function FAQ() {
               key={index}
               className="bg-white border-2 border-gray-200 rounded-xl overflow-hidden hover:border-green-300 transition-colors"
             >
-              <button
+              <Button
+                variant="ghost"
                 onClick={() => toggleFAQ(index)}
-                className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-gray-50 transition-colors"
+                className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-gray-50 transition-colors h-auto"
               >
                 <span className="text-lg font-semibold text-gray-900 pr-4">
                   {faq.question}
@@ -80,7 +82,7 @@ export function FAQ() {
                     openIndex === index ? 'transform rotate-180' : ''
                   }`}
                 />
-              </button>
+              </Button>
               {openIndex === index && (
                 <div className="px-6 pb-5 text-gray-600 leading-relaxed">
                   {faq.answer}
@@ -93,13 +95,16 @@ export function FAQ() {
         {/* CTA */}
         <div className="mt-12 text-center">
           <p className="text-lg text-gray-600 mb-4">{t('ctaTitle')}</p>
-          <a
-            href="/help"
+          <Button
+            variant="link"
             className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-semibold"
+            asChild
           >
-            {t('ctaLink')}
-            <ChevronDown className="w-4 h-4 rotate-[-90deg]" />
-          </a>
+            <a href="/help">
+              {t('ctaLink')}
+              <ChevronDown className="w-4 h-4 rotate-[-90deg]" />
+            </a>
+          </Button>
         </div>
       </div>
     </div>

@@ -1,9 +1,10 @@
-import { Inter, Noto_Sans_Georgian, Roboto, Open_Sans } from 'next/font/google'
+import { Inter, Noto_Sans_Georgian, Roboto, Open_Sans, Righteous } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import '../globals.css'
 import ClientProviders from '../client-providers'
+import type { Metadata } from 'next'
 
 // Font definitions for different languages
 const inter = Inter({ subsets: ['latin'] })
@@ -22,6 +23,18 @@ const openSans = Open_Sans({
   weight: ['300', '400', '500', '600', '700'],
   variable: '--font-english'
 })
+const righteous = Righteous({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-logo'
+})
+
+export const metadata: Metadata = {
+  icons: {
+    icon: '/favicon.svg',
+    apple: '/favicon.svg',
+  },
+}
 
 export function generateStaticParams() {
   return ['ka', 'en', 'ru'].map((locale) => ({ locale }))
@@ -59,10 +72,12 @@ export default async function LocaleLayout({
   }
 
   return (
-    <html lang={locale} className={`${notoSansGeorgian.variable} ${roboto.variable} ${openSans.variable}`}>
+    <html lang={locale} className={`${notoSansGeorgian.variable} ${roboto.variable} ${openSans.variable} ${righteous.variable}`}>
       <head>
         <title>Pet Service Marketplace</title>
         <meta name="description" content="Connect pet owners with trusted service providers" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/favicon.svg" />
       </head>
       <body className={`${getFontClass(locale)} antialiased`} key="body">
         <NextIntlClientProvider messages={messages}>

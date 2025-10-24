@@ -87,11 +87,14 @@ export function HowItWorks() {
                   <p className="text-sm md:text-base text-gray-600 leading-relaxed">{step.description}</p>
                 </div>
 
-                {/* Connector Arrow (show only on lg+ screens between 2nd and 3rd cards) */}
-                {index === 1 && (
-                  <div className="hidden lg:block absolute left-full top-1/2 -translate-y-1/2 translate-x-[-50%] w-8 h-8 flex items-center justify-center z-20">
-                    <svg className="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                {/* Connector Arrow (show only on lg+ screens between cards) */}
+                {index < steps.length - 1 && (
+                  <div className="hidden lg:block absolute left-full top-1/2 -translate-y-1/2 translate-x-[-30%] w-12 flex items-center justify-center z-20">
+                    <svg className="w-12 h-8 text-gray-400" fill="none" viewBox="0 0 48 24" xmlns="http://www.w3.org/2000/svg">
+                      {/* Arrow line */}
+                      <line x1="4" y1="12" x2="38" y2="12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                      {/* Arrow head */}
+                      <path d="M32 6 L38 12 L32 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
                     </svg>
                   </div>
                 )}

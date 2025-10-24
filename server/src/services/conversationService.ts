@@ -1,4 +1,4 @@
-import { prisma } from '../config/database';
+import prisma from '../config/database';
 import { Conversation, ConversationWithLastMessage, Message, User } from 'petservice-marketplace-shared-types';
 
 export class ConversationService {

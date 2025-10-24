@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import { useAuth } from '@/contexts/AuthContext';
 import { UserRole } from 'petservice-marketplace-shared-types';
 import { Button } from '@/components/ui/button';
+import { Logo } from '@/components/ui/Logo';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu } from 'lucide-react';
 import { useProfile } from '@/hooks/useProfile';
@@ -35,9 +36,7 @@ export default function DashboardLayout({
         <div className="container mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-4">
-              <Link href="/" className="text-2xl font-bold text-gray-900">
-                🐾 PetService
-              </Link>
+              <Logo size="md" />
             </div>
             <div className="flex items-center space-x-4">
               {/* Desktop Navigation */}
