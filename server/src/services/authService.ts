@@ -3,8 +3,120 @@ import jwt from 'jsonwebtoken';
 import prisma from '../config/database';
 import { appConfig } from '../config/app';
 import { User, UserWithPassword, CreateUserRequest, LoginRequest, AuthResponse, UserRole } from 'petservice-marketplace-shared-types';
+import { cacheGet, cacheSet, cacheDelete } from '../config/redis';
 
 export class AuthService {
+  // ✅ SECURITY FIX: Account lockout constants
+  private static readonly MAX_LOGIN_ATTEMPTS = 5;
+  private static readonly LOCK_DURATION_SECONDS = 30 * 60; // 30 minutes
+  private static readonly ATTEMPT_WINDOW_SECONDS = 15 * 60; // 15 minutes
+
+  /**
+   * Get login attempts for email
+   */
+  private static async getLoginAttempts(email: string): Promise<{ count: number; firstAttempt: number; lockUntil?: number }> {
+    try {
+      const key = `login_attempts:${email}`;
+      const data = await cacheGet(key);
+      
+      if (!data) {
+        return { count: 0, firstAttempt: Date.now() };
+      }
+      
+      return JSON.parse(data);
+    } catch (error) {
+      // Redis недоступен - возвращаем пустые попытки
+      console.warn('Redis unavailable, skipping login attempt tracking:', error);
+      return { count: 0, firstAttempt: Date.now() };
+    }
+  }
+
+  /**
+   * Record failed login attempt
+   */
+  private static async recordFailedAttempt(email: string): Promise<{ count: number; locked: boolean; remainingTime?: number }> {
+    try {
+      const key = `login_attempts:${email}`;
+      const attempts = await this.getLoginAttempts(email);
+      
+      const now = Date.now();
+      
+      // Reset if window expired
+      if (now - attempts.firstAttempt > this.ATTEMPT_WINDOW_SECONDS * 1000) {
+        attempts.count = 1;
+        attempts.firstAttempt = now;
+        attempts.lockUntil = undefined;
+      } else {
+        attempts.count += 1;
+      }
+      
+      // Lock account if max attempts reached
+      if (attempts.count >= this.MAX_LOGIN_ATTEMPTS) {
+        attempts.lockUntil = now + (this.LOCK_DURATION_SECONDS * 1000);
+        console.warn(`⚠️ Account locked for ${email} until ${new Date(attempts.lockUntil).toISOString()}`);
+      }
+      
+      // Save to Redis with expiration
+      await cacheSet(key, JSON.stringify(attempts), this.LOCK_DURATION_SECONDS);
+      
+      return {
+        count: attempts.count,
+        locked: !!attempts.lockUntil,
+        remainingTime: attempts.lockUntil ? Math.ceil((attempts.lockUntil - now) / 1000) : undefined,
+      };
+    } catch (error) {
+      // Redis недоступен - просто возвращаем что попытка не удалась
+      console.warn('Redis unavailable, skipping failed attempt tracking:', error);
+      return {
+        count: 0,
+        locked: false,
+      };
+    }
+  }
+
+  /**
+   * Clear login attempts after successful login
+   */
+  private static async clearLoginAttempts(email: string): Promise<void> {
+    try {
+      const key = `login_attempts:${email}`;
+      await cacheDelete(key);
+    } catch (error) {
+      // Redis недоступен - игнорируем ошибку
+      console.warn('Redis unavailable, skipping login attempts clear:', error);
+    }
+  }
+
+  /**
+   * Check if account is locked
+   */
+  private static async isAccountLocked(email: string): Promise<{ locked: boolean; remainingTime?: number }> {
+    try {
+      const attempts = await this.getLoginAttempts(email);
+      
+      if (!attempts.lockUntil) {
+        return { locked: false };
+      }
+      
+      const now = Date.now();
+      
+      if (now < attempts.lockUntil) {
+        return {
+          locked: true,
+          remainingTime: Math.ceil((attempts.lockUntil - now) / 1000),
+        };
+      }
+      
+      // Lock expired, clear attempts
+      await this.clearLoginAttempts(email);
+      return { locked: false };
+    } catch (error) {
+      // Redis недоступен - разрешаем вход без проверки блокировки
+      console.warn('Redis unavailable, skipping account lock check:', error);
+      return { locked: false };
+    }
+  }
+
   /**
    * Register a new user
    */
@@ -39,14 +151,25 @@ export class AuthService {
   }
 
   /**
-   * Login user
+   * Login user with account lockout protection
    */
   static async login(credentials: LoginRequest): Promise<AuthResponse> {
     const { email, password } = credentials;
 
+    // ✅ SECURITY FIX: Check if account is locked
+    const lockStatus = await this.isAccountLocked(email);
+    if (lockStatus.locked) {
+      const minutes = Math.ceil(lockStatus.remainingTime! / 60);
+      throw new Error(
+        `Account is locked due to too many failed login attempts. Try again in ${minutes} minutes.`
+      );
+    }
+
     // Find user by email
     const user = await this.findUserByEmail(email);
     if (!user) {
+      // Record failed attempt for invalid email
+      await this.recordFailedAttempt(email);
       throw new Error('Invalid credentials');
     }
 
@@ -54,10 +177,27 @@ export class AuthService {
     if (!user.passwordHash) {
       throw new Error('Invalid credentials');
     }
+    
     const isValidPassword = await bcrypt.compare(password, user.passwordHash);
     if (!isValidPassword) {
-      throw new Error('Invalid credentials');
+      // ✅ SECURITY FIX: Record failed attempt
+      const attempts = await this.recordFailedAttempt(email);
+      
+      // Inform user about remaining attempts
+      const remaining = this.MAX_LOGIN_ATTEMPTS - attempts.count;
+      if (remaining > 0 && !attempts.locked) {
+        throw new Error(`Invalid credentials. ${remaining} attempts remaining.`);
+      } else if (attempts.locked) {
+        const minutes = Math.ceil(attempts.remainingTime! / 60);
+        throw new Error(
+          `Account locked due to too many failed attempts. Try again in ${minutes} minutes.`
+        );
+      }
     }
+
+    // ✅ SECURITY FIX: Clear failed attempts on successful login
+    await this.clearLoginAttempts(email);
+    console.log(`✅ Successful login for ${email}`);
 
     // Generate tokens
     const token = jwt.sign(
